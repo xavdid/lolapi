@@ -3,4 +3,11 @@ loldb
 
 A restful API for returning champion and item stats for League of Legends.
 
-Right now, go to http://localhost:8888/champions/add to populate the database and http://localhost:8888/champions/show/ahri to see the fruits of your labor.
+To see it run, follow a few easy steps:
+
+1. Make sure you've got mongodb installed and running (`sudo mongod`).
+2. Run `python main.py` in the correct directory.
+3. Go to [http://localhost:8888/champions/add] to populate the database.
+4. Hit [http://localhost:8888/champions/show/ahri] to see the fruits of your labor.
+
+Please leave any feedback you've got so far!
