@@ -1,4 +1,4 @@
 loldb
 =====
 
-API for LoL stats. 
+A restful API for returning champion and item stats for League of Legends
