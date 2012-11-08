@@ -41,8 +41,12 @@ class MongoEncoder(json.JSONEncoder):
 def prepare(response):
     return json.loads(json.dumps(response, cls = MongoEncoder))
 
-def mult(base, gain, level):
-	# if (as == True):
-
-	value = (base+(gain*level))
+def statmult(base, gain, level, ats=False):
+	if (ats): value = (base*(1+(gain*(level-1))))
+	else: value = (base+(gain*level))
 	return value 
+
+def movemult(base, rank, stat, ratio):
+    damage = base[rank]
+    damage += (stat*ratio) #stat is relevant stat (ap, ad, health, etc)
+    return damage
