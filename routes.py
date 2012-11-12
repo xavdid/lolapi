@@ -6,6 +6,7 @@ import asyncmongo
 import tornado.web
 from tornado.web import asynchronous
 from tornado.gen import engine, Task
+from pprint import pprint
 
 @route('/champions/add')
 class ChampAdd(tornado.web.RequestHandler):
@@ -59,7 +60,7 @@ class ChampAdd(tornado.web.RequestHandler):
         champ.moves['q'] = q
 
         db.champs.update({'name':champ.name},champ.to_python(),True)
-        self.write(champ.to_python())
+        # self.write(champ.to_python())
         self.write('stored %s, %s!' %(champ.name.title(), champ.title))
 
 @route('/champions/show/(\w+)')
@@ -69,15 +70,20 @@ class ChampPrint(tornado.web.RequestHandler):
     def get(self,input):
         c = pymongo.Connection()
         db = c.loldb
-        champ = db.champs.find({'name':input},limit=1)
+        # champ = db.champs.find({'name':input},limit=1)
         # champ = yield Task(db.champs.find,{'name':input},limit=1)
-        for i in champ:
-            c = prepare(i)
-            # this is for nice output
-            self.write('Name: <b>%s</b><br>' %c['name'].title())
-            for s in c['stats']:
-                self.write('%s: %s <br>' %(s, c['stats'][s]))
-            self.write("<br><br>")
-            self.write("%s's Q does %s %s damage at lvl 18 with 500 %s" %(c['name'].title(), movemult(c['moves']['q']['damage'],5,500,c['moves']['q']['damage_ratio']),c['moves']['q']['damage_type'],c['moves']['q']['damage_ratio_type']))
-            #this is for printing the whole response
+        # for i in champ:
+            # c = prepare(i)
+        # # this is for nice output
+        #     self.write('Name: <b>%s</b>, %s<br>' %(c['name'].title(),c['title']))
+        #     for s in c['stats']:
+        #         self.write('%s: %s <br>' %(s.replace('_',' ').title(), c['stats'][s]))
+        #     self.write("<br><br>")
+        #     self.write("%s's Q does %s %s damage at lvl 18 with 500 %s" %(c['name'].title(), movemult(c['moves']['q']['damage'],5,500,c['moves']['q']['damage_ratio']),c['moves']['q']['damage_type'],c['moves']['q']['damage_ratio_type']))
+        #this is for printing the whole response
             # self.write(c)
+        json_data=open('champs/ahri.json')
+        data = json.load(json_data)
+        pprint(data)
+        json_data.close()
+        # pprint(data)

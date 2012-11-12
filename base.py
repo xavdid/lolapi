@@ -30,12 +30,15 @@ class route(object):
         return self._routes
 
 class Champion(Document):
-	name = StringField(required = True)
-	stats = DictField()
-	moves = DictField()
-	items = ListField(IntField())
+    name = StringField(required = True)
+    title = StringField()
+    stats = DictField()
+    moves = DictField()
+    items = ListField(IntField())
 
+# class Ahri(Champion):
 
+    # def
 
 
 

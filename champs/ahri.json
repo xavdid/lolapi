@@ -1,0 +1,74 @@
+{
+  "_types":[
+    "Champion"
+  ],
+  "moves":{
+    "i":{
+      "name":"Essence Theft",
+      "desc":"Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp."
+    },
+    "q":{
+      "damage_b_ratio_type":"ap",
+      "damage_b_ratio":0.33,
+      "cost_val":[
+        0,
+        70,
+        75,
+        80,
+        85,
+        90
+      ],
+      "name":"Orb of Deception",
+      "damage_ratio_type":"ap",
+      "damage":[
+        0,
+        40,
+        65,
+        90,
+        115,
+        140
+      ],
+      "cd":6,
+      "damage_b":[
+        0,
+        40,
+        65,
+        90,
+        115,
+        140
+      ],
+      "damage_b_type":"true",
+      "range":880,
+      "cost_type":"mana",
+      "damage_type":"magic",
+      "desc":"Active: Ahri sends out an orb in a line in front of her and then pulls it back, dealing magic damage on the way out and true damage on the way back.",
+      "damage_ratio":0.33
+    }
+  },
+  "stats":{
+    "armor_ratio":3.51,
+    "mana_ratio":50,
+    "armor_base":11,
+    "ad_base":50,
+    "manareg_base":6.25,
+    "manareg_ratio":0.6,
+    "move":305,
+    "as_base":0.668,
+    "arange":550,
+    "ad_ratio":3,
+    "mr_base":30,
+    "hpreg_base":5.5,
+    "hp_ratio":80,
+    "as_ratio":0.02,
+    "hpreg_ratio":0.6,
+    "mana_base":230,
+    "hp_base":380
+  },
+  "name":"ahri",
+  "title":"the Nine-Tailed Fox ",
+  "items":[
+
+  ],
+  "_cls":"Champion",
+  "_id":"509af3b9bfc6c80ea6000000"
+}
