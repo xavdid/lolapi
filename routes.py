@@ -1,6 +1,6 @@
 from functions import api_response, db_error, set_vars, Vars, statmult, prepare, MongoEncoder, movemult
 import pymongo
-from base import route, Champion
+from base import route, Champion, Ahri
 import simplejson as json
 import asyncmongo
 import tornado.web
@@ -31,7 +31,7 @@ class ChampAdd(tornado.web.RequestHandler):
         st['as_base'] = 0.668
         st['as_ratio'] = 0.02
         st['armor_base'] = 11
-        st['armor_ratio'] = 3.51
+        st['armor_ratio'] = 3.50
         st['mr_base'] = 30
         st['move'] = 305
         champ.stats = st
@@ -59,6 +59,51 @@ class ChampAdd(tornado.web.RequestHandler):
         q['damage_b_ratio_type'] = 'ap'
         champ.moves['q'] = q
 
+        w ={}
+        w['name'] = 'Fox-Fire'
+        w['desc'] = "Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration."
+        w['range'] = 800
+        w['cd'] = [0,9,8,7,6,5]
+        w['cost_val'] = 60
+        w['cost_type'] = 'mana'
+        w['damage'] = [0,40,65,90,115,140]
+        w['damage_type'] = 'magic'
+        w['damage_ratio'] = 0.4
+        w['damage_ratio_type'] = 'ap'
+        w['damage_max'] = [0,80,130,180,230,280]
+        w['damage_max_ratio'] = 0.4
+        w['damage_max_ratio_type'] = 'ap'
+        champ.moves['w'] = w
+
+        e = {}
+        e['name'] = 'Charm'
+        e['desc'] = "Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration."
+        e['range'] = 975
+        e['cd'] = 12
+        e['cost_val'] = [0,40,65,80,95,110]
+        e['cost_type'] = 'mana'
+        e['damage'] = [0,60,90,120,150,180]
+        e['damage_type'] = 'magic'
+        e['damage_ratio'] = 0.35
+        e['damage_ratio_type'] = 'ap'
+        e['duration'] = [0,1,1.25,1.5,1.75,2]
+        champ.moves['e'] = e
+
+        r ={}
+        r['name'] = 'Spirit Rush'
+        r['desc'] = "Active: Ahri dashes towards the cursor and fires essence bolts, dealing damage to up to 3 nearby enemies, prioritizing champions. In the next 10 seconds, Spirit Rush can be cast two additional times before going on cooldown. Each enemy can only be hit once per dash."
+        r['range'] = 550
+        r['cd'] = 100
+        r['cost_val'] = [0,40,65,80,95,110]
+        r['cost_type'] = 'mana'
+        r['damage'] = [0,85,125,165]
+        r['damage_type'] = 'magic'
+        r['damage_ratio'] = 0.35
+        r['damage_ratio_type'] = 'ap'
+        r['dash_range'] = 450
+        champ.moves['r'] = r
+        # pprint(champ.to_python())
+
         db.champs.update({'name':champ.name},champ.to_python(),True)
         # self.write(champ.to_python())
         self.write('stored %s, %s!' %(champ.name.title(), champ.title))
@@ -70,20 +115,21 @@ class ChampPrint(tornado.web.RequestHandler):
     def get(self,input):
         c = pymongo.Connection()
         db = c.loldb
-        # champ = db.champs.find({'name':input},limit=1)
+        champ = db.champs.find({'name':input},limit=1)
         # champ = yield Task(db.champs.find,{'name':input},limit=1)
-        # for i in champ:
-            # c = prepare(i)
-        # # this is for nice output
-        #     self.write('Name: <b>%s</b>, %s<br>' %(c['name'].title(),c['title']))
-        #     for s in c['stats']:
-        #         self.write('%s: %s <br>' %(s.replace('_',' ').title(), c['stats'][s]))
-        #     self.write("<br><br>")
-        #     self.write("%s's Q does %s %s damage at lvl 18 with 500 %s" %(c['name'].title(), movemult(c['moves']['q']['damage'],5,500,c['moves']['q']['damage_ratio']),c['moves']['q']['damage_type'],c['moves']['q']['damage_ratio_type']))
+        for i in champ:
+            c = prepare(i)
+            a = Ahri(c)
+        # this is for nice output
+            # self.write('Name: <b>%s</b>, %s<br>' %(c['name'].title(),c['title']))
+            # for s in c['stats']:
+            #     self.write('%s: %s <br>' %(s.replace('_',' ').title(), c['stats'][s]))
+            # self.write("<br><br>")
+            # self.write("%s's Q does %s %s damage at lvl 18 with 500 %s" %(c['name'].title(), a.q(),c['moves']['q']['damage_type'],c['moves']['q']['damage_ratio_type'].upper()))
         #this is for printing the whole response
-            # self.write(c)
-        json_data=open('champs/ahri.json')
-        data = json.load(json_data)
-        pprint(data)
-        json_data.close()
+            self.write(c)
+        # json_data=open('champs/ahri.json')
+        # data = json.load(json_data)
+        # pprint(data)
+        # json_data.close()
         # pprint(data)

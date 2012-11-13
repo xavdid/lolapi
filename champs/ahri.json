@@ -43,10 +43,105 @@
       "damage_type":"magic",
       "desc":"Active: Ahri sends out an orb in a line in front of her and then pulls it back, dealing magic damage on the way out and true damage on the way back.",
       "damage_ratio":0.33
+    },
+    "r":{
+      "name":"Spirit Rush",
+      "damage_ratio_type":"ap",
+      "damage":[
+        0,
+        85,
+        125,
+        165
+      ],
+      "cd":100,
+      "cost_val":[
+        0,
+        40,
+        65,
+        80,
+        95,
+        110
+      ],
+      "range":550,
+      "cost_type":"mana",
+      "damage_type":"magic",
+      "dash_range":450,
+      "desc":"Active: Ahri dashes towards the cursor and fires essence bolts, dealing damage to up to 3 nearby enemies, prioritizing champions. In the next 10 seconds, Spirit Rush can be cast two additional times before going on cooldown. Each enemy can only be hit once per dash.",
+      "damage_ratio":0.35
+    },
+    "e":{
+      "name":"Charm",
+      "damage_ratio_type":"ap",
+      "damage":[
+        0,
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "cd":12,
+      "cost_val":[
+        0,
+        40,
+        65,
+        80,
+        95,
+        110
+      ],
+      "range":975,
+      "cost_type":"mana",
+      "damage_type":"magic",
+      "duration":[
+        0,
+        1,
+        1.25,
+        1.5,
+        1.75,
+        2
+      ],
+      "desc":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
+      "damage_ratio":0.35
+    },
+    "w":{
+      "name":"Fox-Fire",
+      "damage_ratio_type":"ap",
+      "damage":[
+        0,
+        40,
+        65,
+        90,
+        115,
+        140
+      ],
+      "cd":[
+        0,
+        9,
+        8,
+        7,
+        6,
+        5
+      ],
+      "damage_max_ratio":0.4,
+      "cost_val":60,
+      "damage_max_ratio_type":"ap",
+      "cost_type":"mana",
+      "damage_type":"magic",
+      "range":800,
+      "desc":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
+      "damage_max":[
+        0,
+        80,
+        130,
+        180,
+        230,
+        280
+      ],
+      "damage_ratio":0.4
     }
   },
   "stats":{
-    "armor_ratio":3.51,
+    "armor_ratio":3.5,
     "mana_ratio":50,
     "armor_base":11,
     "ad_base":50,
@@ -65,7 +160,7 @@
     "hp_base":380
   },
   "name":"ahri",
-  "title":"the Nine-Tailed Fox ",
+  "title":"the Nine-Tailed Fox",
   "items":[
 
   ],

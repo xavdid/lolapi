@@ -7,9 +7,9 @@ from tornado.web import HTTPError
 import asyncmongo
 from tornado.options import define, options
 from dictshield.document import Document
-# from dictshield.fields.mongo import ObjectIdField 
 from dictshield.fields import (StringField, DictField, BooleanField, IntField, FloatField)
 from dictshield.fields.compound import ListField
+from functions import movemult, statmult
 
 define("port", default=8888, help="run on the given port", type=int)
 
@@ -36,9 +36,13 @@ class Champion(Document):
     moves = DictField()
     items = ListField(IntField())
 
-# class Ahri(Champion):
+class Ahri(Champion):
+    def __init__(self, ch):
+        self.c = ch
 
-    # def
+    # can't hardcode that 500
+    def q(self):
+        return(movemult(self.c['moves']['q']['damage'],5,500,self.c['moves']['q']['damage_ratio']))
 
 
 
