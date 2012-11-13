@@ -44,5 +44,8 @@ class Ahri(Champion):
     def q(self):
         return(movemult(self.c['moves']['q']['damage'],5,500,self.c['moves']['q']['damage_ratio']))
 
-
-
+def attach(c,ch):
+    ch.name = c['name']
+    ch.title = c['title']
+    ch.stats = c['stats']
+    ch.moves = c['moves']

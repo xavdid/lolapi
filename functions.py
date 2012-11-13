@@ -6,6 +6,7 @@ import simplejson as json
 import httplib
 from datetime import datetime
 from bson import objectid
+import pymongo
 
 def api_response(status,response,handler=None,code=200,errors=[]):
     if handler: handler.set_status(code)
@@ -50,3 +51,13 @@ def movemult(base, rank, stat, ratio):
     damage = base[rank]
     damage += (stat*ratio) #stat is relevant stat (ap, ad, health, etc)
     return damage
+
+def getChamp(input):
+    c = pymongo.Connection()
+    db = c.loldb
+    champ = db.champs.find({'name':input},limit=1)
+    for i in champ:
+        c = prepare(i)
+    return c
+
+    
