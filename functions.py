@@ -30,7 +30,7 @@ class Vars(object):
     """Empty object allowing for dot-declaration"""
     pass
 
-class MongoEncoder(json.JSONEncoder):      
+class MongoEncoder(json.JSONEncoder):
     def default(self,o):
         if isinstance(o, datetime):
             return o.isoformat()
@@ -42,10 +42,37 @@ class MongoEncoder(json.JSONEncoder):
 def prepare(response):
     return json.loads(json.dumps(response, cls = MongoEncoder))
 
-def statmult(base, gain, level, ats=False):
-	if (ats): value = (base*(1+(gain*(level-1))))
-	else: value = (base+(gain*level))
-	return value 
+def statmult(c,stat, level):
+    ats = False
+    if stat == 'hp':
+        base = c['hp_base']
+        gain = c['hp_ratio']
+    elif stat == 'hpreg':
+        base = c['hpreg_base']
+        gain = c['hpreg_ratio']
+    elif stat == 'mana':
+        base = c['mana_base']
+        gain = c['mana_ratio']
+    elif stat == 'manareg':
+        base = c['manareg_base']
+        gain = c['manareg_ratio']
+    elif stat == 'ad':
+        base = c['ad_base']
+        gain = c['ad_ratio']
+    elif stat == 'as':
+        base = c['as_base']
+        gain = c['as_ratio']
+        ats = True
+    elif stat == 'armor':
+        base = c['armor_base']
+        gain = c['armor_ratio']
+    elif stat == 'mr':
+        base = c['mr_base']
+        gain = c['mr_ratio']
+
+    if (ats): value = (base*(1+(gain*(level-1))))
+    else: value = (base+(gain*level))
+    return value 
 
 def movemult(base, rank, stat, ratio):
     damage = base[rank]
@@ -60,4 +87,3 @@ def getChamp(input):
         c = prepare(i)
     return c
 
-    

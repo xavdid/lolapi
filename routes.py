@@ -36,7 +36,6 @@ class ChampAdd(tornado.web.RequestHandler):
         # st['move'] = 305
         # champ.stats = st
         
-
         # i = {}
         # i['name'] = 'Essence Theft'
         # i['desc'] = "Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp."
@@ -104,7 +103,7 @@ class ChampAdd(tornado.web.RequestHandler):
         # champ.moves['r'] = r
         # # pprint(champ.to_python())
 
-        # db.champs.update({'name':champ.name},champ.to_python(),True)
+        # self.db.champs.update({'name':champ.name},champ.to_python(),True)
         # # self.write(champ.to_python())
         # self.write('stored %s, %s!' %(champ.name.title(), champ.title))
 
@@ -115,22 +114,20 @@ class ChampPrint(tornado.web.RequestHandler):
     def get(self,input):
         c = getChamp(input)
         a = Ahri(c)
+        # self.write(a.cur_stats)
     # this is for nice output
-        self.write('Name: <b>%s</b>, %s<br>' %(c['name'].title(),c['title']))
-        for s in c['stats']:
-            self.write('%s: %s <br>' %(s.replace('_',' ').title(), c['stats'][s]))
-        self.write("<br><br>")
-        self.write("%s's Q does %s %s damage at lvl 18 with 500 %s" %(c['name'].title(), a.q(),c['moves']['q']['damage_type'],c['moves']['q']['damage_ratio_type'].upper()))
+        # self.write('Name: <b>%s</b>, %s<br>' %(c['name'].title(),c['title']))
+        # for s in c['stats']:
+            # self.write('%s: %s <br>' %(s.replace('_',' ').title(), c['stats'][s]))
+        # self.write("<br><br>")
+        # self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(c['name'].title(), a.q(),c['moves']['q']['damage_type'],a.cur_stats['armor_ratio'],c['moves']['q']['damage_ratio_type'].upper()))
+
     #this is for printing the whole response
         # self.write(c)
-        # json_data=open('champs/ahri.json')
-        # data = json.load(json_data)
-        # pprint(data)
-        # json_data.close()
-        # pprint(data)
+
 
 @route('/update')
-class StatsUpdater(tornado.web.RequestHandler):
+class PatchHandler(tornado.web.RequestHandler):
     def get(self):
         co = pymongo.Connection()
         db = co.loldb

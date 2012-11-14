@@ -8,8 +8,8 @@
       "desc":"Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp."
     },
     "q":{
-      "damage_b_ratio_type":"ap",
-      "damage_b_ratio":0.33,
+      "damage_2_ratio_type":"ap",
+      "damage_2_ratio":0.33,
       "cost_val":[
         0,
         70,
@@ -29,7 +29,7 @@
         140
       ],
       "cd":6,
-      "damage_b":[
+      "damage_2":[
         0,
         40,
         65,
@@ -37,7 +37,7 @@
         115,
         140
       ],
-      "damage_b_type":"true",
+      "damage_2_type":"true",
       "range":880,
       "cost_type":"mana",
       "damage_type":"magic",
@@ -152,6 +152,7 @@
     "arange":550,
     "ad_ratio":3,
     "mr_base":30,
+    "mr_ratio":0,
     "hpreg_base":5.5,
     "hp_ratio":80,
     "as_ratio":0.02,

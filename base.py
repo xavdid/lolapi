@@ -35,15 +35,36 @@ class Champion(Document):
     stats = DictField()
     moves = DictField()
     items = ListField(IntField())
+    
+    # def cur():
+        # return cur_stats
 
-class Ahri(Champion):
+class Item(Document):
+    price = IntField()
+
+class ChampBase(object):
     def __init__(self, ch):
         self.c = ch
+        self.cur_stats = ch['stats']
+        self.cur_stats['ap'] = 0
+
+'''this doesn't reattach to the dictfields because it's not needed in the accessing'''
+class Ahri(ChampBase):
 
     # can't hardcode that 500
+    # also may want to change this response from an int to json?
     def q(self):
-        return(movemult(self.c['moves']['q']['damage'],5,500,self.c['moves']['q']['damage_ratio']))
+        return movemult(self.c['moves']['q']['damage'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_ratio']) 
+    def q2(self):
+        return movemult(self.c['moves']['q']['damage_2'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_2_ratio'])
+    def w(self):
+        return movemult(self.c['moves']['w']['damage'],5,self.cur_stats['ap'],self.c['moves']['w']['damage_ratio'])
+    def e(self):
+        return movemult(self.c['moves']['e']['damage'],5,self.cur_stats['ap'],self.c['moves']['e']['damage_ratio'])
+    def r(self):
+        return movemult(self.c['moves']['r']['damage'],3,self.cur_stats['ap'],self.c['moves']['r']['damage_ratio'])
 
+'''This is for storing dictionaries that are new champs'''
 def attach(c,ch):
     ch.name = c['name']
     ch.title = c['title']
