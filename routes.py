@@ -1,6 +1,6 @@
 from functions import api_response, db_error, set_vars, Vars, statMult, prepare, MongoEncoder, moveMult, getChamp, attach
 import pymongo
-from base import route, Champion, Ahri, ItemBase
+from base import route, Champion, Ahri, ItemBase, ChampBase
 import simplejson as json
 import asyncmongo
 import tornado.web
@@ -135,7 +135,7 @@ class ChampPrint(tornado.web.RequestHandler):
         # self.write(c)
 
 
-@route('/update')
+@route('/patch')
 class PatchHandler(tornado.web.RequestHandler):
     def get(self):
         co = pymongo.Connection()
@@ -146,11 +146,16 @@ class PatchHandler(tornado.web.RequestHandler):
             # c = prepare(i)
         # self.write(c)
         js = open('champs/items.json')
+        js2 = open('champs/ahri.json')
         c = json.load(js)
+        c2 = json.load(js2)
         i = ItemBase()
+        ch = ChampBase()
         i.items = c
         i.name = 'items'
-        # attach(c,champ)
+        attach(ch,c2)
         db.champs.update({'name':"items"},i.to_python(),True)
+        db.champs.update({'name':"ahri"},ch.to_python(),True)
         # pprint(c)
         js.close()
+        js2.close()
