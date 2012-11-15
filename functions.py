@@ -42,7 +42,7 @@ class MongoEncoder(json.JSONEncoder):
 def prepare(response):
     return json.loads(json.dumps(response, cls = MongoEncoder))
 
-def statmult(c,stat, level):
+def statMult(c, stat, level):
     ats = False
     if stat == 'hp':
         base = c['hp_base']
@@ -69,15 +69,43 @@ def statmult(c,stat, level):
     elif stat == 'mr':
         base = c['mr_base']
         gain = c['mr_ratio']
+    else: return 0
 
     if (ats): value = (base*(1+(gain*(level-1))))
     else: value = (base+(gain*level))
     return value 
 
-def movemult(base, rank, stat, ratio):
+def moveMult(base, rank, stat, ratio):
     damage = base[rank]
     damage += (stat*ratio) #stat is relevant stat (ap, ad, health, etc)
     return damage
+
+def itemMult(stat, ch):
+    if stat == 'hp':
+        targ = c['hp_base']
+        gain = c['hp_ratio']
+    elif stat == 'hpreg':
+        base = c['hpreg_base']
+        gain = c['hpreg_ratio']
+    elif stat == 'mana':
+        base = c['mana_base']
+        gain = c['mana_ratio']
+    elif stat == 'manareg':
+        base = c['manareg_base']
+        gain = c['manareg_ratio']
+    elif stat == 'ad':
+        base = c['ad_base']
+        gain = c['ad_ratio']
+    elif stat == 'as':
+        base = c['as_base']
+        gain = c['as_ratio']
+        ats = True
+    elif stat == 'armor':
+        base = c['armor_base']
+        gain = c['armor_ratio']
+    elif stat == 'mr':
+        base = c['mr_base']
+        gain = c['mr_ratio']
 
 def getChamp(input):
     c = pymongo.Connection()
@@ -86,4 +114,14 @@ def getChamp(input):
     for i in champ:
         c = prepare(i)
     return c
+
+def attach(ch,c):
+    ch.name = c['name']
+    ch.title = c['title']
+    # ch.stats = c['stats']
+    # ch.moves = c['moves']
+
+# def applyItems(ch):
+
+
 

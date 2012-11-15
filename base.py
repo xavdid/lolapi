@@ -9,7 +9,7 @@ from tornado.options import define, options
 from dictshield.document import Document
 from dictshield.fields import (StringField, DictField, BooleanField, IntField, FloatField)
 from dictshield.fields.compound import ListField
-from functions import movemult, statmult
+from functions import moveMult, statMult, attach
 
 define("port", default=8888, help="run on the given port", type=int)
 
@@ -39,34 +39,53 @@ class Champion(Document):
     # def cur():
         # return cur_stats
 
-class Item(Document):
-    price = IntField()
+class ItemBase(Document):
+    items = DictField()
 
 class ChampBase(object):
-    def __init__(self, ch):
-        self.c = ch
-        self.cur_stats = ch['stats']
-        self.cur_stats['ap'] = 0
+    def __init__(self, cd):
+        self.c = cd
+        self.cur_stats = {}
+        self.setBase()
+        self.resetStats(cd)
 
-'''this doesn't reattach to the dictfields because it's not needed in the accessing'''
+    def setBase(self):
+        # self.cur_stats 
+        self.cur_stats = {'hp':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
+            'lifesteal':0,'spellvamp':0}
+
+    def resetStats(self,c):
+        for s in self.cur_stats:
+            self.cur_stats[s] = statMult(c['stats'],s,18)
+
+
+# this doesn't reattach to the dictfields because it's not needed in the accessing
 class Ahri(ChampBase):
+    def __init__(self,cd):
+        # print dir(self)
+        super(Ahri, self).__init__(cd)
+        attach(self,cd)
+        # self.poop = {}
+        # ChampBase.setBase(self.poop)
+        # self.c = cd
+        # self.cur_stats = 
 
     # can't hardcode that 500
     # also may want to change this response from an int to json?
     def q(self):
-        return movemult(self.c['moves']['q']['damage'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_ratio']) 
+        return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_ratio']) 
     def q2(self):
-        return movemult(self.c['moves']['q']['damage_2'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_2_ratio'])
+        return moveMult(self.c['moves']['q']['damage_2'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_2_ratio'])
     def w(self):
-        return movemult(self.c['moves']['w']['damage'],5,self.cur_stats['ap'],self.c['moves']['w']['damage_ratio'])
+        return moveMult(self.c['moves']['w']['damage'],5,self.cur_stats['ap'],self.c['moves']['w']['damage_ratio'])
     def e(self):
-        return movemult(self.c['moves']['e']['damage'],5,self.cur_stats['ap'],self.c['moves']['e']['damage_ratio'])
+        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats['ap'],self.c['moves']['e']['damage_ratio'])
     def r(self):
-        return movemult(self.c['moves']['r']['damage'],3,self.cur_stats['ap'],self.c['moves']['r']['damage_ratio'])
+        return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats['ap'],self.c['moves']['r']['damage_ratio'])
 
-'''This is for storing dictionaries that are new champs'''
-def attach(c,ch):
-    ch.name = c['name']
-    ch.title = c['title']
-    ch.stats = c['stats']
-    ch.moves = c['moves']
+# This is for storing dictionaries that are new champs
+
+
+
+
+# def doItems(ch,i):

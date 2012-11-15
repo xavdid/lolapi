@@ -1,6 +1,6 @@
-from functions import api_response, db_error, set_vars, Vars, statmult, prepare, MongoEncoder, movemult, getChamp
+from functions import api_response, db_error, set_vars, Vars, statMult, prepare, MongoEncoder, moveMult, getChamp, attach
 import pymongo
-from base import route, Champion, Ahri, attach
+from base import route, Champion, Ahri, ItemBase
 import simplejson as json
 import asyncmongo
 import tornado.web
@@ -114,13 +114,14 @@ class ChampPrint(tornado.web.RequestHandler):
     def get(self,input):
         c = getChamp(input)
         a = Ahri(c)
+        # a.cur_stats
         # self.write(a.cur_stats)
     # this is for nice output
         # self.write('Name: <b>%s</b>, %s<br>' %(c['name'].title(),c['title']))
-        # for s in c['stats']:
-            # self.write('%s: %s <br>' %(s.replace('_',' ').title(), c['stats'][s]))
+        for s in a.cur_stats:
+            self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
         # self.write("<br><br>")
-        # self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(c['name'].title(), a.q(),c['moves']['q']['damage_type'],a.cur_stats['armor_ratio'],c['moves']['q']['damage_ratio_type'].upper()))
+        self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
 
     #this is for printing the whole response
         # self.write(c)
@@ -132,9 +133,10 @@ class PatchHandler(tornado.web.RequestHandler):
         co = pymongo.Connection()
         db = co.loldb
 
-        js = open('champs/ahri.json')
+        js = open('champs/items.json')
         c = json.load(js)
-        champ = Champion()
-        attach(c,champ)
-        db.champs.update({'name':champ.name},champ.to_python(),True)
+        i = ItemBase()
+        i.items = c
+        # attach(c,champ)
+        db.champs.update({'name':"items"},i.to_python(),True)
         js.close()
