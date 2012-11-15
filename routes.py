@@ -13,7 +13,11 @@ class ChampAdd(tornado.web.RequestHandler):
     def get(self):
     	c = pymongo.Connection()
         db = c.loldb
-        champ = Champion()
+        # champ = Champion()
+        asdf = ItemBase()
+        asdf.items = {"ruby":{"name":"Ruby Crystal","effect":{"hp":180},"cost":475,"tag":"ruby"},
+            "amp_tome":{"name":"Amplification Tome","effect":{"ap":20},"cost":435,"tag":"amp_tome"}}
+        asdf.name = 'items'
         # champ.name = 'ahri'
         # champ.title = 'the Nine-Tailed Fox'
         # st = {}
@@ -102,7 +106,8 @@ class ChampAdd(tornado.web.RequestHandler):
         # r['dash_range'] = 450
         # champ.moves['r'] = r
         # # pprint(champ.to_python())
-
+        pprint(asdf.items)
+        db.champs.update({'name':"items"},asdf.to_python(),True)
         # self.db.champs.update({'name':champ.name},champ.to_python(),True)
         # # self.write(champ.to_python())
         # self.write('stored %s, %s!' %(champ.name.title(), champ.title))
@@ -114,13 +119,16 @@ class ChampPrint(tornado.web.RequestHandler):
     def get(self,input):
         c = getChamp(input)
         a = Ahri(c)
-        # a.cur_stats
-        # self.write(a.cur_stats)
     # this is for nice output
-        # self.write('Name: <b>%s</b>, %s<br>' %(c['name'].title(),c['title']))
+        self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
         for s in a.cur_stats:
             self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
-        # self.write("<br><br>")
+        self.write("<br><br>")
+        self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
+        self.write("<br><br>")
+        a.items.append('ruby')
+        a.items.append('amp_tome')
+        a.doItems()
         self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
 
     #this is for printing the whole response
@@ -132,11 +140,15 @@ class PatchHandler(tornado.web.RequestHandler):
     def get(self):
         co = pymongo.Connection()
         db = co.loldb
-
-        js = open('champs/items.json')
-        c = json.load(js)
-        i = ItemBase()
-        i.items = c
+        c = {}
+        champ = db.champs.find({'name':'items'},limit=1)
+        for i in champ:
+            c = prepare(i)
+        # js = open('champs/items.json')
+        # c = json.load(js)
+        # i = ItemBase()
+        # i.items = c
         # attach(c,champ)
-        db.champs.update({'name':"items"},i.to_python(),True)
-        js.close()
+        # db.champs.update({'name':"items"},i.to_python(),True)
+        pprint(c)
+        # js.close()

@@ -80,7 +80,7 @@ def moveMult(base, rank, stat, ratio):
     damage += (stat*ratio) #stat is relevant stat (ap, ad, health, etc)
     return damage
 
-def itemMult(stat, ch):
+def itemMult(stat, c):
     if stat == 'hp':
         targ = c['hp_base']
         gain = c['hp_ratio']
@@ -113,7 +113,10 @@ def getChamp(input):
     champ = db.champs.find({'name':input},limit=1)
     for i in champ:
         c = prepare(i)
-    return c
+    if input == 'items':
+        return c['items']  
+    else: 
+        return c
 
 def attach(ch,c):
     ch.name = c['name']

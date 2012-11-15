@@ -9,7 +9,8 @@ from tornado.options import define, options
 from dictshield.document import Document
 from dictshield.fields import (StringField, DictField, BooleanField, IntField, FloatField)
 from dictshield.fields.compound import ListField
-from functions import moveMult, statMult, attach
+from functions import moveMult, statMult, attach, getChamp, itemMult
+from pprint import pprint
 
 define("port", default=8888, help="run on the given port", type=int)
 
@@ -29,48 +30,52 @@ class route(object):
     def get_routes(self):
         return self._routes
 
-class Champion(Document):
+class ChampBase(Document):
     name = StringField(required = True)
     title = StringField()
     stats = DictField()
     moves = DictField()
-    items = ListField(IntField())
+    items = ListField(StringField())
     
-    # def cur():
-        # return cur_stats
-
 class ItemBase(Document):
     items = DictField()
+    name = StringField(required = True)
 
-class ChampBase(object):
+class Champion(object):
     def __init__(self, cd):
         self.c = cd
         self.cur_stats = {}
         self.setBase()
-        self.resetStats(cd)
+        self.resetStats()
+        self.items = []
+        attach(self,cd)
 
     def setBase(self):
         # self.cur_stats 
         self.cur_stats = {'hp':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0}
 
-    def resetStats(self,c):
+    def resetStats(self):
         for s in self.cur_stats:
-            self.cur_stats[s] = statMult(c['stats'],s,18)
+            self.cur_stats[s] = statMult(self.c['stats'],s,18)
 
+    def doItems(self):
+        i = getChamp('items')
+        pprint(i)
+        for e in self.items:
+            for s in i[e]['effect']:
+                self.cur_stats[s] += i[e]['effect'][s]
 
 # this doesn't reattach to the dictfields because it's not needed in the accessing
-class Ahri(ChampBase):
+class Ahri(Champion):
     def __init__(self,cd):
         # print dir(self)
         super(Ahri, self).__init__(cd)
-        attach(self,cd)
         # self.poop = {}
         # ChampBase.setBase(self.poop)
         # self.c = cd
         # self.cur_stats = 
 
-    # can't hardcode that 500
     # also may want to change this response from an int to json?
     def q(self):
         return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_ratio']) 
