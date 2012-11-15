@@ -35,7 +35,6 @@ class ChampBase(Document):
     title = StringField()
     stats = DictField()
     moves = DictField()
-    items = ListField(StringField())
     
 class ItemBase(Document):
     items = DictField()
@@ -61,10 +60,10 @@ class Champion(object):
 
     def doItems(self):
         i = getChamp('items')
-        pprint(i)
+        # pprint(i)
         for e in self.items:
-            for s in i[e]['effect']:
-                self.cur_stats[s] += i[e]['effect'][s]
+            for s in i['items'][e]['effect']:
+                self.cur_stats[s] += i['items'][e]['effect'][s]
 
 # this doesn't reattach to the dictfields because it's not needed in the accessing
 class Ahri(Champion):

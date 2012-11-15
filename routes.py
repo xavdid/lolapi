@@ -140,15 +140,17 @@ class PatchHandler(tornado.web.RequestHandler):
     def get(self):
         co = pymongo.Connection()
         db = co.loldb
-        c = {}
-        champ = db.champs.find({'name':'items'},limit=1)
-        for i in champ:
-            c = prepare(i)
-        # js = open('champs/items.json')
-        # c = json.load(js)
-        # i = ItemBase()
-        # i.items = c
+        # c = {}
+        # champ = db.champs.find({'name':'items'},limit=1)
+        # for i in champ:
+            # c = prepare(i)
+        # self.write(c)
+        js = open('champs/items.json')
+        c = json.load(js)
+        i = ItemBase()
+        i.items = c
+        i.name = 'items'
         # attach(c,champ)
-        # db.champs.update({'name':"items"},i.to_python(),True)
-        pprint(c)
-        # js.close()
+        db.champs.update({'name':"items"},i.to_python(),True)
+        # pprint(c)
+        js.close()

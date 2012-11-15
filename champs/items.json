@@ -1,0 +1,26 @@
+{
+   "_types":[
+      "ItemBase"
+   ],
+   "items":{
+      "ruby":{
+         "cost":475,
+         "tag":"ruby",
+         "name":"Ruby Crystal",
+         "effect":{
+            "hp":180
+         }
+      },
+      "amp_tome":{
+         "cost":435,
+         "tag":"amp_tome",
+         "name":"Amplification Tome",
+         "effect":{
+            "ap":20
+         }
+      }
+   },
+   "_id":"50a48af333458ac02b3da868",
+   "name":"items",
+   "_cls":"ItemBase"
+}

@@ -114,8 +114,8 @@ def getChamp(input):
     for i in champ:
         c = prepare(i)
     if input == 'items':
-        return c['items']  
-    else: 
+        return c['items']
+    else:
         return c
 
 def attach(ch,c):
