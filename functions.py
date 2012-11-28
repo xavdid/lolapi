@@ -121,8 +121,8 @@ def getChamp(input):
 def attach(ch,c):
     ch.name = c['name']
     ch.title = c['title']
-    # ch.stats = c['stats']
-    # ch.moves = c['moves']
+    ch.stats = c['stats']
+    ch.moves = c['moves']
 
 # def applyItems(ch):
 

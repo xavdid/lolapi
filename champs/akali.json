@@ -1,0 +1,157 @@
+{
+   "_types":[
+      "ChampBase"
+   ],
+   "moves":{
+      "i":{
+         "f_value":7.916,
+         "m_value":7.916,
+         "name":"Twin Disciplines",
+         "desc":"Discipline of Force — Upon obtaining 19.5 ability power, Akali's auto attacks deal 7.916% bonus magic damage, increasing by 1% for every 6 ability power gained thereafter. (Magic damage affects all structures.) Discipline of Might — Upon obtaining 9.5 bonus attack damage, Akali gains 7.916% spell vamp, increasing by an additional 1% for every 6 attack damage gained thereafter."
+      },
+      "q":{
+         "name":"Mark of the Assassin",
+         "damage_ratio_type":"ap",
+         "damage":[
+            0,
+            5,
+            70,
+            95,
+            120,
+            145
+         ],
+         "energy_restored":[
+            0,
+            15,
+            20,
+            25,
+            30,
+            35
+         ],
+         "cd":6,
+         "cost_val":60,
+         "range":600,
+         "cost_type":"energy",
+         "damage_type":"magic",
+         "desc":"Active: Akali throws her kama at a target enemy, dealing magic damage and marking the target for 6 seconds. Akali's melee attacks or Crescent Slashes against a marked target will consume the mark dealing the same magic damage again and restoring energy.",
+         "damage_ratio":0.4
+      },
+      "r":{
+         "essence_regen_rate":[
+            0,
+            25,
+            20,
+            15
+         ],
+         "name":"Shadow Dance",
+         "damage_ratio_type":"ap",
+         "damage":[
+            0,
+            100,
+            175,
+            250
+         ],
+         "cd":[
+            0,
+            2,
+            1.5,
+            1
+         ],
+         "cost_val":1,
+         "range":800,
+         "cost_type":"essence of shadow",
+         "damage_type":"magic",
+         "desc":"Active: Akali moves through the shadows to quickly appear next to her target and deal magic damage to it. Akali gains an Essence of Shadow periodically, affected by cooldown reduction, up to a maximum of 3. Additionally, Akali gains an Essence of Shadow for each kill or assist.",
+         "damage_ratio":0.5
+      },
+      "e":{
+         "name":"Crescent Slash",
+         "damage_ratio_type_b":"ap",
+         "damage_ratio_type":"ad",
+         "damage":[
+            0,
+            30,
+            55,
+            80,
+            105,
+            130
+         ],
+         "cd":[
+            0,
+            7,
+            6,
+            5,
+            4,
+            3
+         ],
+         "cost_val":[
+            0,
+            60,
+            55,
+            50,
+            45,
+            40
+         ],
+         "range":325,
+         "cost_type":"energy",
+         "damage_type":"physical",
+         "desc":"Active: Akali flourishes her kamas, hitting nearby units for physical damage.",
+         "damage_ratio_b":0.3,
+         "damage_ratio":0.6
+      },
+      "w":{
+         "diameter":300,
+         "name":" Twilight Shroud ",
+         "ms_reduction_type":"percent",
+         "defense_boost":[
+            0,
+            10,
+            20,
+            30,
+            40,
+            50
+         ],
+         "cd":20,
+         "range":700,
+         "cost_type":"energy",
+         "ms_reduction":[
+            0,
+            14,
+            18,
+            22,
+            26,
+            30
+         ],
+         "cost_val":[
+            0,
+            80,
+            75,
+            70,
+            65,
+            60
+         ],
+         "desc":"Active: Akali throws down a circular cover of smoke that lasts for 8 seconds. While inside the area, Akali gains armor and magic resistance and becomes stealthed. Attacking or using abilities reveals her for 0.5 seconds. Enemies inside the smoke have their movement speed reduced."
+      }
+   },
+   "stats":{
+      "armor_ratio":3.5,
+      "armor_base":16.5,
+      "ad_base":53,
+      "as_base":0.694,
+      "mr_ratio":1.25,
+      "energy":200,
+      "move":325,
+      "arange":125,
+      "ad_ratio":3.2,
+      "mr_base":30,
+      "hpreg_base":7.25,
+      "hp_ratio":85,
+      "as_ratio":3.1,
+      "hpreg_ratio":0.65,
+      "hp_base":445
+   },
+   "name":"akali",
+   "title":"the Fist of Shadow",
+   "_cls":"ChampBase",
+   "_id":"50b63a7de1d4170936e8d04d"
+}

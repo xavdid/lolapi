@@ -87,6 +87,15 @@ class Ahri(Champion):
     def r(self):
         return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats['ap'],self.c['moves']['r']['damage_ratio'])
 
+class Akali(Champion):
+    def __init__(self,cd):
+        super(Akali, self).__init__(cd)
+
+    def setBase(self):
+        # self.cur_stats 
+        self.cur_stats = {'hp':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
+            'lifesteal':0,'spellvamp':0}
+
 # This is for storing dictionaries that are new champs
 
 
