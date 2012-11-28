@@ -64,28 +64,25 @@ class Champion(object):
         for e in self.items:
             for s in i['items'][e]['effect']:
                 self.cur_stats[s] += i['items'][e]['effect'][s]
+    
+    def q(self):
+        return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio']) 
+    def w(self):
+        return moveMult(self.c['moves']['w']['damage'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio']) 
+    def e(self):
+        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio']) 
+    def r(self):
+        return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats[self.c['moves']['r']['damage_ratio_type']],self.c['moves']['r']['damage_ratio']) 
 
 # this doesn't reattach to the dictfields because it's not needed in the accessing
 class Ahri(Champion):
     def __init__(self,cd):
-        # print dir(self)
         super(Ahri, self).__init__(cd)
-        # self.poop = {}
-        # ChampBase.setBase(self.poop)
-        # self.c = cd
-        # self.cur_stats = 
 
     # also may want to change this response from an int to json?
-    def q(self):
-        return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_ratio']) 
     def q2(self):
-        return moveMult(self.c['moves']['q']['damage_2'],5,self.cur_stats['ap'],self.c['moves']['q']['damage_2_ratio'])
-    def w(self):
-        return moveMult(self.c['moves']['w']['damage'],5,self.cur_stats['ap'],self.c['moves']['w']['damage_ratio'])
-    def e(self):
-        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats['ap'],self.c['moves']['e']['damage_ratio'])
-    def r(self):
-        return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats['ap'],self.c['moves']['r']['damage_ratio'])
+        return moveMult(self.c['moves']['q']['damage_2'],5,self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_2_ratio'])
+    
 
 class Akali(Champion):
     def __init__(self,cd):
@@ -96,9 +93,9 @@ class Akali(Champion):
         self.cur_stats = {'hp':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0}
 
-# This is for storing dictionaries that are new champs
+    def w(self):
+        return 0
 
+    def e(self):
+        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b']) 
 
-
-
-# def doItems(ch,i):

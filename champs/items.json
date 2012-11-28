@@ -18,6 +18,16 @@
          "effect":{
             "ap":20
          }
+      },
+      "dblade":{
+         "cost":475,
+         "tag":"dblade",
+         "name":"Doran's Blade",
+         "effect":{
+            "ad":10,
+            "hp":80,
+            "lifesteal":3
+         }
       }
    },
    "_id":"50a48af333458ac02b3da868",

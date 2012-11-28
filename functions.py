@@ -71,13 +71,15 @@ def statMult(c, stat, level):
         gain = c['mr_ratio']
     else: return 0
 
-    if (ats): value = (base*(1+(gain*(level-1))))
+    if (ats): value = (base*(1.0+(gain*(level-1))))
     else: value = (base+(gain*level))
     return value 
 
-def moveMult(base, rank, stat, ratio):
+def moveMult(base, rank, stat, ratio, stat2='',ratio2=0):
     damage = base[rank]
     damage += (stat*ratio) #stat is relevant stat (ap, ad, health, etc)
+    if (stat2):
+        damage += (stat2*ratio2)
     return damage
 
 def itemMult(stat, c):
@@ -107,6 +109,16 @@ def itemMult(stat, c):
         base = c['mr_base']
         gain = c['mr_ratio']
 
+def damageMult(damage,defense):
+    print damage
+    print defense
+    if (defense>=0):
+        multi = 100.0/(100+defense)
+        print multi
+    elif (defense<0):
+        multi = 2.0-(100/(100+defense))
+    return damage*multi
+
 def getChamp(input):
     c = pymongo.Connection()
     db = c.loldb
@@ -124,7 +136,10 @@ def attach(ch,c):
     ch.stats = c['stats']
     ch.moves = c['moves']
 
-# def applyItems(ch):
-
+def breaks(i):
+    s = ''
+    for j in range(i):
+        s+="<br>"
+    return s
 
 

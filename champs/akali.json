@@ -101,6 +101,7 @@
       },
       "w":{
          "diameter":300,
+         "duration":8,
          "name":" Twilight Shroud ",
          "ms_reduction_type":"percent",
          "defense_boost":[

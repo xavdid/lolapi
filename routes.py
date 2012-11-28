@@ -1,4 +1,4 @@
-from functions import api_response, db_error, set_vars, Vars, statMult, prepare, MongoEncoder, moveMult, getChamp, attach
+from functions import *
 import pymongo
 # from base import route, Champion, Ahri, ItemBase, ChampBase, Akali
 from base import *
@@ -143,13 +143,27 @@ class ChampPrint(tornado.web.RequestHandler):
         self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
         for s in a.cur_stats:
             self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+        self.write("<br>Items:")
+        self.write(breaks(2))
+    #i could have one of these rows in the base class so we could see stuff like this?
+        self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
         self.write("<br><br>")
-        # self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
-        # self.write("<br><br>")
-        # a.items.append('ruby')
-        # a.items.append('amp_tome')
-        # a.doItems()
-        # self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
+        self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats['ap'],a.c['moves']['e']['damage_ratio_type'].upper()))
+        self.write(breaks(2))
+        a.items.append('ruby')
+        a.items.append('amp_tome')
+        a.items.append('dblade')
+        a.doItems()
+        self.write("<br>Items:<br>")
+        self.write(' '.join(a.items)+"<br>")
+        self.write(breaks(2))
+        for s in a.cur_stats:
+            self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+        self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats[a.c['moves']['q']['damage_ratio_type']],a.c['moves']['q']['damage_ratio_type'].upper()))
+
+        self.write(breaks(2))
+        self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats[a.c['moves']['e']['damage_ratio_type']],a.c['moves']['e']['damage_ratio_type'].upper()))
+        self.write("<br> it would do %.3f against someone with 115 armor"%(damageMult(a.e(),115)))
 
     #this is for printing the whole response
         # self.write(c)
@@ -160,18 +174,33 @@ class PatchHandler(tornado.web.RequestHandler):
     def get(self):
         co = pymongo.Connection()
         db = co.loldb
-        champlist = ['items','ahri','akali']
-        js = open('champs/items.json')
-        js2 = open('champs/ahri.json')
-        c = json.load(js)
-        c2 = json.load(js2)
-        i = ItemBase()
-        ch = ChampBase()
-        i.items = c
-        i.name = 'items'
-        attach(ch,c2)
-        db.champs.update({'name':"items"},i.to_python(),True)
-        db.champs.update({'name':"ahri"},ch.to_python(),True)
-        # pprint(c)
-        js.close()
-        js2.close()
+        champlist = ['items','ahri']#,'akali']
+        for n in champlist: 
+            js = open('champs/%s.json' %n)
+            c = json.load(js)
+            if (n=='items'):
+                ch = ItemBase()
+                ch.items = c
+                ch.name = 'items'
+            else:
+                ch = ChampBase()
+                attach(ch,c)
+
+            db.champs.update({'name':n},ch.to_python(),True)
+            # pprint(ch.to_python())
+            js.close()
+        self.write('patched to v 1.0.3.1!')
+        # js = open('champs/items.json')
+        # js2 = open('champs/ahri.json')
+        # c = json.load(js)
+        # c2 = json.load(js2)
+        # i = ItemBase()
+        # ch = ChampBase()
+        # i.items = c
+        # i.name = 'items'
+        # attach(ch,c2)
+        # db.champs.update({'name':"items"},i.to_python(),True)
+        # db.champs.update({'name':"ahri"},ch.to_python(),True)
+        # # pprint(c)
+        # js.close()
+        # js2.close()
