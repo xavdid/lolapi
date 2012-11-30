@@ -77,7 +77,7 @@ def statMult(c, stat, level):
 
 def moveMult(base, rank, stat, ratio, stat2='',ratio2=0):
     damage = base[rank]
-    damage += (stat*ratio) #stat is relevant stat (ap, ad, health, etc)
+    damage += (stat*ratio) #stat is relevant stat (ap, ad, level, health, etc)
     if (stat2):
         damage += (stat2*ratio2)
     return damage

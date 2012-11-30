@@ -14,11 +14,11 @@
          "damage_ratio_type":"ap",
          "damage":[
             0,
-            5,
-            70,
-            95,
-            120,
-            145
+            50.0,
+            70.0,
+            95.0,
+            120.0,
+            145.0
          ],
          "energy_restored":[
             0,
@@ -28,7 +28,7 @@
             30,
             35
          ],
-         "cd":6,
+         "cd":6.0,
          "cost_val":60,
          "range":600,
          "cost_type":"energy",
@@ -39,23 +39,23 @@
       "r":{
          "essence_regen_rate":[
             0,
-            25,
-            20,
-            15
+            25.0,
+            20.0,
+            15.0
          ],
          "name":"Shadow Dance",
          "damage_ratio_type":"ap",
          "damage":[
             0,
-            100,
-            175,
-            250
+            100.0,
+            175.0,
+            250.0
          ],
          "cd":[
             0,
-            2,
+            2.0,
             1.5,
-            1
+            1.0
          ],
          "cost_val":1,
          "range":800,
@@ -70,27 +70,27 @@
          "damage_ratio_type":"ad",
          "damage":[
             0,
-            30,
-            55,
-            80,
-            105,
-            130
+            30.0,
+            55.0,
+            80.0,
+            105.0,
+            130.0
          ],
          "cd":[
             0,
-            7,
-            6,
-            5,
-            4,
-            3
+            7.0,
+            6.0,
+            5.0,
+            4.0,
+            3.0
          ],
          "cost_val":[
             0,
-            60,
-            55,
-            50,
-            45,
-            40
+            60.0,
+            55.0,
+            50.0,
+            45.0,
+            40.0
          ],
          "range":325,
          "cost_type":"energy",
@@ -106,30 +106,30 @@
          "ms_reduction_type":"percent",
          "defense_boost":[
             0,
-            10,
-            20,
-            30,
-            40,
-            50
+            10.0,
+            20.0,
+            30.0,
+            40.0,
+            50.0
          ],
          "cd":20,
          "range":700,
          "cost_type":"energy",
          "ms_reduction":[
             0,
-            14,
-            18,
-            22,
-            26,
-            30
+            14.0,
+            18.0,
+            22.0,
+            26.0,
+            30.0
          ],
          "cost_val":[
             0,
-            80,
-            75,
-            70,
-            65,
-            60
+            80.0,
+            75.0,
+            70.0,
+            65.0,
+            60.0
          ],
          "desc":"Active: Akali throws down a circular cover of smoke that lasts for 8 seconds. While inside the area, Akali gains armor and magic resistance and becomes stealthed. Attacking or using abilities reveals her for 0.5 seconds. Enemies inside the smoke have their movement speed reduced."
       }
@@ -137,19 +137,19 @@
    "stats":{
       "armor_ratio":3.5,
       "armor_base":16.5,
-      "ad_base":53,
+      "ad_base":53.0,
       "as_base":0.694,
       "mr_ratio":1.25,
       "energy":200,
-      "move":325,
-      "arange":125,
+      "move":325.0,
+      "arange":125.0,
       "ad_ratio":3.2,
       "mr_base":30,
       "hpreg_base":7.25,
-      "hp_ratio":85,
+      "hp_ratio":85.0,
       "as_ratio":3.1,
       "hpreg_ratio":0.65,
-      "hp_base":445
+      "hp_base":445.0
    },
    "name":"akali",
    "title":"the Fist of Shadow",

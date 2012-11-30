@@ -22,20 +22,20 @@
       "damage_ratio_type":"ap",
       "damage":[
         0,
-        40,
-        65,
-        90,
-        115,
-        140
+        40.0,
+        65.0,
+        90.0,
+        115.0,
+        140.0
       ],
       "cd":6,
       "damage_2":[
         0,
-        40,
-        65,
-        90,
-        115,
-        140
+        40.0,
+        65.0,
+        90.0,
+        115.0,
+        140.0
       ],
       "damage_2_type":"true",
       "range":880,
@@ -49,19 +49,16 @@
       "damage_ratio_type":"ap",
       "damage":[
         0,
-        85,
-        125,
-        165
+        85.0,
+        125.0,
+        165.0
       ],
-      "cd":100,
-      "cost_val":[
-        0,
-        40,
-        65,
-        80,
-        95,
-        110
+      "cd":[
+        110.0,
+        95.0,
+        80.0
       ],
+      "cost_val":100,
       "range":550,
       "cost_type":"mana",
       "damage_type":"magic",
@@ -74,31 +71,31 @@
       "damage_ratio_type":"ap",
       "damage":[
         0,
-        60,
-        90,
-        120,
-        150,
-        180
+        60.0,
+        90.0,
+        120.0,
+        150.0,
+        180.0
       ],
       "cd":12,
       "cost_val":[
         0,
-        40,
-        65,
-        80,
-        95,
-        110
+        40.0,
+        65.0,
+        80.0,
+        95.0,
+        110.0
       ],
       "range":975,
       "cost_type":"mana",
       "damage_type":"magic",
       "duration":[
         0,
-        1,
+        1.0,
         1.25,
         1.5,
         1.75,
-        2
+        2.0
       ],
       "desc":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
       "damage_ratio":0.35
@@ -108,19 +105,19 @@
       "damage_ratio_type":"ap",
       "damage":[
         0,
-        40,
-        65,
-        90,
-        115,
-        140
+        40.0,
+        65.0,
+        90.0,
+        115.0,
+        140.0
       ],
       "cd":[
-        0,
-        9,
-        8,
-        7,
-        6,
-        5
+        0.0,
+        9.0,
+        8.0,
+        7.0,
+        6.0,
+        5.0
       ],
       "damage_max_ratio":0.4,
       "cost_val":60,
@@ -131,11 +128,11 @@
       "desc":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
       "damage_max":[
         0,
-        80,
-        130,
-        180,
-        230,
-        280
+        80.0,
+        130.0,
+        180.0,
+        230.0,
+        280.0
       ],
       "damage_ratio":0.4
     }

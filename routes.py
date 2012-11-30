@@ -19,112 +19,120 @@ class ChampAdd(tornado.web.RequestHandler):
         # asdf.items = {"ruby":{"name":"Ruby Crystal","effect":{"hp":180},"cost":475,"tag":"ruby"},
             # "amp_tome":{"name":"Amplification Tome","effect":{"ap":20},"cost":435,"tag":"amp_tome"}}
         # asdf.name = 'items'
-        # champ.name = 'akali'
-        # champ.title = 'the Fist of Shadow'
-        # st = {}
-        # st['hp_base'] = 445
-        # st['hp_ratio'] = 85
-        # st['hpreg_base'] = 7.25
-        # st['hpreg_ratio'] = 0.65
+        champ.name = 'alistar'
+        champ.title = 'the Minotaur'
+        st = {}
+        st['hp_base'] = 442.0
+        st['hp_ratio'] = 102.0
+        st['hpreg_base'] = 7.25
+        st['hpreg_ratio'] = 0.85
         # st['energy'] = 200
-        # # st['mana_base'] = 230
-        # # st['mana_ratio'] = 50
-        # # st['manareg_base'] = 6.25
-        # # st['manareg_ratio'] = .6
-        # st['arange'] = 125
-        # st['ad_base'] = 53
-        # st['ad_ratio'] = 3.2
-        # st['as_base'] = 0.694
-        # st['as_ratio'] = 3.1
-        # st['armor_base'] = 16.5
-        # st['armor_ratio'] = 3.5
-        # st['mr_base'] = 30
-        # st['mr_ratio'] = 1.25
-        # st['move'] = 325
-        # champ.stats = st
+        st['mana_base'] = 215.0
+        st['mana_ratio'] = 38.0
+        st['manareg_base'] = 6.45
+        st['manareg_ratio'] = .45
+        st['arange'] = 125.0
+        st['ad_base'] = 55.03
+        st['ad_ratio'] = 3.62
+        st['as_base'] = 0.625
+        st['as_ratio'] = 2.13
+        st['armor_base'] = 14.5
+        st['armor_ratio'] = 3.5
+        st['mr_base'] = 30.0
+        st['mr_ratio'] = 1.25
+        st['move'] = 300.0
+        champ.stats = st
         
-        # i = {}
-        # i['name'] = 'Twin Disciplines'
-        # i['desc'] = 'her ablities hurt and she heals'
-        # i['f_value'] = 7.916
-        # i['m_value'] = 7.916
-        # champ.moves['i'] = i
+        i = {}
+        i['name'] = 'Trample'
+        i['desc'] = 'Each time Alistar casts a spell, he gains the ability to move through units and will deal damage to nearby enemy units and structures for about 3 seconds. Trample deals double damage to minions and monsters. '
+        i['damage'] = 6
+        i['damage_ratio'] = 1
+        i['damage ratio type'] = 'level'
+        i['damage_ratio_b'] = .1
+        i['damage_ratio_type_b'] = 'ap'
+        champ.moves['i'] = i
         
-        # q = {}
-        # q['name'] = 'Mark of the Assassin'
-        # q['desc'] = "Active: Akali throws her kama at a target enemy, dealing magic damage and marking the target for 6 seconds. Akali's melee attacks or Crescent Slashes against a marked target will consume the mark dealing the same magic damage again and restoring energy."
-        # q['range'] = 600
-        # q['cd'] = 6
-        # q['cost_val'] = 60
-        # q['cost_type'] = 'energy'
-        # q['damage'] = [0,5,70,95,120,145]
-        # q['damage_type'] = 'magic'
-        # q['damage_ratio'] = 0.4
-        # q['damage_ratio_type'] = 'ap'
+        q = {}
+        q['name'] = 'Pulverize'
+        q['desc'] = "Active: Alistar smashes the ground where he is standing, dealing damage to all surrounding enemies and knocking them up for 1 second, additionally stunning them upon landing for 0.5 seconds."
+        q['range'] = 182.5
+        q['cd'] = [0,17,16,15,14,13]
+        q['cost_val'] = [0,70,80,90,100,110]
+        q['cost_type'] = 'mana'
+        q['damage'] = [0,60,105,150,195,240]
+        q['damage_type'] = 'magic'
+        q['damage_ratio'] = 0.5
+        q['damage_ratio_type'] = 'ap'
         # q['energy_restored'] = [0,15,20,25,30,35]
-        # # q['damage_b'] = [0,40,65,90,115,140]
-        # # q['damage_b_type'] = 'true'
-        # # q['damage_b_ratio'] = 0.33
-        # # q['damage_b_ratio_type'] = 'ap'
-        # champ.moves['q'] = q
+        # q['damage_b'] = [0,40,65,90,115,140]
+        # q['damage_b_type'] = 'true'
+        # q['damage_b_ratio'] = 0.33
+        # q['damage_b_ratio_type'] = 'ap'
+        champ.moves['q'] = q
 
-        # w ={}
-        # w['name'] = ' Twilight Shroud '
-        # w['desc'] = "Active: Akali throws down a circular cover of smoke that lasts for 8 seconds. While inside the area, Akali gains armor and magic resistance and becomes stealthed. Attacking or using abilities reveals her for 0.5 seconds. Enemies inside the smoke have their movement speed reduced."
-        # w['range'] = 700
-        # w['diameter'] = 300
-        # w['cd'] = 20
-        # w['cost_val'] = [0,80,75,70,65,60]
-        # w['cost_type'] = 'energy'
+        w ={}
+        w['name'] = 'Headbutt'
+        w['desc'] = "Active: Alistar dashes to an enemy's position and rams them, dealing damage and knocking them back a set distance over 1 second, also briefly immobilizing them."
+        w['range'] = 600
+        w['kockback'] = 650
+        w['cd'] = [0,17,16,15,14,13]
+        w['cost_val'] = [0,80,75,70,65,60]
+        w['cost_type'] = 'mana'
         # w['defense_boost'] = [0,10,20,30,40,50]
         # w['ms_reduction'] = [0,14,18,22,26,30]
         # w['ms_reduction_type'] = 'percent'
 
-        # # w['damage'] = [0,40,65,90,115,140]
-        # # w['damage_type'] = 'magic'
-        # # w['damage_ratio'] = 0.4
-        # # w['damage_ratio_type'] = 'ap'
-        # # w['damage_max'] = [0,80,130,180,230,280]
-        # # w['damage_max_ratio'] = 0.4
-        # # w['damage_max_ratio_type'] = 'ap'
-        # champ.moves['w'] = w
+        w['damage'] = [0,55,110,165,220,275]
+        w['damage_type'] = 'magic'
+        w['damage_ratio'] = 0.7
+        w['damage_ratio_type'] = 'ap'
+        # w['damage_max'] = [0,80,130,180,230,280]
+        # w['damage_max_ratio'] = 0.4
+        # w['damage_max_ratio_type'] = 'ap'
+        champ.moves['w'] = w
 
-        # e = {}
-        # e['name'] = 'Crescent Slash'
-        # e['desc'] = "Active: Akali flourishes her kamas, hitting nearby units for physical damage."
-        # e['range'] = 325
-        # e['cd'] = [0,7,6,5,4,3]
-        # e['cost_val'] = [0,60,55,50,45,40]
-        # e['cost_type'] = 'energy'
+        e = {}
+        e['name'] = 'Triumphant Roar'
+        e['desc'] = "Active: Alistar instantly restores health to himself, healing nearby friendly units for half of that amount. The cooldown of this ability is reduced by 2 seconds each time a nearby enemy unit dies."
+        e['range'] = 287.5
+        e['cd'] = 12
+        e['cost_val'] = [0,40,50,60,70,80]
+        e['cost_type'] = 'mana'
         # e['damage'] = [0,30,55,80,105,130]
+        e['self_heal_val'] = [0,60,90,120,150,180]
+        e['self_heal_ratio'] = .2
+        e['ally_heal_val'] = [0,30,45,60,75,90]
+        e['ally_heal_ratio'] = .1
+
         # e['damage_type'] = 'physical'
         # e['damage_ratio'] = 0.6
-        # e['damage_ratio_type'] = 'ad'
+        e['heal_ratio_type'] = 'ap'
         # e['damage_ratio_b'] = 0.3
         # e['damage_ratio_type_b'] = 'ap'
-        # # e['duration'] = [0,1,1.25,1.5,1.75,2]
-        # champ.moves['e'] = e
+        # e['duration'] = [0,1,1.25,1.5,1.75,2]
+        champ.moves['e'] = e
 
-        # r ={}
-        # r['name'] = 'Shadow Dance'
-        # r['desc'] = "Active: Akali moves through the shadows to quickly appear next to her target and deal magic damage to it. Akali gains an Essence of Shadow periodically, affected by cooldown reduction, up to a maximum of 3. Additionally, Akali gains an Essence of Shadow for each kill or assist."
+        r ={}
+        r['name'] = 'Unbreakable Will'
+        r['desc'] = "Active: Alistar instantly gains bonus attack damage and takes reduced physical and magic damage for 7 seconds. If he is under crowd control effects at the time of casting, they are also removed."
         # r['range'] = 800
-        # r['cd'] = [0,2,1.5,1]
-        # r['cost_val'] = 1
-        # r['cost_type'] = 'essence of shadow'
-        # r['essence_regen_rate'] = [0,25,20,15]
-        # r['damage'] = [0,100,175,250]
+        r['cd'] = [0,120.0,100.0,80.0]
+        r['cost_val'] = 100
+        r['cost_type'] = 'mana'
+        r['damage_reduction'] = [0,50,60,79]
+        r['damage_reduction_type' ] = 'percent'
         # r['damage_type'] = 'magic'
         # r['damage_ratio'] = 0.5
         # r['damage_ratio_type'] = 'ap'
-        # # r['dash_range'] = 450
-        # champ.moves['r'] = r
-        # # pprint(champ.to_python())
-        # # pprint(asdf.items)
-        # # db.champs.update({'name':"items"},asdf.to_python(),True)
-        # db.champs.update({'name':champ.name},champ.to_python(),True)
-        # # # self.write(champ.to_python())
-        # self.write('stored %s, %s!' %(champ.name.title(), champ.title))
+        r['bonus_ad'] = [0,60,75,90]
+        champ.moves['r'] = r
+        # pprint(champ.to_python())
+        # pprint(asdf.items)
+        # db.champs.update({'name':"items"},asdf.to_python(),True)
+        db.champs.update({'name':champ.name},champ.to_python(),True)
+        # # self.write(champ.to_python())
+        self.write('stored %s, %s!' %(champ.name.title(), champ.title))
 
 @route('/champions/show/(\w+)')
 class ChampPrint(tornado.web.RequestHandler):
