@@ -154,29 +154,42 @@ class ChampPrint(tornado.web.RequestHandler):
 
         else:
         #this is for nice output
-            self.write(c)
+            # self.write(c)
             self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
             for s in a.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
-            self.write("<br>Items:")
-            self.write(breaks(2))
+            # self.write("<br>Items:")
+            # self.write(breaks(2))
         #i could have one of these rows in the base class so we could see stuff like this?
-            self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
-            self.write("<br><br>")
+            # self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
+            # self.write("<br><br>")
             # self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats['ap'],a.c['moves']['e']['damage_ratio_type'].upper()))
-            self.write(breaks(2))
-            a.items.append('ruby')
-            a.items.append('amp_tome')
-            a.items.append('dblade')
-            a.doItems()
-            self.write("<br>Items:<br>")
-            self.write(' '.join(a.items)+"<br>")
-            self.write(breaks(2))
-            for s in a.cur_stats:
-                self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
-            self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats[a.c['moves']['q']['damage_ratio_type']],a.c['moves']['q']['damage_ratio_type'].upper()))
+            # self.write(breaks(2))
+            # a.items.append('ruby')
+            # a.items.append('amp_tome')
+            # a.items.append('dblade')
+            # a.doItems()
 
-            self.write(breaks(2))
+            asdf = getChamp('akali')
+            b = Akali(asdf)
+            self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
+            for s in b.cur_stats:
+                self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
+            self.write(breaks(1))
+            self.write('%s has %i HP left' %(a.name,a.hp()))
+            self.write('%s has %i HP left' %(b.name,b.hp()))
+
+
+
+
+            # self.write("<br>Items:<br>")
+            # self.write(' '.join(a.items)+"<br>")
+            # self.write(breaks(2))
+            # for s in a.cur_stats:
+            #     self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+            # self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats[a.c['moves']['q']['damage_ratio_type']],a.c['moves']['q']['damage_ratio_type'].upper()))
+
+            # self.write(breaks(2))
             # self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats[a.c['moves']['e']['damage_ratio_type']],a.c['moves']['e']['damage_ratio_type'].upper()))
             # self.write("<br> it would do %.3f against someone with 115 armor"%(damageMult(a.e(),115)))
 

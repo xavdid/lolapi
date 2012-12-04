@@ -9,7 +9,8 @@ from tornado.options import define, options
 from dictshield.document import Document
 from dictshield.fields import (StringField, DictField, BooleanField, IntField, FloatField)
 from dictshield.fields.compound import ListField
-from functions import moveMult, statMult, attach, getChamp, itemMult
+from functions import *
+# from functions import moveMult, statMult, attach, getChamp, itemMult
 from pprint import pprint
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -65,14 +66,33 @@ class Champion(object):
             for s in i['items'][e]['effect']:
                 self.cur_stats[s] += i['items'][e]['effect'][s]
     
-    def q(self):
-        return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio']) 
-    def w(self):
-        return moveMult(self.c['moves']['w']['damage'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio']) 
-    def e(self):
-        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio']) 
-    def r(self):
-        return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats[self.c['moves']['r']['damage_ratio_type']],self.c['moves']['r']['damage_ratio']) 
+    def q(self, dtype = False):
+        if (dtype):
+            return self.c['moves']['q']['damage_type']
+        else: return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio']) 
+    def w(self, dtype = False):
+        if (dtype):
+            return self.c['moves']['w']['damage_type']
+        else: return moveMult(self.c['moves']['w']['damage'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio']) 
+    def e(self, dtype = False):
+        if (dtype):
+            return self.c['moves']['e']['damage_type']
+        else: return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio']) 
+    def r(self, dtype = False):
+        if (dtype):
+            return self.c['moves']['r']['damage_type']
+        else: return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats[self.c['moves']['r']['damage_ratio_type']],self.c['moves']['r']['damage_ratio'])
+    def ad(self):
+        return self.cur_stats['ad']
+    def ap(self):
+        return self.cur_stats['ap']
+    def hp(self):
+        return self.cur_stats['hp']
+    def armor(self):
+        return self.cur_stats['armor']
+    def mr(self):
+        return self.cur_stats['mr']
+
 
 # this doesn't reattach to the dictfields because it's not needed in the accessing
 class Ahri(Champion):

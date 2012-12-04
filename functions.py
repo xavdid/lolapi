@@ -69,6 +69,8 @@ def statMult(c, stat, level):
     elif stat == 'mr':
         base = c['mr_base']
         gain = c['mr_ratio']
+    elif stat == 'energy':
+        return 200
     else: return 0
 
     if (ats): value = (base*(1.0+(gain*(level-1))))
@@ -118,6 +120,14 @@ def damageMult(damage,defense):
     elif (defense<0):
         multi = 2.0-(100/(100+defense))
     return damage*multi
+
+def damageCalc(c1,c2,dtype):
+    # if (dtype == 'aa' or dtype
+    if (dtype == 'aa'):
+        d = damageMult(c1.ad(),c2.armor())
+    # elif (dtype == 'q'):
+        # d = damageMult(c1.q(),
+        
 
 def getChamp(input):
     c = pymongo.Connection()
