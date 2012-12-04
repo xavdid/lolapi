@@ -46,7 +46,7 @@ class Champion(object):
         self.cur_stats = {}
         self.setBase()
         self.resetStats()
-        self.items = []
+        self.items = [] 
         attach(self,cd)
 
     def setBase(self):
