@@ -99,3 +99,9 @@ class Akali(Champion):
     def e(self):
         return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b']) 
 
+class Alistar(Champion):
+    def __init__(self,cd):
+        super(Alistar, self).__init__(cd)
+
+    def e(self):
+        return moveMult(self.c['moves']['e']['self_heal_val'],5,self.cur_stats[self.c['moves']['e']['heal_ratio_type']],self.c['moves']['e']['self_heal_ratio']) 

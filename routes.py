@@ -140,41 +140,48 @@ class ChampPrint(tornado.web.RequestHandler):
     # @asynchronous
     def get(self,input):
         c = getChamp(input)
-        if (input == 'akali'):
-            a = Akali(c)
-        elif (input == 'ahri'):
-            a = Ahri(c)
-        else:
+        try:
+            if (input == 'akali'):
+                a = Akali(c)
+            elif (input == 'ahri'):
+                a = Ahri(c)
+            elif (input == 'alistar'):
+                a = Alistar(c)
+            else:
+                assert(1==0)
+        except AssertionError:
             self.write('Champion not found')
-            assert(1)
-    # this is for nice output
-        self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
-        for s in a.cur_stats:
-            self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
-        self.write("<br>Items:")
-        self.write(breaks(2))
-    #i could have one of these rows in the base class so we could see stuff like this?
-        self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
-        self.write("<br><br>")
-        self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats['ap'],a.c['moves']['e']['damage_ratio_type'].upper()))
-        self.write(breaks(2))
-        a.items.append('ruby')
-        a.items.append('amp_tome')
-        a.items.append('dblade')
-        a.doItems()
-        self.write("<br>Items:<br>")
-        self.write(' '.join(a.items)+"<br>")
-        self.write(breaks(2))
-        for s in a.cur_stats:
-            self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
-        self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats[a.c['moves']['q']['damage_ratio_type']],a.c['moves']['q']['damage_ratio_type'].upper()))
 
-        self.write(breaks(2))
-        self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats[a.c['moves']['e']['damage_ratio_type']],a.c['moves']['e']['damage_ratio_type'].upper()))
-        self.write("<br> it would do %.3f against someone with 115 armor"%(damageMult(a.e(),115)))
+        else:
+        #this is for nice output
+            self.write(c)
+            self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
+            for s in a.cur_stats:
+                self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+            self.write("<br>Items:")
+            self.write(breaks(2))
+        #i could have one of these rows in the base class so we could see stuff like this?
+            self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
+            self.write("<br><br>")
+            # self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats['ap'],a.c['moves']['e']['damage_ratio_type'].upper()))
+            self.write(breaks(2))
+            a.items.append('ruby')
+            a.items.append('amp_tome')
+            a.items.append('dblade')
+            a.doItems()
+            self.write("<br>Items:<br>")
+            self.write(' '.join(a.items)+"<br>")
+            self.write(breaks(2))
+            for s in a.cur_stats:
+                self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+            self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats[a.c['moves']['q']['damage_ratio_type']],a.c['moves']['q']['damage_ratio_type'].upper()))
 
-    #this is for printing the whole response
-        # self.write(c)
+            self.write(breaks(2))
+            # self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats[a.c['moves']['e']['damage_ratio_type']],a.c['moves']['e']['damage_ratio_type'].upper()))
+            # self.write("<br> it would do %.3f against someone with 115 armor"%(damageMult(a.e(),115)))
+
+        #this is for printing the whole response
+            # self.write(c)
 
 
 @route('/patch')
@@ -182,7 +189,7 @@ class PatchHandler(tornado.web.RequestHandler):
     def get(self):
         co = pymongo.Connection()
         db = co.loldb
-        champlist = ['items','ahri']#,'akali']
+        champlist = ['items','ahri','akali','alistar']
         for n in champlist: 
             js = open('champs/%s.json' %n)
             c = json.load(js)
