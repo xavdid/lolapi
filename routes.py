@@ -155,6 +155,8 @@ class ChampPrint(tornado.web.RequestHandler):
         else:
         #this is for nice output
             # self.write(c)
+            a.items.append('brutalizer')
+            a.doItems()
             self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
             for s in a.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
@@ -168,6 +170,7 @@ class ChampPrint(tornado.web.RequestHandler):
             # a.items.append('ruby')
             # a.items.append('amp_tome')
             # a.items.append('dblade')
+            # a.items.append('brutalizer')
             # a.doItems()
 
             asdf = getChamp('akali')
@@ -182,7 +185,7 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write('%s has %i HP left' %(b.name,b.hp()))
                 d = damageCalc(a,b,'aa')
                 b.hp(d)
-                print i
+                self.write(str(i))
                 i+=1
 
 

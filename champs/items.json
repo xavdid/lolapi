@@ -36,7 +36,7 @@
          "effect":{
             "ad":25,
             "cdr":0.10,
-            "arm_pen":{
+            "armor_pen":{
                "val":15,
                "type":"flat"
             }

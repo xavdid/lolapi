@@ -7,6 +7,7 @@ import httplib
 from datetime import datetime
 from bson import objectid
 import pymongo
+from pprint import pprint
 
 def api_response(status,response,handler=None,code=200,errors=[]):
     if handler: handler.set_status(code)
@@ -112,19 +113,25 @@ def itemMult(stat, c): #i don't think i need this anymore
         gain = c['mr_ratio']
 
 def damageMult(damage,defense):
-    print damage
-    print defense
+    # print damage
+    # print defense
     if (defense>=0):
         multi = 100.0/(100+defense)
-        print multi
+        # print multi
     elif (defense<0):
         multi = 2.0-(100/(100+defense))
     return damage*multi
 
 def damageCalc(c1,c2,dtype):
     dt = typeFigurer(c1,dtype)
+    # penlist = ['flat_armor_pen','perc_armor_pen','flat_magic_pen','perc_magic_pen']
     if (dt == 'physical'):
-        d = damageMult(c1.ad(),c2.armor())
+        de = c2.armor()
+        # pprint(c1.c)
+        # print 'armor first: '+str(c2.armor())
+        de -= c1.cur_stats['flat_armor_pen']
+        # print 'armor second '+str(de)
+        d = damageMult(c1.ad(),de)
     elif (dt == 'magical'):
         d = damageMult(c1.q(),c2.mr())
     return d

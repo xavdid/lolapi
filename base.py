@@ -53,7 +53,7 @@ class Champion(object):
     def setBase(self):
         # self.cur_stats 
         self.cur_stats = {'hp':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
-            'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0}
+            'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,'cdr':0}
 
     def resetStats(self):
         for s in self.cur_stats:
@@ -66,9 +66,9 @@ class Champion(object):
             for s in i['items'][e]['effect']:
                 if (s == 'armor_pen' or s == 'magic_pen'):
                     if (i['items'][e]['effect'][s]['type'] == 'flat'):
-                        self.cur_stats[s] += i['items'][e]['effect']['flat'+s]['val']
+                        self.cur_stats['flat_'+s] += i['items'][e]['effect'][s]['val']
                     else:
-                        self.cur_stats[s] += i['items'][e]['effect']['perc'+s]['val']
+                        self.cur_stats['perc_'+s] += i['items'][e]['effect'][s]['val']
                 else:
                     self.cur_stats[s] += i['items'][e]['effect'][s]
 
@@ -123,7 +123,7 @@ class Akali(Champion):
     def setBase(self):
         # self.cur_stats 
         self.cur_stats = {'hp':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
-            'lifesteal':0,'spellvamp':0}
+            'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0}
 
     def w(self):
         return 0
