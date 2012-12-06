@@ -175,9 +175,16 @@ class ChampPrint(tornado.web.RequestHandler):
             self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
             for s in b.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
-            self.write(breaks(1))
-            self.write('%s has %i HP left' %(a.name,a.hp()))
-            self.write('%s has %i HP left' %(b.name,b.hp()))
+            i = 0
+            while (b.hp()>0):
+                self.write(breaks(1))
+                self.write('%s has %i HP left' %(a.name,a.hp()))
+                self.write('%s has %i HP left' %(b.name,b.hp()))
+                d = damageCalc(a,b,'aa')
+                b.hp(d)
+                print i
+                i+=1
+
 
 
 

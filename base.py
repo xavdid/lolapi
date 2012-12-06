@@ -53,7 +53,7 @@ class Champion(object):
     def setBase(self):
         # self.cur_stats 
         self.cur_stats = {'hp':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
-            'lifesteal':0,'spellvamp':0}
+            'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0}
 
     def resetStats(self):
         for s in self.cur_stats:
@@ -64,8 +64,14 @@ class Champion(object):
         # pprint(i)
         for e in self.items:
             for s in i['items'][e]['effect']:
-                self.cur_stats[s] += i['items'][e]['effect'][s]
-    
+                if (s == 'armor_pen' or s == 'magic_pen'):
+                    if (i['items'][e]['effect'][s]['type'] == 'flat'):
+                        self.cur_stats[s] += i['items'][e]['effect']['flat'+s]['val']
+                    else:
+                        self.cur_stats[s] += i['items'][e]['effect']['perc'+s]['val']
+                else:
+                    self.cur_stats[s] += i['items'][e]['effect'][s]
+
     def q(self, dtype = False):
         if (dtype):
             return self.c['moves']['q']['damage_type']
@@ -86,8 +92,14 @@ class Champion(object):
         return self.cur_stats['ad']
     def ap(self):
         return self.cur_stats['ap']
-    def hp(self):
+    def hp(self, val=0):
+        if (val):
+            self.cur_stats['hp'] -= val
         return self.cur_stats['hp']
+    def mana(self, val=0):
+        if (val):
+            self.cur_stats['mana'] -= val
+        return self.cur_stats['mana']
     def armor(self):
         return self.cur_stats['armor']
     def mr(self):

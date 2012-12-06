@@ -26,7 +26,20 @@
          "effect":{
             "ad":10,
             "hp":80,
-            "lifesteal":3
+            "lifesteal":0.3
+         }
+      },
+      "brutalizer":{
+         "cost":1337,
+         "tag:":"brutalizer",
+         "name":"The Brutalizer",
+         "effect":{
+            "ad":25,
+            "cdr":0.10,
+            "arm_pen":{
+               "val":15,
+               "type":"flat"
+            }
          }
       }
    },

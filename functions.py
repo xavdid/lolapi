@@ -84,7 +84,7 @@ def moveMult(base, rank, stat, ratio, stat2='',ratio2=0):
         damage += (stat2*ratio2)
     return damage
 
-def itemMult(stat, c):
+def itemMult(stat, c): #i don't think i need this anymore
     if stat == 'hp':
         targ = c['hp_base']
         gain = c['hp_ratio']
@@ -122,12 +122,26 @@ def damageMult(damage,defense):
     return damage*multi
 
 def damageCalc(c1,c2,dtype):
-    # if (dtype == 'aa' or dtype
-    if (dtype == 'aa'):
+    dt = typeFigurer(c1,dtype)
+    if (dt == 'physical'):
         d = damageMult(c1.ad(),c2.armor())
-    # elif (dtype == 'q'):
-        # d = damageMult(c1.q(),
-        
+    elif (dt == 'magical'):
+        d = damageMult(c1.q(),c2.mr())
+    return d
+  
+def typeFigurer(c1,dtype):
+    if (dtype == 'aa'):
+        return 'physical'
+    elif (dtype == 'i'):
+        return c1.i(True)
+    elif (dtype == 'q'):
+        return c1.q(True)
+    elif (dtype == 'w'):
+        return c1.w(True)
+    elif (dtype == 'e'):
+        return c1.e(True)
+    elif (dtype == 'r'):
+        return c1.r(True)
 
 def getChamp(input):
     c = pymongo.Connection()
