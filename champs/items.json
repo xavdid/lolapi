@@ -41,6 +41,14 @@
                "type":"flat"
             }
          }
+      },
+      "nullmagic":{
+         "cost":400,
+         "tag":"nullmagic",
+         "name":"Null-Magic Mantle",
+         "effect":{
+            "mr":20
+         }
       }
    },
    "_id":"50a48af333458ac02b3da868",

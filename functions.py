@@ -72,6 +72,9 @@ def statMult(c, stat, level):
         gain = c['mr_ratio']
     elif stat == 'energy':
         return 200
+    elif stat == 'ms':
+        base = c['ms']
+        gain = 0
     else: return 0
 
     if (ats): value = (base*(1.0+(gain*(level-1))))
@@ -132,7 +135,9 @@ def damageCalc(c1,c2,dtype):
         de -= c1.cur_stats['flat_armor_pen']
         # print 'armor second '+str(de)
         d = damageMult(c1.ad(),de)
-    elif (dt == 'magical'):
+    elif (dt == 'magic'):
+        d = damageMult(c1.q(),c2.mr())
+    elif (dt == 'true'):
         d = damageMult(c1.q(),c2.mr())
     return d
   

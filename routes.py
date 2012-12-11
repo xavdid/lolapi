@@ -176,17 +176,27 @@ class ChampPrint(tornado.web.RequestHandler):
             asdf = getChamp('akali')
             b = Akali(asdf)
             self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
+            b.items.append('nullmagic')
+            # b.doItems()
             for s in b.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
             
             i = 0
+            cooldown = 0
             while (b.hp()>0):
                 self.write(breaks(1))
-                self.write('%s has %i HP left' %(a.name,a.hp()))
-                self.write('%s has %i HP left' %(b.name,b.hp()))
-                d = damageCalc(a,b,'aa')
-                b.hp((-d))
-                self.write(str(i))
+                self.write('%s has %i HP left\n' %(a.name,a.hp()))
+                self.write('%s has %i HP left\n' %(b.name,b.hp()))
+                if (a.mana()>=a.c['moves']['q']['cost_val'][5] and cooldown == 0):
+                    d = damageCalc(a,b,'q')
+                    b.hp((-d))
+                    cooldown = a.c['moves']['q']['cd'][5]
+                else: 
+                    self.write('unable to cast')
+                    cooldown -=1
+                a.regen()
+                b.regen()
+                self.write(" tick "+str(i))
                 i+=1
 
 

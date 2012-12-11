@@ -110,7 +110,34 @@ class Champion(object):
         return self.cur_stats['armor']
     def mr(self):
         return self.cur_stats['mr']
+    def regen(self):
+        self.hpRegen()
+        self.secRegen()
+    def hpRegen(self):
+        if self.cur_stats['hp'] < self.cur_stats['hp_max']:
+            self.hp(self.cur_stats['hpreg']/5)
+    def secRegen(self):
+        if self.cur_stats['mana'] < self.cur_stats['mana_max']:
+            self.hp(self.cur_stats['manareg']/5)
 
+class Ninja(Champion):
+    def __init__(self,cd):
+        super(Ninja, self).__init__(cd)
+
+    def setBase(self):
+        # self.cur_stats 
+        self.cur_stats = {'hp':0,'hp_max':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
+            'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,'cdr':0}
+
+    def energy(self, val=0):
+        if val:
+            self.cur_stats['energy']+=val
+        else: 
+            return self.cur_stats['energy']
+
+    def secRegen(self):
+        if self.cur_stats['energy'] < 200:
+            self.energy(5)
 
 # this doesn't reattach to the dictfields because it's not needed in the accessing
 class Ahri(Champion):
@@ -122,20 +149,15 @@ class Ahri(Champion):
         return moveMult(self.c['moves']['q']['damage_2'],5,self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_2_ratio'])
     
 
-class Akali(Champion):
+class Akali(Ninja):
     def __init__(self,cd):
         super(Akali, self).__init__(cd)
-
-    def setBase(self):
-        # self.cur_stats 
-        self.cur_stats = {'hp':0,'hp_max':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
-            'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0}
 
     def w(self):
         return 0
 
     def e(self):
-        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b']) 
+        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b'])
 
 class Alistar(Champion):
     def __init__(self,cd):
