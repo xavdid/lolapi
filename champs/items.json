@@ -26,7 +26,7 @@
          "effect":{
             "ad":10,
             "hp":80,
-            "lifesteal":0.3
+            "lifesteal":0.03
          }
       },
       "brutalizer":{
