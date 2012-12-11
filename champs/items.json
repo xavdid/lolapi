@@ -8,7 +8,7 @@
          "tag":"ruby",
          "name":"Ruby Crystal",
          "effect":{
-            "hp":180
+            "hp_max":180
          }
       },
       "amp_tome":{
@@ -25,7 +25,7 @@
          "name":"Doran's Blade",
          "effect":{
             "ad":10,
-            "hp":80,
+            "hp_max":80,
             "lifesteal":0.03
          }
       },

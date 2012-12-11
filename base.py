@@ -52,7 +52,7 @@ class Champion(object):
 
     def setBase(self):
         # self.cur_stats 
-        self.cur_stats = {'hp':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
+        self.cur_stats = {'hp':0,'hp_max':0,'mana_max':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,'cdr':0}
 
     def resetStats(self):
@@ -94,12 +94,18 @@ class Champion(object):
         return self.cur_stats['ap']
     def hp(self, val=0):
         if (val):
-            self.cur_stats['hp'] -= val
-        return self.cur_stats['hp']
+            self.cur_stats['hp'] += val
+            if self.cur_stats['hp'] > self.cur_stats['hp_max']:
+                self.cur_stats['hp'] = self.cur_stats['hp_max']
+        else:
+            return self.cur_stats['hp']
     def mana(self, val=0):
         if (val):
-            self.cur_stats['mana'] -= val
-        return self.cur_stats['mana']
+            self.cur_stats['mana'] += val
+            if self.cur_stats['mana'] > self.cur_stats['mana_max']:
+                self.cur_stats['mana'] = self.cur_stats['mana_max']
+        else:
+            return self.cur_stats['mana']
     def armor(self):
         return self.cur_stats['armor']
     def mr(self):
@@ -122,7 +128,7 @@ class Akali(Champion):
 
     def setBase(self):
         # self.cur_stats 
-        self.cur_stats = {'hp':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
+        self.cur_stats = {'hp':0,'hp_max':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0}
 
     def w(self):

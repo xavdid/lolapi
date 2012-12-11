@@ -45,13 +45,13 @@ def prepare(response):
 
 def statMult(c, stat, level):
     ats = False
-    if stat == 'hp':
+    if (stat == 'hp' or stat == 'hp_max'):
         base = c['hp_base']
         gain = c['hp_ratio']
     elif stat == 'hpreg':
         base = c['hpreg_base']
         gain = c['hpreg_ratio']
-    elif stat == 'mana':
+    elif (stat == 'mana' or stat == 'mana_max'):
         base = c['mana_base']
         gain = c['mana_ratio']
     elif stat == 'manareg':
