@@ -163,6 +163,8 @@ class ChampPrint(tornado.web.RequestHandler):
             # self.write("<br>Items:")
             # self.write(breaks(2))
         #i could have one of these rows in the base class so we could see stuff like this?
+
+        #these lines are for testing each ability- they're not vital right now
             # self.write("%s's Q does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.q(),a.c['moves']['q']['damage_type'],a.cur_stats['ap'],a.c['moves']['q']['damage_ratio_type'].upper()))
             # self.write("<br><br>")
             # self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats['ap'],a.c['moves']['e']['damage_ratio_type'].upper()))
@@ -173,31 +175,33 @@ class ChampPrint(tornado.web.RequestHandler):
             # a.items.append('brutalizer')
             # a.doItems()
 
-            asdf = getChamp('akali')
-            b = Akali(asdf)
-            self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
-            b.items.append('nullmagic')
-            # b.doItems()
-            for s in b.cur_stats:
-                self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
-            
-            i = 0
-            cooldown = 0
-            while (b.hp()>0):
-                self.write(breaks(1))
-                self.write('%s has %i HP left\n' %(a.name,a.hp()))
-                self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                if (a.mana()>=a.c['moves']['q']['cost_val'][5] and cooldown == 0):
-                    d = damageCalc(a,b,'q')
-                    b.hp((-d))
-                    cooldown = a.c['moves']['q']['cd'][5]
-                else: 
-                    self.write('unable to cast')
-                    cooldown -=1
-                a.regen()
-                b.regen()
-                self.write(" tick "+str(i))
-                i+=1
+        # # initializing second champ, only needed for fighting
+        #     asdf = getChamp('akali')
+        #     b = Akali(asdf)
+        #     self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
+        #     b.items.append('nullmagic')
+        #     # b.doItems()
+        #     for s in b.cur_stats:
+        #         self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
+        
+        # # where they fight!
+        #     i = 0
+        #     cooldown = 0
+        #     while (b.hp()>0):
+        #         self.write(breaks(1))
+        #         self.write('%s has %i HP left\n' %(a.name,a.hp()))
+        #         self.write('%s has %i HP left\n' %(b.name,b.hp()))
+        #         if (a.mana()>=a.c['moves']['q']['cost_val'][5] and cooldown == 0):
+        #             d = damageCalc(a,b,'q')
+        #             b.hp((-d))
+        #             cooldown = a.c['moves']['q']['cd'][5]
+        #         else: 
+        #             self.write('unable to cast')
+        #             cooldown -=1
+        #         a.regen()
+        #         b.regen()
+        #         self.write(" tick "+str(i))
+        #         i+=1
 
 
 
@@ -217,7 +221,25 @@ class ChampPrint(tornado.web.RequestHandler):
         #this is for printing the whole response
             # self.write(c)
 
+@route('/champions/show/(\w+)/json')
+class ChampPrintJson(tornado.web.RequestHandler):
+    def get(self,input):
+        c = getChamp(input)
+        try:
+            if (input == 'akali'):
+                a = Akali(c)
+            elif (input == 'ahri'):
+                a = Ahri(c)
+            elif (input == 'alistar'):
+                a = Alistar(c)
+            else:
+                assert(1==0)
+        except AssertionError:
+            self.write('Champion not found')
 
+        else:
+            self.write(c)
+            
 @route('/patch')
 class PatchHandler(tornado.web.RequestHandler):
     def get(self):
