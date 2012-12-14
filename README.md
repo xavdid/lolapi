@@ -16,4 +16,4 @@ To see it run, follow a few easy steps:
 
 How it works
 ------------
-For now, ignore everything in <champions/add> as it's just placeholder code (routes.py, lines 12-136. The meat is in <champions/show>, which writes out the stats based on level and items. If right now it's just missing a bunch of champs and items, but that's just a matter of data input, so I'll get it done. Honestly, if you can write some inheritence and lines 161+162 (in <routes.py>), we'll be golden. 
+For now, ignore everything in `champions/add` as it's just placeholder code (routes.py, lines 12-136. The meat is in `champions/show`, which writes out the stats based on level and items. If right now it's just missing a bunch of champs and items, but that's just a matter of data input, so I'll get it done. Honestly, if you can write some inheritence and lines 161+162 (in `routes.py`), we'll be golden. 
