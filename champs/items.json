@@ -41,7 +41,7 @@
          "name":"Brawler's Gloves",
          "effect":{
             "crit_chance":0.08
-         },
+         }
       },
       "chainvest":{
          "cost":720,
@@ -130,10 +130,7 @@
       "machete":{
          "cost":300,
          "tag":"machete",
-         "name":"Hunter's Machete",
-         "effect":{
-            "on_hit":""//FIX
-         }
+         "name":"Hunter's Machete"
       },
       "sword":{
          "cost":400,
@@ -175,7 +172,7 @@
             "ad":25
          }
       },
-      // PROSPECTOR'S BLADE/RING
+
       "recurve":{
          "cost":950,
          "tag":"recurve",
@@ -214,9 +211,8 @@
          "name":"Sightstone",
          "effect":{
             "hp_max":100
-            //GHOST WARD
          }
-      }
+      },
       "brutalizer":{
          "cost":1337,
          "tag:":"brutalizer",
@@ -229,8 +225,7 @@
                "type":"flat"
             }
          }
-      },
-      
+      }
    },
    "_id":"50a48af333458ac02b3da868",
    "name":"items",

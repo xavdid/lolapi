@@ -136,9 +136,9 @@ def damageCalc(c1,c2,dtype):
         # print 'armor second '+str(de)
         d = damageMult(c1.ad(),de)
     elif (dt == 'magic'):
-        d = damageMult(c1.q(),c2.mr())
-    elif (dt == 'true'):
-        d = damageMult(c1.q(),c2.mr())
+        d = damageMult(c1.useAbility('q'),c2.mr())
+    # elif (dt == 'true'):
+        # d = damageMult(c1.q(),c2.mr())
     return d
   
 def typeFigurer(c1,dtype):

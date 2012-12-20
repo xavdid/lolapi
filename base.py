@@ -52,9 +52,9 @@ class Champion(object):
 
     def setBase(self):
         # self.cur_stats 
-        self.cur_stats = {'hp':0,'hp_max':0,'mana_max':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
+        self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'onhit':{}}
+                'cdr':0,'damage_block':0,'onhit':{},'buffs':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0}}
 
     def resetStats(self):
         for s in self.cur_stats:
@@ -72,23 +72,39 @@ class Champion(object):
                         self.cur_stats['perc_'+s] += i['items'][e]['effect'][s]['val']
                 else:
                     self.cur_stats[s] += i['items'][e]['effect'][s]
+    def useAbility(self,ability,dtype=False):
+        if ability == 'i':
+            damage = self.i()
+        elif ability == 'q':
+            damage = self.q()
+        elif ability == 'w':
+            damage = self.w()
+        elif ability == 'e':
+            damage = self.e()
+        elif ability == 'r':
+            damage = self.r()
+        self.setCooldowns(ability)
 
     def q(self, dtype = False):
         if (dtype):
             return self.c['moves']['q']['damage_type']
-        else: return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio']) 
+        else:
+            return moveMult(self.c['moves']['q']['damage'],5,self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio']) 
     def w(self, dtype = False):
         if (dtype):
             return self.c['moves']['w']['damage_type']
-        else: return moveMult(self.c['moves']['w']['damage'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio']) 
+        else:
+            return moveMult(self.c['moves']['w']['damage'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio']) 
     def e(self, dtype = False):
         if (dtype):
             return self.c['moves']['e']['damage_type']
-        else: return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio']) 
+        else:
+            return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio']) 
     def r(self, dtype = False):
         if (dtype):
             return self.c['moves']['r']['damage_type']
-        else: return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats[self.c['moves']['r']['damage_ratio_type']],self.c['moves']['r']['damage_ratio'])
+        else:
+            return moveMult(self.c['moves']['r']['damage'],3,self.cur_stats[self.c['moves']['r']['damage_ratio_type']],self.c['moves']['r']['damage_ratio'])
     def ad(self):
         return self.cur_stats['ad']
     def ap(self):
@@ -98,6 +114,8 @@ class Champion(object):
             self.cur_stats['hp'] += val
             if self.cur_stats['hp'] > self.cur_stats['hp_max']:
                 self.cur_stats['hp'] = self.cur_stats['hp_max']
+            elif self.cur_stats['hp'] < 0:
+                self.cur_stats['hp'] = 0
         else:
             return self.cur_stats['hp']
     def mana(self, val=0):
@@ -105,21 +123,35 @@ class Champion(object):
             self.cur_stats['mana'] += val
             if self.cur_stats['mana'] > self.cur_stats['mana_max']:
                 self.cur_stats['mana'] = self.cur_stats['mana_max']
+            elif self.cur_stats['mana'] < 0:
+                self.cur_stats['mana'] = 0
         else:
             return self.cur_stats['mana']
     def armor(self):
         return self.cur_stats['armor']
     def mr(self):
         return self.cur_stats['mr']
-    def regen(self):
+    def tick(self):
         self.hpRegen()
-        self.secRegen()
+        self.secondaryRegen()
+        self.cooldowns()
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
             self.hp(self.cur_stats['hpreg']/5)
-    def secRegen(self):
+    def secondaryRegen(self): #this is named as such as to account for fury and energy so I don't always need to redefine tick()
         if self.cur_stats['mana'] < self.cur_stats['mana_max']:
             self.hp(self.cur_stats['manareg']/5)
+    def cooldowns(self):
+        for a in self.cur_stats['cooldowns']:
+            if self.cur_stats['cooldowns'][a] > 0:
+               self.cur_stats['cooldowns'][a] -= 1
+    def setCooldowns(self,ability):
+        self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cd'][5]
+    def canCast(self,ability):
+        if (self.c['moves'][ability]['cost_val'][5] < self.cur_stats[self.c['moves'][ability]['cost_type']] and self.cur_stats['cooldowns'][ability] == 0):
+            return True
+        else:
+            return False
 
 class Ninja(Champion):
     def __init__(self,cd):
@@ -127,13 +159,17 @@ class Ninja(Champion):
 
     def setBase(self):
         # self.cur_stats 
-        self.cur_stats = {'hp':0,'hp_max':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
+        self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'onhit':{}}
+                'cdr':0,'damage_block':0,'onhit':{},'buffs':{}}
 
     def energy(self, val=0):
         if val:
             self.cur_stats['energy']+=val
+            if self.cur_stats['energy'] > 200:
+                self.cur_stats['energy'] = 200
+            elif self.cur_stats['energy'] < 0:
+                self.cur_stats['energy'] = 0
         else: 
             return self.cur_stats['energy']
 

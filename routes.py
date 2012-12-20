@@ -8,6 +8,7 @@ import tornado.web
 from tornado.web import asynchronous
 from tornado.gen import engine, Task
 from pprint import pprint
+from secrets import patchkey
 
 @route('/champions/add')
 class ChampAdd(tornado.web.RequestHandler):
@@ -160,6 +161,9 @@ class ChampPrint(tornado.web.RequestHandler):
             self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
             for s in a.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+
+            self.write(str(a.canCast('q')))
+
             # self.write("<br>Items:")
             # self.write(breaks(2))
         #i could have one of these rows in the base class so we could see stuff like this?
@@ -185,23 +189,22 @@ class ChampPrint(tornado.web.RequestHandler):
         #         self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
         
         # # where they fight!
-        #     i = 0
-        #     cooldown = 0
-        #     while (b.hp()>0):
-        #         self.write(breaks(1))
-        #         self.write('%s has %i HP left\n' %(a.name,a.hp()))
-        #         self.write('%s has %i HP left\n' %(b.name,b.hp()))
-        #         if (a.mana()>=a.c['moves']['q']['cost_val'][5] and cooldown == 0):
-        #             d = damageCalc(a,b,'q')
-        #             b.hp((-d))
-        #             cooldown = a.c['moves']['q']['cd'][5]
-        #         else: 
-        #             self.write('unable to cast')
-        #             cooldown -=1
-        #         a.regen()
-        #         b.regen()
-        #         self.write(" tick "+str(i))
-        #         i+=1
+            i = 0
+            cooldown = 0
+            while (b.hp()>0):
+                self.write(breaks(1))
+                self.write('%s has %i HP left\n' %(a.name,a.hp()))
+                self.write('%s has %i HP left\n' %(b.name,b.hp()))
+                if (a.canCast('q')):
+                    d = damageCalc(a,b,'q')
+                    b.hp((-d))
+                    a.mana(-a.c['moves']['q'][
+                else: 
+                    self.write('unable to cast')
+                a.tick()
+                b.tick()
+                self.write(" tick "+str(i))
+                i+=1
 
 
 
@@ -240,27 +243,30 @@ class ChampPrintJson(tornado.web.RequestHandler):
         else:
             self.write(c)
             
-@route('/patch')
+@route('/patch/(\w+)')
 class PatchHandler(tornado.web.RequestHandler):
-    def get(self):
-        co = pymongo.Connection()
-        db = co.loldb
-        champlist = ['items','ahri','akali','alistar']
-        for n in champlist: 
-            js = open('champs/%s.json' %n)
-            c = json.load(js)
-            if (n=='items'):
-                ch = ItemBase()
-                ch.items = c
-                ch.name = 'items'
-            else:
-                ch = ChampBase()
-                attach(ch,c)
+    def get(self,input):
+        if input == patchkey:
+            co = pymongo.Connection()
+            db = co.loldb
+            champlist = ['items','ahri','akali','alistar']
+            for n in champlist: 
+                js = open('champs/%s.json' %n)
+                c = json.load(js)
+                if (n=='items'):
+                    ch = ItemBase()
+                    ch.items = c
+                    ch.name = 'items'
+                else:
+                    ch = ChampBase()
+                    attach(ch,c)
 
-            db.champs.update({'name':n},ch.to_python(),True)
-            # pprint(ch.to_python())
-            js.close()
-        self.write('patched to v 1.0.3.1!')
+                db.champs.update({'name':n},ch.to_python(),True)
+                # pprint(ch.to_python())
+                js.close()
+            self.write('patched to v 1.0.3.1!')
+        else:
+            self.write('secret key not included, patching failed')
         # js = open('champs/items.json')
         # js2 = open('champs/ahri.json')
         # c = json.load(js)
