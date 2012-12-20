@@ -3,20 +3,76 @@
       "ItemBase"
    ],
    "items":{
-      "ruby":{
-         "cost":475,
-         "tag":"ruby",
-         "name":"Ruby Crystal",
-         "effect":{
-            "hp_max":180
-         }
-      },
       "amp_tome":{
          "cost":435,
          "tag":"amp_tome",
          "name":"Amplification Tome",
          "effect":{
             "ap":20
+         }
+      },
+      "bfsword":{
+         "cost":1550,
+         "tag":"bfsword",
+         "name":"B. F. Sword",
+         "effect":{
+            "ad":45
+         }
+      },
+      "blastingwand":{
+         "cost":860,
+         "tag":"blastingwand",
+         "name":"Blasting Wand",
+         "effect":{
+            "ap":40
+         }
+      },
+      "boots":{
+         "cost":350,
+         "tag":"boots",
+         "name":"Boots of Speed",
+         "effect":{
+            "ms":25
+         }
+      },
+      "critgloves":{
+         "cost":400,
+         "tag":"brawlgloves",
+         "name":"Brawler's Gloves",
+         "effect":{
+            "crit_chance":0.08
+         },
+      },
+      "chainvest":{
+         "cost":720,
+         "tag":"chainvest",
+         "name":"Chain Vest",
+         "effect":{
+            "armor":40
+         }
+      },
+      "agilitycloak":{
+         "cost":730,
+         "tag":"agilitycloak",
+         "name":"Cloak of Agility",
+         "effect":{
+            "crit_chance":0.15
+         }
+      },
+      "cloth":{
+         "cost":300,
+         "tag":"cloth",
+         "name":"Cloth Armor",
+         "effect":{
+            "armor":15
+         }
+      },
+      "dagger":{
+         "cost":400,
+         "tag":"dagger",
+         "name":"Dagger",
+         "effect":{
+            "as":0.12
          }
       },
       "dblade":{
@@ -26,9 +82,141 @@
          "effect":{
             "ad":10,
             "hp_max":80,
-            "lifesteal":0.03
+            "on_hit":{
+               "hp_regen":5
+            }
          }
       },
+      "dring":{
+         "cost":475,
+         "tag":"dring",
+         "name":"Doran's Ring",
+         "effect":{
+            "hp_max":80,
+            "ap":15,
+            "mana_regen":3,
+            "on_minion_kill":{
+               "mana":5
+            }
+         }
+      },
+      "dshield":{
+         "cost":475,
+         "tag":"dshield",
+         "name":"Doran's Shield",
+         "effect":{
+            "hp_max":80,
+            "armor":5,
+            "hp_regen":5,
+            "damage_block":6
+         }
+      },
+      "faeriecharm":{
+         "cost":180,
+         "tag":"faeriecharm",
+         "name":"Faerie Charm",
+         "effect":{
+            "mana_regen":3
+         }
+      },
+      "giantbelt":{
+         "cost":1000,
+         "tag":"giantbelt",
+         "name":"Giant's Belt",
+         "effect":{
+            "hp_max":400
+         }
+      },
+      "machete":{
+         "cost":300,
+         "tag":"machete",
+         "name":"Hunter's Machete",
+         "effect":{
+            "on_hit":""//FIX
+         }
+      },
+      "sword":{
+         "cost":400,
+         "tag":"sword",
+         "name":"Long Sword",
+         "effect":{
+            "ad":10
+         }
+      },
+      "rod":{
+         "cost":1600,
+         "tag":"rod",
+         "name":"Needlessly Large Rod",
+         "effect":{
+            "ap":80
+         }
+      },
+      "negatron":{
+         "cost":810,
+         "tag":"negatron",
+         "name":"Negatron Cloak",
+         "effect":{
+            "mr":45
+         }
+      },
+      "nullmagic":{
+         "cost":400,
+         "tag":"nullmagic",
+         "name":"Null-Magic Mantle",
+         "effect":{
+            "mr":20
+         }
+      },
+      "pickaxe":{
+         "cost":875,
+         "tag":"pickaxe",
+         "name":"Pickaxe",
+         "effect":{
+            "ad":25
+         }
+      },
+      // PROSPECTOR'S BLADE/RING
+      "recurve":{
+         "cost":950,
+         "tag":"recurve",
+         "name":"Recurve Bow",
+         "effect":{
+            "as":0.3
+         }
+      },
+      "rejuvebead":{
+         "cost":180,
+         "tag":"rejuvebead",
+         "name":"Rejuvination Bead",
+         "effect":{
+            "hp_regen":5
+         }
+      },
+      "ruby":{
+         "cost":475,
+         "tag":"ruby",
+         "name":"Ruby Crystal",
+         "effect":{
+            "hp_max":180
+         }
+      },
+      "sapphire":{
+         "cost":400,
+         "tag":"sapphire",
+         "name":"Sapphire Crystal",
+         "effect":{
+            "mana_max":200
+         }
+      },
+      "sightstone":{
+         "cost":700,
+         "tag":"sightstone",
+         "name":"Sightstone",
+         "effect":{
+            "hp_max":100
+            //GHOST WARD
+         }
+      }
       "brutalizer":{
          "cost":1337,
          "tag:":"brutalizer",
@@ -42,14 +230,7 @@
             }
          }
       },
-      "nullmagic":{
-         "cost":400,
-         "tag":"nullmagic",
-         "name":"Null-Magic Mantle",
-         "effect":{
-            "mr":20
-         }
-      }
+      
    },
    "_id":"50a48af333458ac02b3da868",
    "name":"items",
