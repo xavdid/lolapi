@@ -180,31 +180,31 @@ class ChampPrint(tornado.web.RequestHandler):
             # a.doItems()
 
         # # initializing second champ, only needed for fighting
-        #     asdf = getChamp('akali')
-        #     b = Akali(asdf)
-        #     self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
-        #     b.items.append('nullmagic')
-        #     # b.doItems()
-        #     for s in b.cur_stats:
-        #         self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
+            asdf = getChamp('akali')
+            b = Akali(asdf)
+            self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
+            b.items.append('nullmagic')
+            # b.doItems()
+            for s in b.cur_stats:
+                self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
         
         # # where they fight!
             i = 0
             cooldown = 0
-            while (b.hp()>0):
-                self.write(breaks(1))
-                self.write('%s has %i HP left\n' %(a.name,a.hp()))
-                self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                if (a.canCast('q')):
-                    d = damageCalc(a,b,'q')
-                    b.hp((-d))
-                    a.mana(-a.c['moves']['q'][
-                else: 
-                    self.write('unable to cast')
-                a.tick()
-                b.tick()
-                self.write(" tick "+str(i))
-                i+=1
+            # while (b.hp()>0):
+            self.write(breaks(1))
+            self.write('%s has %i HP left\n' %(a.name,a.hp()))
+            self.write('%s has %i HP left\n' %(b.name,b.hp()))
+            if (a.canCast('q')):
+                d = damageCalc(a,b,'q')
+                b.hp((-d))
+                a.mana(-a.c['moves']['q']['cost_val'])
+            else: 
+                self.write('unable to cast')
+            a.tick()
+            b.tick()
+            self.write(" tick "+str(i))
+            i+=1
 
 
 

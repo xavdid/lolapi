@@ -10,7 +10,6 @@ from dictshield.document import Document
 from dictshield.fields import (StringField, DictField, BooleanField, IntField, FloatField)
 from dictshield.fields.compound import ListField
 from functions import *
-# from functions import moveMult, statMult, attach, getChamp, itemMult
 from pprint import pprint
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -18,11 +17,11 @@ define("port", default=8888, help="run on the given port", type=int)
 class route(object):
     _routes = []
 
-    def __init__(self, uri, name=None):
+    def __init__(self,uri,name=None):
         self._uri = uri
         self.name = name
 
-    def __call__(self, _handler):
+    def __call__(self,_handler):
         name = self.name and self.name or _handler.__name__
         self._routes.append(tornado.web.url(self._uri, _handler, name=name))
         return _handler
@@ -42,7 +41,7 @@ class ItemBase(Document):
     name = StringField(required = True)
 
 class Champion(object):
-    def __init__(self, cd):
+    def __init__(self,cd):
         self.c = cd
         self.cur_stats = {}
         self.setBase()
@@ -55,6 +54,7 @@ class Champion(object):
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
                 'cdr':0,'damage_block':0,'onhit':{},'buffs':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0}}
+        # pprint(self.cur_stats)
 
     def resetStats(self):
         for s in self.cur_stats:
@@ -109,7 +109,7 @@ class Champion(object):
         return self.cur_stats['ad']
     def ap(self):
         return self.cur_stats['ap']
-    def hp(self, val=0):
+    def hp(self,val=0):
         if (val):
             self.cur_stats['hp'] += val
             if self.cur_stats['hp'] > self.cur_stats['hp_max']:
@@ -118,7 +118,7 @@ class Champion(object):
                 self.cur_stats['hp'] = 0
         else:
             return self.cur_stats['hp']
-    def mana(self, val=0):
+    def mana(self,val=0):
         if (val):
             self.cur_stats['mana'] += val
             if self.cur_stats['mana'] > self.cur_stats['mana_max']:
@@ -135,20 +135,23 @@ class Champion(object):
         self.hpRegen()
         self.secondaryRegen()
         self.cooldowns()
+        # print 'normal tick'
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
-            self.hp(self.cur_stats['hpreg']/5)
+            self.hp(self.cur_stats['hpreg']/5.0)
     def secondaryRegen(self): #this is named as such as to account for fury and energy so I don't always need to redefine tick()
         if self.cur_stats['mana'] < self.cur_stats['mana_max']:
-            self.hp(self.cur_stats['manareg']/5)
+            self.hp(self.cur_stats['manareg']/5.0)
     def cooldowns(self):
+        # pprint(self.cur_stats)
         for a in self.cur_stats['cooldowns']:
             if self.cur_stats['cooldowns'][a] > 0:
                self.cur_stats['cooldowns'][a] -= 1
     def setCooldowns(self,ability):
         self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cd'][5]
     def canCast(self,ability):
-        if (self.c['moves'][ability]['cost_val'][5] < self.cur_stats[self.c['moves'][ability]['cost_type']] and self.cur_stats['cooldowns'][ability] == 0):
+        # pprint(self.c['moves'][ability]['cost_val'][5])
+        if (self.c['moves'][ability]['cost_val'] < self.cur_stats[self.c['moves'][ability]['cost_type']] and self.cur_stats['cooldowns'][ability] == 0):
             return True
         else:
             return False
@@ -161,7 +164,7 @@ class Ninja(Champion):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'onhit':{},'buffs':{}}
+                'cdr':0,'damage_block':0,'onhit':{},'buffs':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0}}
 
     def energy(self, val=0):
         if val:
@@ -172,8 +175,12 @@ class Ninja(Champion):
                 self.cur_stats['energy'] = 0
         else: 
             return self.cur_stats['energy']
-
-    def secRegen(self):
+    # def tick(self):
+        # self.hpRegen()
+        # self.secondaryRegen()
+        # self.cooldowns()
+        # print 'ninja tick!'
+    def secondaryRegen(self):
         if self.cur_stats['energy'] < 200:
             self.energy(5)
 

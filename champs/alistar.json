@@ -75,7 +75,7 @@
             100.0,
             100.0,
             100.0
-         ]
+         ],
          "damage_reduction_type":"percent",
          "desc":"Active: Alistar instantly gains bonus attack damage and takes reduced physical and magic damage for 7 seconds. If he is under crowd control effects at the time of casting, they are also removed."
       },

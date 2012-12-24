@@ -75,7 +75,11 @@ def statMult(c, stat, level):
     elif stat == 'ms':
         base = c['ms']
         gain = 0
-    else: return 0
+    elif stat== 'cooldowns':
+        return {'i':0,'q':0,'w':0,'e':0,'r':0}
+    elif (stat == 'buffs' or 'stat' == 'onhit'): #these are indivitually defined since they're dicts and shouldn't be set to 0
+        return {}
+    else: return 0 
 
     if (ats): value = (base*(1.0+(gain*(level-1))))
     else: value = (base+(gain*level))
@@ -87,33 +91,6 @@ def moveMult(base, rank, stat, ratio, stat2='',ratio2=0):
     if (stat2):
         damage += (stat2*ratio2)
     return damage
-
-def itemMult(stat, c): #i don't think i need this anymore
-    if stat == 'hp':
-        targ = c['hp_base']
-        gain = c['hp_ratio']
-    elif stat == 'hpreg':
-        base = c['hpreg_base']
-        gain = c['hpreg_ratio']
-    elif stat == 'mana':
-        base = c['mana_base']
-        gain = c['mana_ratio']
-    elif stat == 'manareg':
-        base = c['manareg_base']
-        gain = c['manareg_ratio']
-    elif stat == 'ad':
-        base = c['ad_base']
-        gain = c['ad_ratio']
-    elif stat == 'as':
-        base = c['as_base']
-        gain = c['as_ratio']
-        ats = True
-    elif stat == 'armor':
-        base = c['armor_base']
-        gain = c['armor_ratio']
-    elif stat == 'mr':
-        base = c['mr_base']
-        gain = c['mr_ratio']
 
 def damageMult(damage,defense):
     # print damage

@@ -29,7 +29,14 @@
             35
          ],
          "cd":6.0,
-         "cost_val":60,
+         "cost_val":[
+            0,
+            60,
+            60,
+            60,
+            60,
+            60
+         ],
          "range":600,
          "cost_type":"energy",
          "damage_type":"magic",
@@ -57,7 +64,14 @@
             1.5,
             1.0
          ],
-         "cost_val":1,
+         "cost_val":[
+            0,
+            1,
+            1,
+            1,
+            1,
+            1
+         ],
          "range":800,
          "cost_type":"essence of shadow",
          "damage_type":"magic",

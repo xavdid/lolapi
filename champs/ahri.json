@@ -64,7 +64,14 @@
         95.0,
         80.0
       ],
-      "cost_val":100,
+      "cost_val":[
+        0,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
       "range":550,
       "cost_type":"mana",
       "damage_type":"magic",
