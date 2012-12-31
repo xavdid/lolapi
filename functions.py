@@ -48,13 +48,13 @@ def statMult(c, stat, level):
     if (stat == 'hp' or stat == 'hp_max'):
         base = c['hp_base']
         gain = c['hp_ratio']
-    elif stat == 'hpreg':
+    elif stat == 'hp_regen':
         base = c['hpreg_base']
         gain = c['hpreg_ratio']
     elif (stat == 'mana' or stat == 'mana_max'):
         base = c['mana_base']
         gain = c['mana_ratio']
-    elif stat == 'manareg':
+    elif stat == 'mana_regen':
         base = c['manareg_base']
         gain = c['manareg_ratio']
     elif stat == 'ad':

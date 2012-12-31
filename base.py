@@ -51,7 +51,7 @@ class Champion(object):
 
     def setBase(self):
         # self.cur_stats 
-        self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hpreg':0,'mana':0,'manareg':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
+        self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hp_regen':0,'mana':0,'mana_regen':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
                 'cdr':0,'damage_block':0,'onhit':{},'buffs':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0}}
         # pprint(self.cur_stats)
@@ -84,6 +84,7 @@ class Champion(object):
         elif ability == 'r':
             damage = self.r()
         self.setCooldowns(ability)
+        return damage
 
     def q(self, dtype = False):
         if (dtype):
@@ -138,10 +139,11 @@ class Champion(object):
         # print 'normal tick'
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
-            self.hp(self.cur_stats['hpreg']/5.0)
+            self.hp(self.cur_stats['hp_regen']/5.0)
+            print 'regened '+str(self.cur_stats['hp_regen']/5.0)
     def secondaryRegen(self): #this is named as such as to account for fury and energy so I don't always need to redefine tick()
         if self.cur_stats['mana'] < self.cur_stats['mana_max']:
-            self.hp(self.cur_stats['manareg']/5.0)
+            self.mana(self.cur_stats['mana_regen']/5.0)
     def cooldowns(self):
         # pprint(self.cur_stats)
         for a in self.cur_stats['cooldowns']:
@@ -151,9 +153,14 @@ class Champion(object):
         self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cd'][5]
     def canCast(self,ability):
         # pprint(self.c['moves'][ability]['cost_val'][5])
-        if (self.c['moves'][ability]['cost_val'] < self.cur_stats[self.c['moves'][ability]['cost_type']] and self.cur_stats['cooldowns'][ability] == 0):
+        # print 'cost: '+str(self.c['moves'][ability]['cost_val'][5])
+        # print 'current mana: '+str(self.cur_stats[self.c['moves'][ability]['cost_type']])
+        # print 'cooldown: '+str(self.cur_stats['cooldowns'][ability])
+        if (self.c['moves'][ability]['cost_val'][5] < self.cur_stats[self.c['moves'][ability]['cost_type']] and self.cur_stats['cooldowns'][ability] == 0):
+            # print 'True'
             return True
         else:
+            # print 'False'
             return False
 
 class Ninja(Champion):
@@ -162,7 +169,7 @@ class Ninja(Champion):
 
     def setBase(self):
         # self.cur_stats 
-        self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hpreg':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
+        self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hp_regen':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
                 'cdr':0,'damage_block':0,'onhit':{},'buffs':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0}}
 

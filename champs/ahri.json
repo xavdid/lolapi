@@ -133,7 +133,14 @@
         5.0
       ],
       "damage_max_ratio":0.4,
-      "cost_val":60,
+      "cost_val":[
+        0,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
       "damage_max_ratio_type":"ap",
       "cost_type":"mana",
       "damage_type":"magic",

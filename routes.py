@@ -156,7 +156,9 @@ class ChampPrint(tornado.web.RequestHandler):
         else:
         #this is for nice output
             # self.write(c)
-            a.items.append('brutalizer')
+            a.items.append('faeriecharm')
+            a.items.append('faeriecharm')
+            # a.items.append('brutalizer')
             a.doItems()
             self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
             for s in a.cur_stats:
@@ -191,20 +193,26 @@ class ChampPrint(tornado.web.RequestHandler):
         # # where they fight!
             i = 0
             cooldown = 0
-            # while (b.hp()>0):
-            self.write(breaks(1))
-            self.write('%s has %i HP left\n' %(a.name,a.hp()))
-            self.write('%s has %i HP left\n' %(b.name,b.hp()))
-            if (a.canCast('q')):
-                d = damageCalc(a,b,'q')
-                b.hp((-d))
-                a.mana(-a.c['moves']['q']['cost_val'])
-            else: 
-                self.write('unable to cast')
-            a.tick()
-            b.tick()
-            self.write(" tick "+str(i))
-            i+=1
+            while (True):
+            # while(i<900):
+                self.write(breaks(1))
+                self.write('%s has %i HP left\n' %(a.name,a.hp()))
+                self.write('%s has %i HP left\n' %(b.name,b.hp()))
+                if (a.canCast('q')):
+                    d = damageCalc(a,b,'q')
+                    b.hp(-(d))
+                    a.mana(-(a.c['moves']['q']['cost_val'][5]))
+                else: 
+                    self.write('unable to cast')
+            # exit condition!
+                if b.hp()<=0:
+                    break
+                a.tick()
+                b.tick()
+                self.write(" tick "+str(i))
+                i+=1
+                # hp = b.hp()
+                print 'hp:'+str(b.hp())
 
 
 
