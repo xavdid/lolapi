@@ -47,6 +47,7 @@ class Champion(object):
         self.setBase()
         self.resetStats()
         self.items = []  
+        self.ninja = False
         attach(self,cd)
 
     def setBase(self):
@@ -71,7 +72,10 @@ class Champion(object):
                     else:
                         self.cur_stats['perc_'+s] += i['items'][e]['effect'][s]['val']
                 else:
-                    self.cur_stats[s] += i['items'][e]['effect'][s]
+                    try:
+                        self.cur_stats[s] += i['items'][e]['effect'][s]
+                    except KeyError:
+                        continue
     def useAbility(self,ability,dtype=False):
         if ability == 'i':
             damage = self.i()
@@ -84,6 +88,10 @@ class Champion(object):
         elif ability == 'r':
             damage = self.r()
         self.setCooldowns(ability)
+        if self.ninja:
+            self.energy(-(self.c['moves'][ability]['cost_val'][5]))
+        else:
+            self.mana(-(self.c['moves'][ability]['cost_val'][5]))
         return damage
 
     def q(self, dtype = False):
@@ -166,6 +174,7 @@ class Champion(object):
 class Ninja(Champion):
     def __init__(self,cd):
         super(Ninja, self).__init__(cd)
+        self.ninja = True
 
     def setBase(self):
         # self.cur_stats 

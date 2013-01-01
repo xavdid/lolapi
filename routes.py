@@ -193,15 +193,15 @@ class ChampPrint(tornado.web.RequestHandler):
         # # where they fight!
             i = 0
             cooldown = 0
-            while (True):
-            # while(i<900):
+            # while (True):
+            while(i<300):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
                 if (a.canCast('q')):
                     d = damageCalc(a,b,'q')
                     b.hp(-(d))
-                    a.mana(-(a.c['moves']['q']['cost_val'][5]))
+                    # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 else: 
                     self.write('unable to cast')
             # exit condition!
