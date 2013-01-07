@@ -189,6 +189,9 @@ class ChampPrint(tornado.web.RequestHandler):
             b = Akali(asdf)
             self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
             b.items.append('nullmagic')
+            b.items.append('giantbelt')
+            b.items.append('giantbelt')
+            b.items.append('giantbelt')
             # b.doItems()
             for s in b.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
@@ -197,16 +200,17 @@ class ChampPrint(tornado.web.RequestHandler):
             i = 0
             cooldown = 0
             # while (True):
-            while(i<300):
+            while(i<700):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                if (a.canCast('q')):
-                    d = damageCalc(a,b,'q')
+                if (a.canCast('e')):
+                    d = damageCalc(a,b,'e')
                     b.hp(-(d))
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 else: 
                     self.write('unable to cast')
+                    print 'mana when can\'t cast: '+str(a.cur_stats['mana'])
             # exit condition!
                 if b.hp()<=0:
                     break
@@ -215,7 +219,7 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(" tick "+str(i))
                 i+=1
                 # hp = b.hp()
-                # print 'hp:'+str(b.hp())
+                # print 'mana:'+str(a.mana())+' tick: '+str(i)
 
 
 

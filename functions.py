@@ -102,8 +102,8 @@ def damageMult(damage,defense):
         multi = 2.0-(100/(100+defense))
     return damage*multi
 
-def damageCalc(c1,c2,dtype):
-    dt = typeFigurer(c1,dtype)
+def damageCalc(c1,c2,ability):
+    dt = typeFigurer(c1,ability)
     # penlist = ['flat_armor_pen','perc_armor_pen','flat_magic_pen','perc_magic_pen']
     if (dt == 'physical'):
         de = c2.armor()
@@ -113,7 +113,7 @@ def damageCalc(c1,c2,dtype):
         # print 'armor second '+str(de)
         d = damageMult(c1.ad(),de)
     elif (dt == 'magic'):
-        d = damageMult(c1.useAbility('q'),c2.mr())
+        d = damageMult(c1.useAbility(ability),c2.mr())
     # elif (dt == 'true'):
         # d = damageMult(c1.q(),c2.mr())
     return d

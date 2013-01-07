@@ -76,6 +76,8 @@ class Champion(object):
                         self.cur_stats[s] += i['items'][e]['effect'][s]
                     except KeyError:
                         continue
+        self.cur_stats['hp'] = self.cur_stats['hp_max']
+        # self.cur_stats['mana'] = self.cur_stats['mana_max'] #FIX FOR NINJA
     def useAbility(self,ability,dtype=False):
         if ability == 'i':
             damage = self.i()
@@ -88,6 +90,8 @@ class Champion(object):
         elif ability == 'r':
             damage = self.r()
         self.setCooldowns(ability)
+        if 'on' in self.c['moves'][ability]:
+            self.c['moves'][ability]['on'] = True
         if self.ninja:
             self.energy(-(self.c['moves'][ability]['cost_val'][5]))
         else:
@@ -169,6 +173,8 @@ class Champion(object):
             return True
         else:
             # print 'False'
+            if 'on' in self.c['moves'][ability]:
+                self.c['moves'][ability]['on'] = False
             return False
 
 class Ninja(Champion):
@@ -214,22 +220,35 @@ class Akali(Ninja):
     def __init__(self,cd):
         super(Akali, self).__init__(cd)
 
-    def w(self):
+    def w(self, dtype = False):
         return 0
 
-    def e(self):
-        return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b'])
+    def e(self, dtype = False):
+        if (dtype):
+            return self.c['moves']['e']['damage_type']
+        else:
+            return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b'])
 
 class Alistar(Champion):
     def __init__(self,cd):
         super(Alistar, self).__init__(cd)
 
-    def e(self):
-        return moveMult(self.c['moves']['e']['self_heal_val'],5,self.cur_stats[self.c['moves']['e']['heal_ratio_type']],self.c['moves']['e']['self_heal_ratio'])
+    def e(self, dtype = False):
+        if (dtype):
+            return self.c['moves']['e']['damage_type']
+        else:
+            return moveMult(self.c['moves']['e']['self_heal_val'],5,self.cur_stats[self.c['moves']['e']['heal_ratio_type']],self.c['moves']['e']['self_heal_ratio'])
 
 class Amumu(Champion):
     def __init__(self,cd):
         super(Amumu, self).__init__(cd)
+
+    def w(self, dtype = False):
+        if (dtype):
+            return self.c['moves']['w']['damage_type']
+        else:
+            return moveMult(self.c['moves']['w']['damage_b'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type_b']],self.c['moves']['w']['damage_ratio_b'])+self.c['moves']['w']['damage'][5]
+
 
     def tick(self):
         self.hpRegen()

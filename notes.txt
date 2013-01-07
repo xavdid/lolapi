@@ -7,3 +7,4 @@ Gotta do something with cooldowns. will need to wait until the timeline is writt
 everything with energy is hard coded to 200. i'll worry about increasing it through runes and whatever later
 
 akali doesn't consume the mark from her q right now. that'll be an onhit maybe? that's the lazy way to do it. could just put it on the timeline
+
