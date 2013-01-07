@@ -148,7 +148,7 @@ class Champion(object):
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
             self.hp(self.cur_stats['hp_regen']/5.0)
-            print 'regened '+str(self.cur_stats['hp_regen']/5.0)
+            # print 'regened '+str(self.cur_stats['hp_regen']/5.0)
     def secondaryRegen(self): #this is named as such as to account for fury and energy so I don't always need to redefine tick()
         if self.cur_stats['mana'] < self.cur_stats['mana_max']:
             self.mana(self.cur_stats['mana_regen']/5.0)
@@ -225,4 +225,17 @@ class Alistar(Champion):
         super(Alistar, self).__init__(cd)
 
     def e(self):
-        return moveMult(self.c['moves']['e']['self_heal_val'],5,self.cur_stats[self.c['moves']['e']['heal_ratio_type']],self.c['moves']['e']['self_heal_ratio']) 
+        return moveMult(self.c['moves']['e']['self_heal_val'],5,self.cur_stats[self.c['moves']['e']['heal_ratio_type']],self.c['moves']['e']['self_heal_ratio'])
+
+class Amumu(Champion):
+    def __init__(self,cd):
+        super(Amumu, self).__init__(cd)
+
+    def tick(self):
+        self.hpRegen()
+        self.secondaryRegen()
+        if (self.c['moves']['w']['on']):
+            self.mana(-8)
+        self.cooldowns()
+
+

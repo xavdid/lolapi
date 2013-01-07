@@ -5,7 +5,10 @@
   "moves":{
     "i":{
       "name":"Essence Theft",
-      "desc":"Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp."
+      "desc":"Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp.",
+      "effect":{
+        "spellvamp":0.35
+      }
     },
     "q":{
       "damage_2_ratio_type":"ap",
@@ -60,8 +63,11 @@
         165.0
       ],
       "cd":[
+        0.0,
         110.0,
         95.0,
+        80.0,
+        80.0,
         80.0
       ],
       "cost_val":[
@@ -102,14 +108,18 @@
       "range":975,
       "cost_type":"mana",
       "damage_type":"magic",
-      "duration":[
-        0,
-        1.0,
-        1.25,
-        1.5,
-        1.75,
-        2.0
-      ],
+      "effect":{
+        "taunt":{
+          "duration":[
+            0,
+            1.0,
+            1.25,
+            1.5,
+            1.75,
+            2.0
+          ]
+        }
+      },
       "desc":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
       "damage_ratio":0.35
     },
