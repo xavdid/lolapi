@@ -79,6 +79,13 @@ class Champion(object):
         self.cur_stats['hp'] = self.cur_stats['hp_max']
         # self.cur_stats['mana'] = self.cur_stats['mana_max'] #FIX FOR NINJA
     def useAbility(self,ability,dtype=False):
+        if 'on' in self.c['moves'][ability]: #marks whether or not the ability is a toggle
+            if self.c['moves'][ability]['on'] = True: #toggling off
+                self.c['moves'][ability]['on'] = False
+                self.setCooldowns(ability)
+            elif self.c['moves'][ability]['on'] = False: #toggling on
+                self.c['moves'][ability]['on'] = True
+
         if ability == 'i':
             damage = self.i()
         elif ability == 'q':
@@ -89,9 +96,9 @@ class Champion(object):
             damage = self.e()
         elif ability == 'r':
             damage = self.r()
-        self.setCooldowns(ability)
-        if 'on' in self.c['moves'][ability]:
-            self.c['moves'][ability]['on'] = True
+        if 'on' not in self.c['moves'][ability]:
+            self.setCooldowns(ability)
+        
         if self.ninja:
             self.energy(-(self.c['moves'][ability]['cost_val'][5]))
         else:
