@@ -85,32 +85,40 @@ class Champion(object):
         # self.cur_stats['mana'] = self.cur_stats['mana_max'] #FIX FOR NINJA
 
     def q(self, dtype = False):
+        response = {}
         if (dtype):
-            return self.c['moves']['q']['damage_type']
+            response['dtype'] = self.c['moves']['q']['damage_type']
         else:
-            return moveMult(self.c['moves']['q']['damage'],self.cur_stats['ability_rank']['q'],
-                self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio']) 
+            response['damage'] = moveMult(self.c['moves']['q']['damage'],self.cur_stats['ability_rank']['q'],
+                self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio'])
+        return response
 
     def w(self, dtype = False):
+        response = {}
         if (dtype):
-            return self.c['moves']['w']['damage_type']
+            response['dtype'] = self.c['moves']['w']['damage_type']
         else:
-            return moveMult(self.c['moves']['w']['damage'],self.cur_stats['ability_rank']['w'],
-                self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio']) 
+            response['damage'] = moveMult(self.c['moves']['w']['damage'],self.cur_stats['ability_rank']['w'],
+                self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio'])
+        return response 
 
     def e(self, dtype = False):
+        response = {}
         if (dtype):
-            return self.c['moves']['e']['damage_type']
+            response['dtype'] = self.c['moves']['e']['damage_type']
         else:
-            return moveMult(self.c['moves']['e']['damage'],self.cur_stats['ability_rank']['e'],
-                self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio']) 
+            response['damage'] = moveMult(self.c['moves']['e']['damage'],self.cur_stats['ability_rank']['e'],
+                self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'])
+        return response
 
     def r(self, dtype = False):
+        response = {}
         if (dtype):
-            return self.c['moves']['r']['damage_type']
+            response['dtype'] = self.c['moves']['r']['damage_type']
         else:
-            return moveMult(self.c['moves']['r']['damage'],self.cur_stats['ability_rank']['r'],
+            response['damage'] = moveMult(self.c['moves']['r']['damage'],self.cur_stats['ability_rank']['r'],
                 self.cur_stats[self.c['moves']['r']['damage_ratio_type']],self.c['moves']['r']['damage_ratio'])
+        return response
 
     def ad(self):
         return self.cur_stats['ad']
@@ -170,13 +178,13 @@ class Champion(object):
             else: #spend mana
                 self.mana(-(self.c['moves'][ability]['cost_val'][self.cur_stats['ability_rank'][ability]]))
 
-        if 'on' in self.c['moves'][ability]: #decides whether or not the ability is a toggle one
-            if self.c['moves'][ability]['on'] == True: #toggling off
-                self.c['moves'][ability]['on'] = False
-                self.setCooldowns(ability)
-            elif self.c['moves'][ability]['on'] == False: #toggling on|| technically some abilities have a cooldown when you turn them on but i wont sweat that now
-                self.c['moves'][ability]['on'] = True
-        else: self.setCooldowns(ability)
+            if 'on' in self.c['moves'][ability]: #decides whether or not the ability is a toggle one
+                if self.c['moves'][ability]['on'] == True: #toggling off
+                    self.c['moves'][ability]['on'] = False
+                    self.setCooldowns(ability)
+                elif self.c['moves'][ability]['on'] == False: #toggling on|| technically some abilities have a cooldown when you turn them on but i wont sweat that now
+                    self.c['moves'][ability]['on'] = True
+            else: self.setCooldowns(ability)
 
         if ability == 'i':
             damage = self.i()
@@ -225,10 +233,16 @@ class Ahri(Champion):
         super(Ahri, self).__init__(cd)
 
     # also may want to change this response from an int to json?
-    def q2(self):
-        return moveMult(self.c['moves']['q']['damage_2'],self.cur_stats['ability_rank']['q'],
+    def q(self, dypte = False):
+        response = {}
+        if (dtype):
+            response['dtype'] = self.c['moves']['q']['damage_type']
+        else:
+            response['damage'] = moveMult(self.c['moves']['q']['damage'],self.cur_stats['ability_rank']['q'],
+                self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio'])
+            response['damage2'] = moveMult(self.c['moves']['q']['damage_2'],self.cur_stats['ability_rank']['q'],
             self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_2_ratio'])
-    
+        return response
 
 class Akali(Ninja):
     def __init__(self,cd):

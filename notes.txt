@@ -9,3 +9,5 @@ everything with energy is hard coded to 200. i'll worry about increasing it thro
 akali doesn't consume the mark from her q right now. that'll be an onhit maybe? that's the lazy way to do it. could just put it on the timeline
 
 i'm passing letters a lot. I could be passing the functions, which would /mostly/ work? i'm hesistant to do it unless I go through and figure out who it wouldn't work for. 
+
+the way i'm changing abilities now (1/13/13), there'll be a big ugly function that applies any key that could return with the ability. that's the generic case though, so that's what it is. 
