@@ -54,7 +54,7 @@ class Champion(object):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hp_regen':0,'mana':0,'mana_regen':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'onhit':{},'buffs':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0}}
+                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
         # pprint(self.cur_stats)
 
     def resetStats(self):
@@ -80,10 +80,10 @@ class Champion(object):
         # self.cur_stats['mana'] = self.cur_stats['mana_max'] #FIX FOR NINJA
     def useAbility(self,ability,dtype=False):
         if 'on' in self.c['moves'][ability]: #marks whether or not the ability is a toggle
-            if self.c['moves'][ability]['on'] = True: #toggling off
+            if self.c['moves'][ability]['on'] == True: #toggling off
                 self.c['moves'][ability]['on'] = False
                 self.setCooldowns(ability)
-            elif self.c['moves'][ability]['on'] = False: #toggling on
+            elif self.c['moves'][ability]['on'] == False: #toggling on|| technically some abilities have a cooldown when you turn them on but i wont sweat that now
                 self.c['moves'][ability]['on'] = True
 
         if ability == 'i':
@@ -193,7 +193,7 @@ class Ninja(Champion):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hp_regen':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'onhit':{},'buffs':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0}}
+                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
 
     def energy(self, val=0):
         if val:
@@ -204,11 +204,7 @@ class Ninja(Champion):
                 self.cur_stats['energy'] = 0
         else: 
             return self.cur_stats['energy']
-    # def tick(self):
-        # self.hpRegen()
-        # self.secondaryRegen()
-        # self.cooldowns()
-        # print 'ninja tick!'
+
     def secondaryRegen(self):
         if self.cur_stats['energy'] < 200:
             self.energy(5)
@@ -234,7 +230,8 @@ class Akali(Ninja):
         if (dtype):
             return self.c['moves']['e']['damage_type']
         else:
-            return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b'])
+            return moveMult(self.c['moves']['e']['damage'],5,self.cur_stats[self.c['moves']['e']['damage_ratio_type']],
+                self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b'])
 
 class Alistar(Champion):
     def __init__(self,cd):
@@ -254,7 +251,8 @@ class Amumu(Champion):
         if (dtype):
             return self.c['moves']['w']['damage_type']
         else:
-            return moveMult(self.c['moves']['w']['damage_b'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type_b']],self.c['moves']['w']['damage_ratio_b'])+self.c['moves']['w']['damage'][5]
+            return (moveMult(self.c['moves']['w']['damage_b'],5,self.cur_stats[self.c['moves']['w']['damage_ratio_type_b']],self.c['moves']['w']['damage_ratio_b']) + 
+                self.c['moves']['w']['damage'][5])
 
 
     def tick(self):

@@ -47,7 +47,7 @@ class ChampAdd(tornado.web.RequestHandler):
         i = {}
         i['name'] = 'Cursed Touch'
         i['desc'] = 'Amumu\'s attacks reduce the target\'s magic resistance by 15/25/35 for 3 seconds. The debuff doesn\'t stack but it refreshes with every attack.'
-        i['onhit'] = {'mr':[-15,-25,-35]}
+        i['on_hit'] = {'mr':[-15,-25,-35]}
         # i['damage_ratio'] = 1
         # i['damage ratio type'] = 'level'
         # i['damage_ratio_b'] = .1
@@ -204,8 +204,8 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                if (a.canCast('e')):
-                    d = damageCalc(a,b,'e')
+                if (a.canCast('w')):
+                    d = damageCalc(a,b,'w')
                     b.hp(-(d))
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 else: 
