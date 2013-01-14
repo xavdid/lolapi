@@ -84,40 +84,15 @@ class Champion(object):
         self.cur_stats['hp'] = self.cur_stats['hp_max']
         # self.cur_stats['mana'] = self.cur_stats['mana_max'] #FIX FOR NINJA
 
-    def q(self, dtype = False):
+    def getAbility(self, ability):
         response = {}
-        if (dtype):
-            response['dtype'] = self.c['moves']['q']['damage_type']
-        else:
-            response['damage'] = moveMult(self.c['moves']['q']['damage'],self.cur_stats['ability_rank']['q'],
-                self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio'])
-        return response
-
-    def w(self, dtype = False):
-        response = {}
-        if (dtype):
-            response['dtype'] = self.c['moves']['w']['damage_type']
-        else:
-            response['damage'] = moveMult(self.c['moves']['w']['damage'],self.cur_stats['ability_rank']['w'],
-                self.cur_stats[self.c['moves']['w']['damage_ratio_type']],self.c['moves']['w']['damage_ratio'])
-        return response 
-
-    def e(self, dtype = False):
-        response = {}
-        if (dtype):
-            response['dtype'] = self.c['moves']['e']['damage_type']
-        else:
-            response['damage'] = moveMult(self.c['moves']['e']['damage'],self.cur_stats['ability_rank']['e'],
-                self.cur_stats[self.c['moves']['e']['damage_ratio_type']],self.c['moves']['e']['damage_ratio'])
-        return response
-
-    def r(self, dtype = False):
-        response = {}
-        if (dtype):
-            response['dtype'] = self.c['moves']['r']['damage_type']
-        else:
-            response['damage'] = moveMult(self.c['moves']['r']['damage'],self.cur_stats['ability_rank']['r'],
-                self.cur_stats[self.c['moves']['r']['damage_ratio_type']],self.c['moves']['r']['damage_ratio'])
+        if 'damage' in self.c['moves'][ability]:
+            response['damage'] = moveMult(self.c['moves'][ability]['damage'],self.cur_stats['ability_rank'][ability],
+                self.cur_stats[self.c['moves'][ability]['damage_ratio_type']],self.c['moves'][ability]['damage_ratio'])
+            response['dtype'] = self.c['moves'][ability]['damage_type']
+        elif 'effect' in self.c['moves'][ability]:
+            for k in self.c['moves']['w']['effect']:
+                response[k] = self.c['moves'][ability]['effect'][k][self.cur_stats['ability_rank'][ability]]
         return response
 
     def ad(self):
@@ -171,7 +146,7 @@ class Champion(object):
                 self.c['moves'][ability]['on'] = False
             return False
 
-    def useAbility(self,ability):
+    def useAbility(self,ability,*args):
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
                 self.energy(-(self.c['moves'][ability]['cost_val'][self.cur_stats['ability_rank'][ability]]))
@@ -186,16 +161,12 @@ class Champion(object):
                     self.c['moves'][ability]['on'] = True
             else: self.setCooldowns(ability)
 
-        if ability == 'i':
-            damage = self.i()
-        elif ability == 'q':
-            damage = self.q()
-        elif ability == 'w':
-            damage = self.w()
-        elif ability == 'e':
-            damage = self.e()
-        elif ability == 'r':
-            damage = self.r()
+        abi = self.getAbility(ability) #gets the dictionary of the ability (any combination of damage, cc, steriod, etc)
+        for k in abi:
+            if k == 'damage':
+                for targ in args:
+                    d = damageCalc(self,targ,abi)
+                    targ.hp(-d)
 
 class Ninja(Champion):
     def __init__(self,cd):
@@ -241,15 +212,12 @@ class Ahri(Champion):
             response['damage'] = moveMult(self.c['moves']['q']['damage'],self.cur_stats['ability_rank']['q'],
                 self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio'])
             response['damage2'] = moveMult(self.c['moves']['q']['damage_2'],self.cur_stats['ability_rank']['q'],
-            self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_2_ratio'])
+                self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_2_ratio'])
         return response
 
 class Akali(Ninja):
     def __init__(self,cd):
         super(Akali, self).__init__(cd)
-
-    def w(self, dtype = False):
-        return 0
 
     def e(self, dtype = False):
         if (dtype):
@@ -263,11 +231,15 @@ class Alistar(Champion):
         super(Alistar, self).__init__(cd)
 
     def e(self, dtype = False):
+        response = {}
         if (dtype):
-            return self.c['moves']['e']['damage_type']
+            pass
         else:
-            return moveMult(self.c['moves']['e']['self_heal_val'],self.cur_stats['ability_rank']['e'],
+            response['self_heal'] = moveMult(self.c['moves']['e']['self_heal_val'],self.cur_stats['ability_rank']['e'],
                 self.cur_stats[self.c['moves']['e']['heal_ratio_type']],self.c['moves']['e']['self_heal_ratio'])
+            response['ally_heal'] = moveMult(self.c['moves']['e']['ally_heal_val'],self.cur_stats['ability_rank']['e'],
+                self.cur_stats[self.c['moves']['e']['ally_heal_ratio_type']],self.c['moves']['e']['ally_heal_ratio'])
+            return response
 
 class Amumu(Champion):
     def __init__(self,cd):
@@ -280,7 +252,6 @@ class Amumu(Champion):
             return (moveMult(self.c['moves']['w']['damage_b'],self.cur_stats['ability_rank']['w'],
                 self.cur_stats[self.c['moves']['w']['damage_ratio_type_b']],self.c['moves']['w']['damage_ratio_b']) 
                 + self.c['moves']['w']['damage'][self.cur_stats['ability_rank']['w']])
-
 
     def tick(self):
         self.hpRegen()

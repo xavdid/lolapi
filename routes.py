@@ -204,9 +204,7 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                if (a.canCast('w')):
-                    d = damageCalc(a,b,'w')
-                    b.hp(-(d))
+                a.useAbility('q',b)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 else: 
                     self.write('unable to cast')

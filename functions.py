@@ -105,34 +105,17 @@ def damageMult(damage,defense):
     return damage*multi
 
 def damageCalc(c1,c2,ability):
-    dt = typeFigurer(c1,ability)
     # penlist = ['flat_armor_pen','perc_armor_pen','flat_magic_pen','perc_magic_pen']
-    if (dt == 'physical'):
+    if (ability['dtype'] == 'physical'):
         de = c2.armor()
-        # pprint(c1.c)
-        # print 'armor first: '+str(c2.armor())
         de -= c1.cur_stats['flat_armor_pen']
-        # print 'armor second '+str(de)
-        d = damageMult(c1.ad(),de)
-    elif (dt == 'magic'):
-        d = damageMult(c1.useAbility(ability),c2.mr())
+    elif (ability['dtype'] == 'magic'):
+        # magic pen, blah blah
+        de = c2.mr()
+    da = damageMult(ability['damage'],de)
     # elif (dt == 'true'):
         # d = damageMult(c1.q(),c2.mr())
-    return d
-  
-def typeFigurer(c1,dtype):
-    if (dtype == 'aa'):
-        return 'physical'
-    elif (dtype == 'i'):
-        return c1.i(True)
-    elif (dtype == 'q'):
-        return c1.q(True)
-    elif (dtype == 'w'):
-        return c1.w(True)
-    elif (dtype == 'e'):
-        return c1.e(True)
-    elif (dtype == 'r'):
-        return c1.r(True)
+    return da
 
 def getChamp(input):
     c = pymongo.Connection()
