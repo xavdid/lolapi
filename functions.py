@@ -79,9 +79,9 @@ def statMult(c, stat, level):
         # return {'i':0,'q':0,'w':0,'e':0,'r':0}
     # elif (stat == 'status' or stat == 'on_hit'): #these are indivitually defined since they're dicts and shouldn't be set to 0
         # return {}
-    elif (isinstance(stat,dict)):
+    elif (isinstance(stat,dict) or isinstance(stat,list)):
         pass
-    else: return 0 #honesly, this is bad because i end up with things being 0 that shoudln't. namely, dictionaries. 
+    else: return False #honesly, this is bad because i end up with things being 0 that shoudln't. namely, dictionaries. 
 
     if (ats): value = (base*(1.0+(gain*(level-1))))
     else: value = (base+(gain*level))

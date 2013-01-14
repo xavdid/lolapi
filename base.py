@@ -64,7 +64,8 @@ class Champion(object):
 
     def resetStats(self):
         for s in self.cur_stats:
-            self.cur_stats[s] = statMult(self.c['stats'],s,18)
+            if isinstance(self.cur_stats[s],int):
+                self.cur_stats[s] = statMult(self.c['stats'],s,18)
 
     def doItems(self):
         i = getChamp('items')
@@ -146,7 +147,7 @@ class Champion(object):
                 self.c['moves'][ability]['on'] = False
             return False
 
-    def useAbility(self,ability,*args):
+    def useAbility(self,ability,handler,*args): #REMOVE HANDLER LATER, IT'S JUST FOR TESTING I THINK
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
                 self.energy(-(self.c['moves'][ability]['cost_val'][self.cur_stats['ability_rank'][ability]]))
@@ -159,14 +160,18 @@ class Champion(object):
                     self.setCooldowns(ability)
                 elif self.c['moves'][ability]['on'] == False: #toggling on|| technically some abilities have a cooldown when you turn them on but i wont sweat that now
                     self.c['moves'][ability]['on'] = True
-            else: self.setCooldowns(ability)
+            else: 
+                self.setCooldowns(ability)
 
-        abi = self.getAbility(ability) #gets the dictionary of the ability (any combination of damage, cc, steriod, etc)
-        for k in abi:
-            if k == 'damage':
-                for targ in args:
-                    d = damageCalc(self,targ,abi)
-                    targ.hp(-d)
+            abi = self.getAbility(ability) #gets the dictionary of the ability (any combination of damage, cc, steriod, etc)
+            for k in abi:
+                if k == 'damage':
+                    for targ in args:
+                        d = damageCalc(self,targ,abi)
+                        targ.hp(-d)
+        else:
+            # print 'can\'t cast now, sorry'
+            handler.write(' ||can\'t cast now, sorry|| ')
 
 class Ninja(Champion):
     def __init__(self,cd):

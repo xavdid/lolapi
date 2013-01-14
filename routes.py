@@ -167,7 +167,7 @@ class ChampPrint(tornado.web.RequestHandler):
             for s in a.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
 
-            self.write(str(a.canCast('q')))
+            # self.write(str(a.canCast('q')))
 
             # self.write("<br>Items:")
             # self.write(breaks(2))
@@ -183,7 +183,7 @@ class ChampPrint(tornado.web.RequestHandler):
             # a.items.append('dblade')
             # a.items.append('brutalizer')
             # a.doItems()
-
+            self.write(breaks(1))
         # # initializing second champ, only needed for fighting
             asdf = getChamp('akali')
             b = Akali(asdf)
@@ -200,15 +200,15 @@ class ChampPrint(tornado.web.RequestHandler):
             i = 0
             cooldown = 0
             # while (True):
-            while(i<700):
+            while(i<100):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                a.useAbility('q',b)
+                a.useAbility('e',self,b)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
-                else: 
-                    self.write('unable to cast')
-                    print 'mana when can\'t cast: '+str(a.cur_stats['mana'])
+                # else: 
+                    # self.write('unable to cast')
+                    # print 'mana when can\'t cast: '+str(a.cur_stats['mana'])
             # exit condition!
                 if b.hp()<=0:
                     break
