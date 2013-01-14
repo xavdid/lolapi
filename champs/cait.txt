@@ -1,0 +1,93 @@
+Array
+(
+    [query] => Array
+        (
+            [pages] => Array
+                (
+                    [117773] => Array
+                        (
+                            [pageid] => 117773
+                            [ns] => 0
+                            [title] => Caitlyn
+                            [revisions] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [*] => {{C-top}}{{champion info|Caitlyn}}
+'''Caitlyn, the Sheriff of Piltover''' is a [[champion]] in [[League of Legends]].<ref>[http://www.leagueoflegends.com/champions/51/caitlyn_the_sheriff_of_piltover Caitlyn's profile page] at [[leagueoflegends.com]]</ref>
+
+== Abilities ==
+{{Ability|P
+|name=Headshot
+|icon=Headshot.jpg
+|description=Every {{pp|3|8th|7th|6th|1|7|13}} basic attack deals 150% damage to a champion or 250% damage to a minion or monster. Attacks from brush increase the attack counter by two instead of one.
+}}
+{{Ability|Q
+|name=Piltover Peacemaker
+|icon=PiltoverPeacemaker.jpg
+|description={{sbc|Active:}} After a 1 second casting time, Caitlyn fires a projectile that deals physical damage to all targets it passes through. Each target hit after the first takes 10% less damage, down to a minimum of 50% of the original damage.
+|leveling ={{lc|Physical damage}} {{ap|20|60|100|140|180}} {{ability scaling|(+ 130% AD)}}
+{{lc|Minimal damage}} {{ap|10|30|50|70|90}} {{ability scaling|(+ 65% AD)}}
+|cooldown={{ap|10|9|8|7|6}}
+|cost={{ap|50|60|70|80|90}}
+|costtype=mana
+|range=1300
+}}
+{{Ability|W
+|name=Yordle Snap Trap
+|icon=YordleSnapTrap.jpg
+|description={{sbc|Active:}} Caitlyn sets a 135-diameter area of effect trap at target location, visible to both allies and enemies. When an enemy champion enters the area, the trap immobilizes and deals magic damage to the enemy over 1.5 seconds, and also reveals the enemy for 9 seconds.
+
+Caitlyn can set up to 3 traps and each lasts 4 minutes. If she sets a trap when three are already placed, the oldest trap will deactivate itself.
+|leveling ={{lc|Magic damage}} {{ap|80|130|180|230|280}} {{ability scaling|(+ 60% AP)}}
+|cooldown={{ap|20|17|14|11|8}}
+|cost=50
+|costtype=mana
+|range=800
+}}
+{{Ability|E
+|name=90 Caliber Net
+|icon=90CaliberNet.jpg
+|description={{sbc|Active:}} Caitlyn fires a net, knocking herself back 400 units in the opposite direction. The net will deal magic damage and slow the first enemy hit by 50%.
+|leveling ={{lc|Magic damage}} {{ap|80|130|180|230|280}} {{ability scaling|(+ 80% AP)}}
+{{lc|Slow duration}} {{ap|1|1.25|1.5|1.75|2}}
+|cooldown={{ap|18|16|14|12|10}}
+|cost=75
+|costtype=mana
+|range=1000
+}}
+{{Ability|R
+|name=Ace in the Hole
+|icon=AceintheHole.jpg
+|description={{sbc|Active:}} Caitlyn channels for 1 second, providing vision of target enemy champion. She then fires a 3200-speed homing projectile to the target, dealing physical damage to the first enemy champion it hits. Other enemy champions can intercept the bullet.
+|leveling={{lc|Physical damage}} {{ap|250|475|700}} {{ability scaling|(+ 200% bonus AD)}}
+|cooldown={{ap|90|75|60}}
+|cost=100
+|costtype=mana
+|range={{ap|2000|2500|3000}}
+}}
+
+== References ==
+{{Reflist}}
+{{C-bot}}
+
+
+[[cs:Caitlyn]]
+[[de:Caitlyn]]
+[[fr:Caitlyn]]
+[[pl:Caitlyn]]
+[[zh:凯特琳]]
+[[Category:2011 release]]
+[[Category:Season One release]]
+[[Category:Released Champion]]
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
