@@ -137,9 +137,9 @@ class Champion(object):
             if self.cur_stats['cooldowns'][a] > 0:
                self.cur_stats['cooldowns'][a] -= 1
     def setCooldowns(self,ability):
-        self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cd'][self.cur_stats['ability_rank'][ability]]
+        self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability): #this will at some point need to account for being silenced
-        if (self.c['moves'][ability]['cost_val'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.c['moves'][ability]['cost_type']] 
+        if (self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.c['moves'][ability]['cost_type']] 
             and self.cur_stats['cooldowns'][ability] == 0):
                 return True
         else:
@@ -150,9 +150,9 @@ class Champion(object):
     def useAbility(self,ability,handler,*args): #REMOVE HANDLER LATER, IT'S JUST FOR TESTING I THINK
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
-                self.energy(-(self.c['moves'][ability]['cost_val'][self.cur_stats['ability_rank'][ability]]))
+                self.energy(-(self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]]))
             else: #spend mana
-                self.mana(-(self.c['moves'][ability]['cost_val'][self.cur_stats['ability_rank'][ability]]))
+                self.mana(-(self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]]))
 
             if 'on' in self.c['moves'][ability]: #decides whether or not the ability is a toggle one
                 if self.c['moves'][ability]['on'] == True: #toggling off

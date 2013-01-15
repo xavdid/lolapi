@@ -10,7 +10,7 @@
          "damage":6,
          "damage_ratio":1,
          "damage_ratio_b":0.1,
-         "desc":"Each time Alistar casts a spell, he gains the ability to move through units and will deal damage to nearby enemy units and structures for about 3 seconds. Trample deals double damage to minions and monsters. "
+         "description":"Each time Alistar casts a spell, he gains the ability to move through units and will deal damage to nearby enemy units and structures for about 3 seconds. Trample deals double damage to minions and monsters. "
       },
       "q":{
          "name":"Pulverize",
@@ -23,7 +23,7 @@
             195,
             240
          ],
-         "cd":[
+         "cooldown":[
             0,
             17.0,
             16.0,
@@ -31,7 +31,7 @@
             14.0,
             13.0
          ],
-         "cost_val":[
+         "cost":[
             0,
             70.0,
             80.0,
@@ -42,12 +42,12 @@
          "range":182.5,
          "cost_type":"mana",
          "damage_type":"magic",
-         "desc":"Active: Alistar smashes the ground where he is standing, dealing damage to all surrounding enemies and knocking them up for 1 second, additionally stunning them upon landing for 0.5 seconds.",
+         "description":"Active: Alistar smashes the ground where he is standing, dealing damage to all surrounding enemies and knocking them up for 1 second, additionally stunning them upon landing for 0.5 seconds.",
          "damage_ratio":0.5
       },
       "r":{
          "name":"Unbreakable Will",
-         "cd":[
+         "cooldown":[
             0,
             120.0,
             100.0,
@@ -74,7 +74,7 @@
                0.7
             ]
          },
-         "cost_val":[
+         "cost":[
             0,
             100.0,
             100.0,
@@ -83,7 +83,7 @@
             100.0
          ],
          "damage_reduction_type":"percent",
-         "desc":"Active: Alistar instantly gains bonus attack damage and takes reduced physical and magic damage for 7 seconds. If he is under crowd control effects at the time of casting, they are also removed."
+         "description":"Active: Alistar instantly gains bonus attack damage and takes reduced physical and magic damage for 7 seconds. If he is under crowd control effects at the time of casting, they are also removed."
       },
       "e":{
          "self_heal_val":[
@@ -97,7 +97,7 @@
          "name":"Triumphant Roar",
          "ally_heal_ratio":0.1,
          "range":287.5,
-         "cd":[
+         "cooldown":[
             0,
             12.0,
             12.0,
@@ -108,7 +108,7 @@
          "self_heal_ratio":0.2,
          "heal_ratio_type":"ap",
          "cost_type":"mana",
-         "cost_val":[
+         "cost":[
             0,
             40.0,
             50.0,
@@ -124,10 +124,10 @@
             75.0,
             90.0
          ],
-         "desc":"Active: Alistar instantly restores health to himself, healing nearby friendly units for half of that amount. The cooldown of this ability is reduced by 2 seconds each time a nearby enemy unit dies."
+         "description":"Active: Alistar instantly restores health to himself, healing nearby friendly units for half of that amount. The cooldown of this ability is reduced by 2 seconds each time a nearby enemy unit dies."
       },
       "w":{
-         "cost_val":[
+         "cost":[
             0,
             80.0,
             75.0,
@@ -145,7 +145,7 @@
             220.0,
             275.0
          ],
-         "cd":[
+         "cooldown":[
             0,
             17.0,
             16.0,
@@ -157,7 +157,7 @@
          "range":600,
          "cost_type":"mana",
          "damage_type":"magic",
-         "desc":"Active: Alistar dashes to an enemy's position and rams them, dealing damage and knocking them back a set distance over 1 second, also briefly immobilizing them.",
+         "description":"Active: Alistar dashes to an enemy's position and rams them, dealing damage and knocking them back a set distance over 1 second, also briefly immobilizing them.",
          "damage_ratio":0.7
       }
    },

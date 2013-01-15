@@ -5,7 +5,7 @@
   "moves":{
     "i":{
       "name":"Essence Theft",
-      "desc":"Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp.",
+      "description":"Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp.",
       "effect":{
         "spellvamp":0.35
       }
@@ -13,7 +13,7 @@
     "q":{
       "damage_2_ratio_type":"ap",
       "damage_2_ratio":0.33,
-      "cost_val":[
+      "cost":[
         0,
         70,
         75,
@@ -31,7 +31,7 @@
         115.0,
         140.0
       ],
-      "cd":[
+      "cooldown":[
         0.0,
         6.0,
         6.0,
@@ -51,7 +51,7 @@
       "range":880,
       "cost_type":"mana",
       "damage_type":"magic",
-      "desc":"Active: Ahri sends out an orb in a line in front of her and then pulls it back, dealing magic damage on the way out and true damage on the way back.",
+      "description":"Active: Ahri sends out an orb in a line in front of her and then pulls it back, dealing magic damage on the way out and true damage on the way back.",
       "damage_ratio":0.33
     },
     "r":{
@@ -63,7 +63,7 @@
         125.0,
         165.0
       ],
-      "cd":[
+      "cooldown":[
         0.0,
         110.0,
         95.0,
@@ -71,7 +71,7 @@
         80.0,
         80.0
       ],
-      "cost_val":[
+      "cost":[
         0,
         100,
         100,
@@ -83,7 +83,7 @@
       "cost_type":"mana",
       "damage_type":"magic",
       "dash_range":450,
-      "desc":"Active: Ahri dashes towards the cursor and fires essence bolts, dealing damage to up to 3 nearby enemies, prioritizing champions. In the next 10 seconds, Spirit Rush can be cast two additional times before going on cooldown. Each enemy can only be hit once per dash.",
+      "description":"Active: Ahri dashes towards the cursor and fires essence bolts, dealing damage to up to 3 nearby enemies, prioritizing champions. In the next 10 seconds, Spirit Rush can be cast two additional times before going on cooldown. Each enemy can only be hit once per dash.",
       "damage_ratio":0.35
     },
     "e":{
@@ -97,7 +97,7 @@
         150.0,
         180.0
       ],
-      "cd":[
+      "cooldown":[
         0,
         12.0,
         12.0,
@@ -105,7 +105,7 @@
         12.0,
         12.0
       ],
-      "cost_val":[
+      "cost":[
         0,
         40.0,
         65.0,
@@ -128,7 +128,7 @@
           ]
         }
       },
-      "desc":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
+      "description":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
       "damage_ratio":0.35
     },
     "w":{
@@ -142,7 +142,7 @@
         115.0,
         140.0
       ],
-      "cd":[
+      "cooldown":[
         0.0,
         9.0,
         8.0,
@@ -151,7 +151,7 @@
         5.0
       ],
       "damage_max_ratio":0.4,
-      "cost_val":[
+      "cost":[
         0,
         60,
         60,
@@ -163,7 +163,7 @@
       "cost_type":"mana",
       "damage_type":"magic",
       "range":800,
-      "desc":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
+      "description":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
       "damage_max":[
         0,
         80.0,

@@ -7,7 +7,7 @@
          "f_value":7.916,
          "m_value":7.916,
          "name":"Twin Disciplines",
-         "desc":"Discipline of Force — Upon obtaining 19.5 ability power, Akali's auto attacks deal 7.916% bonus magic damage, increasing by 1% for every 6 ability power gained thereafter. (Magic damage affects all structures.) Discipline of Might — Upon obtaining 9.5 bonus attack damage, Akali gains 7.916% spell vamp, increasing by an additional 1% for every 6 attack damage gained thereafter."
+         "description":"Discipline of Force — Upon obtaining 19.5 ability power, Akali's auto attacks deal 7.916% bonus magic damage, increasing by 1% for every 6 ability power gained thereafter. (Magic damage affects all structures.) Discipline of Might — Upon obtaining 9.5 bonus attack damage, Akali gains 7.916% spell vamp, increasing by an additional 1% for every 6 attack damage gained thereafter."
       },
       "q":{
          "name":"Mark of the Assassin",
@@ -28,7 +28,7 @@
             30,
             35
          ],
-         "cd":[
+         "cooldown":[
             0,
             6.0,
             6.0,
@@ -36,7 +36,7 @@
             6.0,
             6.0
          ],
-         "cost_val":[
+         "cost":[
             0,
             60,
             60,
@@ -47,7 +47,7 @@
          "range":600,
          "cost_type":"energy",
          "damage_type":"magic",
-         "desc":"Active: Akali throws her kama at a target enemy, dealing magic damage and marking the target for 6 seconds. Akali's melee attacks or Crescent Slashes against a marked target will consume the mark dealing the same magic damage again and restoring energy.",
+         "description":"Active: Akali throws her kama at a target enemy, dealing magic damage and marking the target for 6 seconds. Akali's melee attacks or Crescent Slashes against a marked target will consume the mark dealing the same magic damage again and restoring energy.",
          "damage_ratio":0.4
       },
       "r":{
@@ -65,13 +65,13 @@
             175.0,
             250.0
          ],
-         "cd":[
+         "cooldown":[
             0,
             2.0,
             1.5,
             1.0
          ],
-         "cost_val":[
+         "cost":[
             0,
             1,
             1,
@@ -82,7 +82,7 @@
          "range":800,
          "cost_type":"essence of shadow",
          "damage_type":"magic",
-         "desc":"Active: Akali moves through the shadows to quickly appear next to her target and deal magic damage to it. Akali gains an Essence of Shadow periodically, affected by cooldown reduction, up to a maximum of 3. Additionally, Akali gains an Essence of Shadow for each kill or assist.",
+         "description":"Active: Akali moves through the shadows to quickly appear next to her target and deal magic damage to it. Akali gains an Essence of Shadow periodically, affected by cooldown reduction, up to a maximum of 3. Additionally, Akali gains an Essence of Shadow for each kill or assist.",
          "damage_ratio":0.5
       },
       "e":{
@@ -97,7 +97,7 @@
             105.0,
             130.0
          ],
-         "cd":[
+         "cooldown":[
             0,
             7.0,
             6.0,
@@ -105,7 +105,7 @@
             4.0,
             3.0
          ],
-         "cost_val":[
+         "cost":[
             0,
             60.0,
             55.0,
@@ -116,7 +116,7 @@
          "range":325,
          "cost_type":"energy",
          "damage_type":"physical",
-         "desc":"Active: Akali flourishes her kamas, hitting nearby units for physical damage.",
+         "description":"Active: Akali flourishes her kamas, hitting nearby units for physical damage.",
          "damage_ratio_b":0.3,
          "damage_ratio":0.6
       },
@@ -150,7 +150,7 @@
                0.26,
                0.30
          ]},
-         "cd":[
+         "cooldown":[
             0,
             20,
             20,
@@ -160,7 +160,7 @@
          ],
          "range":700,
          "cost_type":"energy",
-         "cost_val":[
+         "cost":[
             0,
             80.0,
             75.0,
@@ -168,7 +168,7 @@
             65.0,
             60.0
          ],
-         "desc":"Active: Akali throws down a circular cover of smoke that lasts for 8 seconds. While inside the area, Akali gains armor and magic resistance and becomes stealthed. Attacking or using abilities reveals her for 0.5 seconds. Enemies inside the smoke have their movement speed reduced."
+         "description":"Active: Akali throws down a circular cover of smoke that lasts for 8 seconds. While inside the area, Akali gains armor and magic resistance and becomes stealthed. Attacking or using abilities reveals her for 0.5 seconds. Enemies inside the smoke have their movement speed reduced."
       }
    },
    "stats":{

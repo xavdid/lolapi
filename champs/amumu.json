@@ -27,7 +27,7 @@
    "_cls":"ChampBase",
    "moves":{
       "i":{
-         "desc":"Amumu's attacks reduce the target's magic resistance by 15/25/35 for 3 seconds. The debuff doesn't stack but it refreshes with every attack.",
+         "description":"Amumu's attacks reduce the target's magic resistance by 15/25/35 for 3 seconds. The debuff doesn't stack but it refreshes with every attack.",
          "name":"Cursed Touch",
          "onhit":{
             "mr":[
@@ -48,7 +48,7 @@
             260,
             320
          ],
-         "cd":[
+         "cooldown":[
             0,
             16.0,
             14.0,
@@ -56,7 +56,7 @@
             10.0,
             8.0
          ],
-         "cost_val":[
+         "cost":[
             0,
             80,
             90,
@@ -67,7 +67,7 @@
          "range":1100.0,
          "cost_type":"mana",
          "damage_type":"magic",
-         "desc":"(Active): Amumu tosses a sticky bandage towards a target location, if it contacts an enemy Amumu pulls himself to it and will deal magic damage and stun the target for 1 second.",
+         "description":"(Active): Amumu tosses a sticky bandage towards a target location, if it contacts an enemy Amumu pulls himself to it and will deal magic damage and stun the target for 1 second.",
          "damage_ratio":0.7
       },
       "r":{
@@ -81,7 +81,7 @@
             350,
             350
          ],
-         "cd":[
+         "cooldown":[
             0,
             150.0,
             130.0,
@@ -89,7 +89,7 @@
             110.0,
             110.0
          ],
-         "cost_val":[
+         "cost":[
             0,
             100,
             150,
@@ -100,7 +100,7 @@
          "range":600,
          "cost_type":"mana",
          "damage_type":"magic",
-         "desc":"(Active): Amumu entangles surrounding enemy units in bandages, dealing magic damage upfront and rendering them unable to attack or move for 2 seconds.",
+         "description":"(Active): Amumu entangles surrounding enemy units in bandages, dealing magic damage upfront and rendering them unable to attack or move for 2 seconds.",
          "damage_ratio":0.8
       },
       "e":{
@@ -114,7 +114,7 @@
             150,
             175
          ],
-         "cd":[
+         "cooldown":[
             0,
             10,
             9,
@@ -122,7 +122,7 @@
             7,
             6
          ],
-         "cost_val":[
+         "cost":[
             0,
             35,
             35,
@@ -141,7 +141,7 @@
             8,
             10
          ],
-         "desc":"(Passive): Amumu takes reduced damage from physical attacks. Each time Amumu is hit by an attack, the cooldown on Tantrum's active is reduced by half a second.                     (Active): Amumu deals magic damage to surrounding units. ",
+         "description":"(Passive): Amumu takes reduced damage from physical attacks. Each time Amumu is hit by an attack, the cooldown on Tantrum's active is reduced by half a second.                     (Active): Amumu deals magic damage to surrounding units. ",
          "damage_ratio":0.5
       },
       "w":{
@@ -156,7 +156,7 @@
             20,
             24
          ],
-         "cd":[
+         "cooldown":[
             0,
             0,
             0,
@@ -175,7 +175,7 @@
          "range":300,
          "cost_type":"mana",
          "damage_type":"magic",
-         "cost_val":[
+         "cost":[
             0,
             8,
             8,
@@ -184,7 +184,7 @@
             8
          ],
          "damage_ratio_b":0.01,
-         "desc":"(Toggle): Overcome by anguish, nearby enemies will be dealt a percentage of their maximum health plus a base amount as magic damage each second."
+         "description":"(Toggle): Overcome by anguish, nearby enemies will be dealt a percentage of their maximum health plus a base amount as magic damage each second."
       }
    }
 }
