@@ -54,7 +54,7 @@ class Champion(object):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hp_regen':0,'mana':0,'mana_regen':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
+                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
         #for debugging so that all the abilities are up: 
         for a in self.cur_stats['ability_rank']:
             if a == 'r':
@@ -182,7 +182,7 @@ class Ninja(Champion):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hp_regen':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'i':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
+                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
         for a in self.cur_stats['ability_rank']:
             if a == 'r':
                 self.cur_stats['ability_rank'][a] = 3
@@ -223,6 +223,7 @@ class Ahri(Champion):
 class Akali(Ninja):
     def __init__(self,cd):
         super(Akali, self).__init__(cd)
+        self.cur_stats['essence_of_shadow'] = 0
 
     def e(self, dtype = False):
         if (dtype):

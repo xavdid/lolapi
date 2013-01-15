@@ -3,7 +3,7 @@
       "ChampBase"
    ],
    "moves":{
-      "i":{
+      "p":{
          "name":"Trample",
          "damage_ratio_type_b":"ap",
          "damage ratio type":"level",

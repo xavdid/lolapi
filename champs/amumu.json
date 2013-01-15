@@ -26,7 +26,7 @@
    "title":"the Sad Mummy",
    "_cls":"ChampBase",
    "moves":{
-      "i":{
+      "p":{
          "description":"Amumu's attacks reduce the target's magic resistance by 15/25/35 for 3 seconds. The debuff doesn't stack but it refreshes with every attack.",
          "name":"Cursed Touch",
          "onhit":{
@@ -37,7 +37,7 @@
             ]
          }
       },
-      "q":{
+      "p":{
          "name":"Bandage Toss",
          "damage_ratio_type":"ap",
          "damage":[

@@ -3,7 +3,7 @@
     "Champion"
   ],
   "moves":{
-    "i":{
+    "p":{
       "name":"Essence Theft",
       "description":"Ahri gains a charge of Essence Theft whenever one of her spells hits an enemy. This caps at 3 charges per spell cast. Upon reaching 9 charges, Ahri's next spell will have 35% bonus spell vamp.",
       "effect":{

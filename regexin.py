@@ -7,8 +7,8 @@ def pretty(s):
 	s = s.replace('|',',')
 	s = s.split(',')
 	s = [int(x) for x in s]
-	# if len(s) == 0:
-		# s = s[0]
+	if len(s) == 1:
+		s = s[0]
 	return s
 
 f = open('champs/cait.txt','r')
@@ -30,9 +30,9 @@ for ab in ['P','Q','W','E','R']:
 			# c[a.group('id').lower()]['desc'] = re.search(r'^\|description=(.+)',a.group(0),re.M).group(1) #i could check for/funct out the {{Active}} bit 
 			if j:
 				if (t == 'cooldown' or t == 'cost' or t == 'range'): #there's more here...
-					if len(j) > 3:
+					# if len(j) > 4:
 						# print 'making pretty for '+t
-						j = pretty(j)
+					j = pretty(j)
 				if (t == 'description'):
 					if j[0] == '{':
 						if j[6] == 'A':
