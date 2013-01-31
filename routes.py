@@ -250,7 +250,7 @@ class ChampPrintJson(tornado.web.RequestHandler):
                 a = Alistar(c)
             else:
                 assert(1==0)
-        except AssertionError:
+        except:
             self.write('Champion not found')
 
         else:
