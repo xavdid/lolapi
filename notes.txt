@@ -1,8 +1,8 @@
 apparently json doesn't like comments, so I need to fix a few of the basic items (sightstone, machete, etc)
 
-there's a lot of hardcoding of rank 5 abilities right now, will need to change at some point. 
+FIXED there's a lot of hardcoding of rank 5 abilities right now, will need to change at some point. 
 
-Gotta do something with cooldowns. will need to wait until the timeline is written, but it could be some sort of cooldown function that checks/keeps track/is called by canCast()
+FIXED Gotta do something with cooldowns. will need to wait until the timeline is written, but it could be some sort of cooldown function that checks/keeps track/is called by canCast()
 
 everything with energy is hard coded to 200. i'll worry about increasing it through runes and whatever later
 
@@ -14,5 +14,5 @@ the way i'm changing abilities now (1/13/13), there'll be a big ugly function th
 
 by putting everything into a single ability funct, redefining individual champ's abilities doesn't do anyting (amumu w, for instance) #fix
 
-for the regex, could grab everything until ^\|, and separate by'} {'. it'd be an exception case for 'leveling', but could probably maybe accomodate whatever comes. i'd have to write a bit to change some strings or something, but it's doable. 
+FIXED for the regex, could grab everything until ^\|, and separate by'} {'. it'd be an exception case for 'leveling', but could probably maybe accomodate whatever comes. i'd have to write a bit to change some strings or something, but it's doable. 
 

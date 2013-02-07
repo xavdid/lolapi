@@ -16,55 +16,49 @@ s=''
 for line in f:
 	s+=line
 
-# s = "{{Ability|E\
-# |name=90 Caliber Net\
-# |icon=90CaliberNet.jpg\
-# |description={{sbc|Active:}} Caitlyn fires a net, knocking herself back 400 units in the opposite direction. The net will deal magic damage and slow the first enemy hit by 50%.\
-# |leveling ={{lc|Magic damage}} {{ap|80|130|180|230|280}} {{ability scaling|(+ 80% AP)}}\
-# {{lc|Slow duration}} {{ap|1|1.25|1.5|1.75|2}}\
-# |cooldown={{ap|18|16|14|12|10}}\
-# |cost=75\
-# |costtype=mana\
-# |range=1000\
-# }}"
-
-# re.search(r'\|leveling[\{\}a-zA-Z\|0-9\n,=\(\)+%\.]*?(?=\n^(\||\}\}))',s,re.M)
-
-
 c = {}
 for ab in ['P','Q','W','E','R']:
-# for ab in ['Q','W','E','R']:
 	print 'ab is: '+ab
 	a = re.search(r'^{{Ability\|(?P<id>%s).*?^}}'%ab,s,re.M|re.DOTALL)
 	c[a.group('id').lower()] = {}
-	# print 'look: '+a.group(0)
 	# things = ['damage','damage_ratio','damage_ratio_type','name','cd','description','range','cost_val','cost_type']
 	things = ['description','name','cooldown','cost','costtype','range','leveling']
 	for t in things:
 		try:
 			if t == 'leveling':
-				j = re.search(r'\|leveling[. \{\}=A-Za-z\|0-9\(\)+%\n]*?(?=\n^(\||\}))',s,re.M).group(0)
-				# print j
+				j = re.search(r'\|leveling *=([. \{\}A-Za-z\|0-9\(\)+%\n]*?)(?=\n^(\||\}))',a.group(0),re.M).group(1)
 			else:
 				j = re.search(r'^\|%s=(.+)'%t,a.group(0),re.M).group(1)
-				# c[a.group('id').lower()]['desc'] = re.search(r'^\|description=(.+)',a.group(0),re.M).group(1) #i could check for/funct out the {{Active}} bit 
-				if j:
-					if (t == 'cooldown' or t == 'cost' or t == 'range'): #there's more here than these keys...
-						# if len(j) > 4:
-							# print 'making pretty for '+t
-						j = pretty(j)
-					elif (t == 'description'):
-						if j[0] == '{':
-							if j[6] == 'A':
-								j = 'Active: '+j[15:]
-							else:
-								j = 'Passive: '+j[16:]
+			if j:
+				if (t == 'cooldown' or t == 'cost' or t == 'range'): #there's more here than these keys...
+					# if len(j) > 4:
+						# print 'making pretty for '+t
+					j = pretty(j)
+				elif (t == 'leveling'):
+					ratio = re.search(r'ability scaling\|\(\+([ 0-9]*)',j).group(1).strip()
+					c[a.group('id').lower()]['damage_ratio'] = float(ratio)/100.0
 
-					elif t == 'costtype':
-						t = 'cost_type'
-					elif t == 'leveling':
-						print 'FOUND THIS! %s'%j
-					c[a.group('id').lower()][t] = j
+					damage_type = re.search(r'{{lc\|(.*?})',j).group(1)
+					if damage_type[0] == 'P':
+						c[a.group('id').lower()]['damage_type'] = 'physical'
+					elif damage_type[0] == 'M':
+						c[a.group('id').lower()]['damage_type'] = 'magic'
+					else:
+						c[a.group('id').lower()]['damage_type'] = 'true'
+
+					damage = re.search(r'ap[\|0-9]*',j).group(0)
+					damage = pretty(damage)
+					c[a.group('id').lower()]['damage'] = damage
+				elif (t == 'description'):
+					if j[0] == '{':
+						if j[6] == 'A':
+							j = 'Active: '+j[15:]
+						else:
+							j = 'Passive: '+j[16:]
+
+				elif t == 'costtype':
+					t = 'cost_type'
+				c[a.group('id').lower()][t] = j
 		except:
 			print 'wait! the key %s for %s gives this champ an error!' % (t,ab)
 			
