@@ -30,14 +30,13 @@ for ab in ['P','Q','W','E','R']:
 			else:
 				j = re.search(r'^\|%s=(.+)'%t,a.group(0),re.M).group(1)
 			if j:
-				if (t == 'cooldown' or t == 'cost' or t == 'range'): #there's more here than these keys...
-					# if len(j) > 4:
-						# print 'making pretty for '+t
+				if (t == 'cooldown' or t == 'cost' or t == 'range'): #there's more here...
 					j = pretty(j)
 				elif (t == 'leveling'):
+					#first ability ratio
 					ratio = re.search(r'ability scaling\|\(\+([ 0-9]*)',j).group(1).strip()
 					c[a.group('id').lower()]['damage_ratio'] = float(ratio)/100.0
-
+					#ability's damage type
 					damage_type = re.search(r'{{lc\|(.*?})',j).group(1)
 					if damage_type[0] == 'P':
 						c[a.group('id').lower()]['damage_type'] = 'physical'
