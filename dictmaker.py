@@ -71,7 +71,5 @@ def regexer(url):
 				print 'wait! the key %s for %s gives this champ an error!' % (t,ab)
 	return c
 
-def dictmaker()
-
 # print d
 

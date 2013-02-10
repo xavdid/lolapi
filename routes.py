@@ -16,6 +16,10 @@ class ChampAdd(tornado.web.RequestHandler):
     	c = pymongo.Connection()
         db = c.loldb
         champ = ChampBase()
+
+        champ.stats = #souper?
+        champ.moves = #regexers
+        #boom
         # asdf = ItemBase()
         # asdf.items = {"ruby":{"name":"Ruby Crystal","effect":{"hp":180},"cost":475,"tag":"ruby"},
             # "amp_tome":{"name":"Amplification Tome","effect":{"ap":20},"cost":435,"tag":"amp_tome"}}
