@@ -1,0 +1,99 @@
+array(1) {
+  ["query"]=>
+  array(2) {
+    ["normalized"]=>
+    array(1) {
+      [0]=>
+      array(2) {
+        ["from"]=>
+        string(5) "leona"
+        ["to"]=>
+        string(5) "Leona"
+      }
+    }
+    ["pages"]=>
+    array(1) {
+      [117889]=>
+      array(4) {
+        ["pageid"]=>
+        int(117889)
+        ["ns"]=>
+        int(0)
+        ["title"]=>
+        string(5) "Leona"
+        ["revisions"]=>
+        array(1) {
+          [0]=>
+          array(1) {
+            ["*"]=>
+            string(2843) "{{C-top}}
+{{champion info|Leona}}
+'''Leona, the Radiant Dawn''' is a [[champion]] in [[League of Legends]].<ref>[http://e3.gamespot.com/story/6318567/e3-2011-spotlight-on-league-of-legends-in-spectator-mode E3 2011: Spotlight On: League of Legends (in Spectator Mode)] at [http://www.gamespot.com/ GameSpot]</ref>
+
+== Abilities ==
+{{Ability|P
+|name=Sunlight
+|icon=Sunlight.jpg
+|description= Leona's spells charge any enemy unit damaged with Sunlight for 3.5 seconds. When allied champions deal any damage to those targets they consume the Sunlight debuff to deal {{pp|9|20|35|50|65|80|95|110|125|140|1|3|5|7|9|11|13|15|17}} additional magic damage. This additional damage is counted as the ally's damage and it will benefit from their magic penetration. Leona is unable to activate the additional damage herself.
+}}
+{{Ability|Q
+|name=Shield of Daybreak
+|icon=ShieldofDaybreak.jpg
+|description={{sbc|Active:}} Leona's next basic attack will deal additional magic damage and stun the target for 1.25 seconds.
+|leveling={{lc|Magic damage}} {{ap|40|70|100|130|160}} {{ability scaling|(+ 30% AP)}}
+|cooldown={{ap|11|10|9|8|7}}
+|cost={{ap|45|50|55|60|65}}
+|costtype=mana
+}}
+{{Ability|W
+|name=Eclipse
+|icon=Eclipse.jpg
+|description={{sbc|Active:}} Leona gains bonus armor and magic resistance for 3 seconds. When the effect ends she deals magic damage to enemies within 275 range of her. If Eclipse damages any enemies, the bonuses remain for an additional 3 seconds.
+|leveling={{lc|Armor, magic resistance}} {{ap|30|40|50|60|70}}
+{{lc|Magic damage}} {{ap|60|110|160|210|260}} {{ability scaling|(+ 40% AP)}}
+|cooldown=14
+|cost=60
+|costtype=mana
+}}
+{{Ability|E
+|name=Zenith Blade
+|icon=ZenithBlade.jpg
+|description={{sbc|Active:}} Leona projects a solar image of her sword, dealing magic damage to all enemies in a line. Leona will dash to the last enemy champion struck, briefly immobilizing it as she does.
+|leveling={{lc|Magic damage}} {{ap|60|100|140|180|220}} {{ability scaling|(+ 40% AP)}}
+|cooldown={{ap|13|12|11|10|9}}
+|cost=60
+|costtype=mana
+|range=700
+}}
+{{Ability|R
+|name=Solar Flare
+|icon=SolarFlare.jpg
+|description={{sbc|Active:}} Leona calls down a beam of solar energy to a target location. After a brief delay, it deals magic damage to all enemies within 250 range and slows them by 80% for 1.5 seconds. Enemies within 100 range are stunned for 1.5 seconds instead of slowed.
+
+For the duration, the beam also grants vision in a radius of 350.
+|leveling={{lc|Magic damage}} {{ap|150|250|350}} {{ability scaling|(+ 80% AP)}}
+|cooldown={{ap|90|75|60}}
+|cost={{ap|100|150|200}}
+|costtype=mana
+|range=1200
+}}
+
+== References ==
+{{reflist}}
+{{C-bot}}
+
+
+[[cs:{{PAGENAME}}]]
+[[de:{{PAGENAME}}]]
+[[fr:{{PAGENAME}}]]
+[[pl:{{PAGENAME}}]]
+[[zh:{{PAGENAME}}]]
+[[Category:2011 release]]
+[[Category:Season One release]]
+[[Category:Released Champion]]"
+          }
+        }
+      }
+    }
+  }
+}

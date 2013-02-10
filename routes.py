@@ -200,7 +200,7 @@ class ChampPrint(tornado.web.RequestHandler):
             i = 0
             cooldown = 0
             # while (True):
-            while(i<300):
+            while(i<700):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))

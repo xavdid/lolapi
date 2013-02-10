@@ -1,0 +1,117 @@
+array(1) {
+  ["query"]=>
+  array(2) {
+    ["normalized"]=>
+    array(1) {
+      [0]=>
+      array(2) {
+        ["from"]=>
+        string(5) "taric"
+        ["to"]=>
+        string(5) "Taric"
+      }
+    }
+    ["pages"]=>
+    array(1) {
+      [2556]=>
+      array(4) {
+        ["pageid"]=>
+        int(2556)
+        ["ns"]=>
+        int(0)
+        ["title"]=>
+        string(5) "Taric"
+        ["revisions"]=>
+        array(1) {
+          [0]=>
+          array(1) {
+            ["*"]=>
+            string(3082) "
+{{C-top}}{{champion info|Taric}}
+'''Taric, the Gem Knight''' is a [[champion]] in [[League of Legends]].<ref>[http://www.leagueoflegends.com/champions/44/taric_the_gem_knight Taric's profile page] at [[Leagueoflegends.com]]</ref>
+
+== Abilities ==
+{{Ability|P
+|name = Gemcraft
+|icon = Gemcraft.jpg
+|description  = Taric's autoattacks replenish his mana for 7.5% of the damage dealt.
+}}
+{{Ability|Q
+|name = Imbue
+|icon = Imbue.jpg
+|description  = {{sbc|Active:}} Taric channels earthen energy to heal his target ally. As the magic flows through them he is healed for the same amount. If Taric heals only himself, the heal will be 40% more effective. His autoattacks on champions decrease this spell's cooldown by 3 seconds each or by 1 second if hitting non-champions.
+|leveling = {{lc|Heal}} {{ap|60|100|140|180|220}} {{as|(+ 60% AP)}}
+{{lc|Self Heal}} {{ap|84|140|196|252|308}} {{as|(+ 84% AP)}}
+|cooldown={{ap|20|19|18|17|16}}
+|cost={{ap|80|95|110|125|140}}
+|costtype=mana 
+|range=750
+}}
+{{Ability|W
+|name = Shatter
+|icon = Shatter.jpg
+|description = {{sbc|Passive:}} Taric is protected by a hardening aura, granting additional armor for himself.
+
+In addition, Taric's gemstones increase the armor of himself and nearby allied champions.
+<br/><br/>
+|description2 = {{sbc|Active:}} Taric shatters his gemstones dealing magic damage to nearby enemies and decreasing their armor for 4 seconds. 
+
+Taric loses his personal armor bonus while Shatter is on cooldown.
+
+|leveling = {{lc|Self Bonus Armor}} {{ap|10|15|20|25|30}}
+{{lc|Aura Bonus Armor}} {{ap|10|15|20|25|30}}
+{{lc|Aura Diameter}} 1000
+|leveling2 = {{lc|Magic Damage}} {{ap|60|105|150|195|240}} {{as|(+ 60% AP)}}
+{{lc|Armor Reduction}} {{ap|10|15|20|25|30}}
+{{lc|Diameter}} 400
+|cooldown=10
+|cost={{ap|50|60|70|80|90}}
+|costtype=mana 
+}}
+{{Ability|E
+|name = Dazzle
+|icon = Dazzle.jpg
+|description  = {{sbc|Active:}} Taric fires a prismatic sphere at a target enemy, stunning them for 1.5 seconds, and deals magic damage (lower damage the farther the target is).
+*'''Missile Speed:''' 1400
+|leveling = {{lc|Minimum Magic Damage}} {{ap|40|70|100|130|160}} {{as|(+ 40% AP)}}
+{{lc|Maximum Magic Damage}} {{ap|80|140|200|260|320}} {{as|(+ 80% AP)}}
+|cooldown={{ap|14|13|12|11|10}}
+|cost=95
+|costtype=mana 
+|range=625
+}}
+{{Ability|R
+|name = Radiance
+|icon = Radiance.jpg
+|description  = {{sbc|Active:}} Taric slams the ground, dealing magic damage to nearby enemies.
+
+Taric's gems radiate energy for 10 seconds, granting him bonus attack damage and ability power and his nearby allies half the bonuses.
+
+|leveling = {{lc|Magic Damage}} {{ap|150|250|350}} {{as|(+ 70% AP)}}
+{{lc|Attack Damage and Ability Power Self Bonus}} {{ap|30|50|70}} 
+{{lc|Magic Damage including Bonus}} {{ap|171|285|399}} {{as|(+ 70% AP)}}
+{{lc|Diameter}} 400
+{{lc|Aura Diameter}} 1000
+|cooldown=60
+|cost=100 
+|costtype=mana 
+}}
+
+== References ==
+{{Reflist}}
+{{C-bot}}
+
+[[cs:{{PAGENAME}}]]
+[[de:{{PAGENAME}}]]
+[[fr:{{PAGENAME}}]]
+[[pl:{{PAGENAME}}]]
+[[zh:{{PAGENAME}}]]
+[[Category:Released Champion]]
+[[Category:Beta stage release]]
+[[Category:2009 release]]"
+          }
+        }
+      }
+    }
+  }
+}
