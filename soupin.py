@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import re
+import urllib2
 
 def namer(s):
 	if s == 'Damage':
@@ -22,11 +23,12 @@ def namer(s):
 d = {}
 df = ''
 
-f = open('champs/cait.html','r')
-for line in f:
-	df+=line
+# f = open('champs/cait.html','r')
+resp = urllib2.urlopen('http://na.leagueoflegends.com/champions/103/ahri_the_nine_tailed_fox')
+# for line in f:
+	# df+=line
 
-soup = BeautifulSoup(df) #string name, can build string from file
+soup = BeautifulSoup(resp.read()) #string name, can build string from file
 
 s = soup.find_all('table')[1] #this is the stats_table tag
 
