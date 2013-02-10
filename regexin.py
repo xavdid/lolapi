@@ -1,5 +1,6 @@
 import re
 from pprint import pprint
+import urllib2
 
 def pretty(s):
 	s = s.strip('{}')
@@ -11,18 +12,21 @@ def pretty(s):
 		s = s[0]
 	return s
 
-f = open('champs/leona.txt','r')
+# f = open('champs/leona.txt','r')
 # f = open('champs/cait.txt','r')
-s=''
-for line in f:
-	s+=line
+resp = urllib2.urlopen('http://leagueoflegends.wikia.com/api.php?action=query&titles=leona&prop=revisions&rvprop=content&format=dumpfm')
+
+s = resp.read()
+# s=''
+# for line in f:
+	# s+=line
 
 c = {}
 for ab in ['P','Q','W','E','R']:
 	print 'ab is: '+ab
 	a = re.search(r'^{{Ability\|(?P<id>%s).*?^}}'%ab,s,re.M|re.DOTALL)
 	c[a.group('id').lower()] = {}
-	# things = ['damage','damage_ratio','damage_ratio_type','name','cd','description','range','cost_val','cost_type']
+
 	things = ['description','description2','name','cooldown','cost','costtype','range','leveling']
 	for t in things:
 		try:

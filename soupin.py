@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import re
 import urllib2
 
+#this is ineffecient, but it sets the external tags to what i'm using. 
 def namer(s):
 	if s == 'Damage':
 		return 'ad'
@@ -20,7 +21,7 @@ def namer(s):
 	elif s == 'Mana Regen':
 		return 'manareg'
 
-d = {}
+champ = {}
 df = ''
 
 # f = open('champs/cait.html','r')
@@ -36,9 +37,9 @@ s = soup.find_all('table')[1] #this is the stats_table tag
 for c in s.contents:
 	if str(c)[0] == '<':
 		key = namer(c.contents[1].string)
-		d[key+'_base'] = float(c.contents[3].string)
+		champ[key+'_base'] = float(c.contents[3].string)
 		if c.contents[5].span:
-			d[key+'_ratio'] = float(re.search(r'\+([ 0-9\.]*)',c.contents[5].span.string).group(1))
+			champ[key+'_ratio'] = float(re.search(r'\+([ 0-9\.]*)',c.contents[5].span.string).group(1))
 
 
 # if s.contents[1].contents[1].string == 'Damage': #this is how i'm going to find stuff

@@ -16,17 +16,6 @@ def api_response(status,response,handler=None,code=200,errors=[]):
 def db_error(handler):
     return api_response('error','database error',handler,500)
 
-def set_vars(handler,**kwargs):
-    """
-    Sets the API request parameters and their desired default values
-    handler - the RequestHandler object for the request
-    kwargs - key/value pairs of the request parameter and its default value
-    """
-    vars = Vars()
-    for arg in kwargs:
-        setattr(vars,arg,handler.get_argument(arg,default=kwargs[arg]))
-    return vars
-
 class Vars(object):
     """Empty object allowing for dot-declaration"""
     pass
@@ -140,4 +129,36 @@ def breaks(i):
         s+="<br>"
     return s
 
+def namer(s):
+    if s == 'Damage':
+        return 'ad'
+    elif s == 'Health':
+        return 'hp'
+    elif s == 'Mana':
+        return 'mana'
+    elif s == 'Move Speed':
+        return 'ms'
+    elif s == 'Armor':
+        return 'armor'
+    elif s == 'Spell Block':
+        return 'mr'
+    elif s == 'Health Regen':
+        return 'hpreg'
+    elif s == 'Mana Regen':
+        return 'manareg'
+
+def pretty(s):
+    s = s.strip('{}')
+    s = s.replace('ap','0')
+    s = s.replace('|',',')
+    s = s.split(',')
+    s = [int(x) for x in s]
+    if len(s) == 1:
+        s = s[0]
+    return s
+
+def urlGrab(url):
+    resp = urllib2.urlopen(url)
+    s = resp.read()
+    return s
 
