@@ -3,7 +3,7 @@ import re
 import urllib2
 from functions import namer,pretty,urlGrab
 
-def souper(url):
+def souper(url): #takes the na.leagueoflegends.com url
 	champ = {}
 	soup = BeautifulSoup(urlGrab(url)) #string name, can build string from file
 	s = soup.find_all('table')[1] #this is the stats_table tag
@@ -16,7 +16,7 @@ def souper(url):
 				champ[key+'_ratio'] = float(re.search(r'\+([ 0-9\.]*)',c.contents[5].span.string).group(1))
 	return champ
 
-def regexer(url):
+def regexer(url): #takes the lolwiki url
 	s = urlGrab(url)
 	c = {}
 	for ab in ['P','Q','W','E','R']:
