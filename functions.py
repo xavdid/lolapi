@@ -155,7 +155,10 @@ def pretty(s):
     s = s.split(',')
     s = [int(x) for x in s]
     if len(s) == 1:
-        s = s[0]
+        s.append(s[0])
+        s[0] = 0
+        for i in range(2,4):
+            s.append(s[1])
     return s
 
 def urlGrab(url):

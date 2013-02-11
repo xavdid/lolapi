@@ -19,7 +19,7 @@ class ChampAdd(tornado.web.RequestHandler):
         champ = ChampBase()
 
         champ.stats = souper('http://na.leagueoflegends.com/champions/34/anivia_the_cryophoenix')
-        champ.moves = regexer('http://leagueoflegends.wikia.com/wiki/Anivia')
+        champ.moves = regexer('http://leagueoflegends.wikia.com/api.php?action=query&titles=anivia&prop=revisions&rvprop=content&format=dumpfm')
         #boom
         # asdf = ItemBase()
         # asdf.items = {"ruby":{"name":"Ruby Crystal","effect":{"hp":180},"cost":475,"tag":"ruby"},
@@ -133,13 +133,19 @@ class ChampAdd(tornado.web.RequestHandler):
         # r['damage_type'] = 'magic'
         # r['damage_ratio'] = 0.8
         # r['damage_ratio_type'] = 'ap'
-        champ.moves['r'] = r
-        pprint(champ.to_python())
+        # champ.moves['r'] = r
+        # pprint(champ.to_python())
         # pprint(asdf.items)
         # db.champs.update({'name':"items"},asdf.to_python(),True)
 
 
-        # db.champs.update({'name':champ.name},champ.to_python(),True)
+        db.champs.update({'name':champ.name},champ.to_python(),True)
+        c = getChamp(champ.name)
+        # self.write(c)
+        f = open('champs/%s.json'%champ.name,'w+')
+        # f.write()
+        # f.close()
+
         # self.write(champ.to_python())
         # self.write('stored %s, %s!' %(champ.name.title(), champ.title))
 
@@ -211,7 +217,7 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                a.useAbility('q',self,b)
+                a.useAbility('q',b)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 # else: 
                     # self.write('unable to cast')

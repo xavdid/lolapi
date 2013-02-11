@@ -92,7 +92,7 @@ class Champion(object):
                 self.cur_stats[self.c['moves'][ability]['damage_ratio_type']],self.c['moves'][ability]['damage_ratio'])
             response['dtype'] = self.c['moves'][ability]['damage_type']
         elif 'effect' in self.c['moves'][ability]:
-            for k in self.c['moves']['w']['effect']:
+            for k in self.c['moves'][ability]['effect']:
                 response[k] = self.c['moves'][ability]['effect'][k][self.cur_stats['ability_rank'][ability]]
         return response
 
@@ -147,7 +147,7 @@ class Champion(object):
                 self.c['moves'][ability]['on'] = False
             return False
 
-    def useAbility(self,ability,handler,*args): #REMOVE HANDLER LATER, IT'S JUST FOR TESTING I THINK
+    def useAbility(self,ability,*args): #REMOVE HANDLER LATER, IT'S JUST FOR TESTING I THINK
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
                 self.energy(-(self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]]))
@@ -169,9 +169,8 @@ class Champion(object):
                     for targ in args:
                         d = damageCalc(self,targ,abi)
                         targ.hp(-d)
-        else:
+        # else:
             # print 'can\'t cast now, sorry'
-            handler.write(' ||can\'t cast now, sorry|| ')
 
 class Ninja(Champion):
     def __init__(self,cd):
