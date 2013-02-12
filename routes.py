@@ -18,15 +18,15 @@ class ChampAdd(tornado.web.RequestHandler):
         db = c.loldb
         champ = ChampBase()
 
-        champ.stats = souper('http://na.leagueoflegends.com/champions/34/anivia_the_cryophoenix')
-        champ.moves = regexer('http://leagueoflegends.wikia.com/api.php?action=query&titles=anivia&prop=revisions&rvprop=content&format=dumpfm')
+        champ.stats = souper('http://na.leagueoflegends.com/champions/1/annie_the_dark_child') #takes na.league url
+        champ.moves = regexer('http://leagueoflegends.wikia.com/api.php?action=query&titles=annie&prop=revisions&rvprop=content&format=dumpfm') #takes lolwiki
         #boom
         # asdf = ItemBase()
         # asdf.items = {"ruby":{"name":"Ruby Crystal","effect":{"hp":180},"cost":475,"tag":"ruby"},
             # "amp_tome":{"name":"Amplification Tome","effect":{"ap":20},"cost":435,"tag":"amp_tome"}}
         # asdf.name = 'items'
-        champ.name = 'anivia'
-        champ.title = 'the Cryophoenix'
+        champ.name = 'annie'
+        champ.title = 'the Dark Child'
         # st = {}
         # st['hp_base'] = 472.0
         # st['hp_ratio'] = 84.0
@@ -141,8 +141,8 @@ class ChampAdd(tornado.web.RequestHandler):
 
         db.champs.update({'name':champ.name},champ.to_python(),True)
         c = getChamp(champ.name)
-        # self.write(c)
-        f = open('champs/%s.json'%champ.name,'w+')
+        self.write(c)
+        # f = open('champs/%s.json'%champ.name,'w+')
         # f.write()
         # f.close()
 
@@ -217,7 +217,7 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                a.useAbility('q',b)
+                a.useAbility('w',b)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 # else: 
                     # self.write('unable to cast')

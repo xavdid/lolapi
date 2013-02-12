@@ -39,6 +39,24 @@
             100.0,
             110.0
          ],
+         "effect":{
+            "knockup":[
+            0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+            ],
+            "stun":[
+               0,
+               0.5,
+               0.5,
+               0.5,
+               0.5,
+               0.5
+            ]
+         },
          "range":182.5,
          "cost_type":"mana",
          "damage_type":"magic",
@@ -57,6 +75,7 @@
          ],
          "cost_type":"mana",
          "effect":{
+            "cleanse":0,
             "ad":[
                0,
                60,

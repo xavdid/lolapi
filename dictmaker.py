@@ -32,8 +32,11 @@ def regexer(url): #takes the lolwiki url
 				else:
 					j = re.search(r'^\|%s *= *(.+)'%t,a.group(0),re.M).group(1).strip()
 				if j:
-					if (t == 'cooldown' or t == 'cost' or t == 'range'): #there's more here...
-						j = pretty(j)
+					if (t == 'cooldown' or t == 'cost'): #there's more here...
+						if ab == 'R':
+							j = pretty(j,True)
+						else:
+							j = pretty(j)
 					elif (t == 'leveling'):
 						#first ability ratio
 						ratio = re.search(r'\{\{(ability scaling|as)\|\(\+([ 0-9]*)',j).group(2).strip()

@@ -31,13 +31,13 @@
          "name":"Cursed Touch",
          "onhit":{
             "mr":[
-               15,
-               25,
-               35
+               -15,
+               -25,
+               -35
             ]
          }
       },
-      "p":{
+      "q":{
          "name":"Bandage Toss",
          "damage_ratio_type":"ap",
          "damage":[
@@ -64,6 +64,16 @@
             110,
             120
          ],
+         "effect":{
+            "stun":[
+            0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+            ]
+         },
          "range":1100.0,
          "cost_type":"mana",
          "damage_type":"magic",
@@ -116,11 +126,11 @@
          ],
          "cooldown":[
             0,
-            10,
-            9,
-            8,
-            7,
-            6
+            10.0,
+            9.0,
+            8.0,
+            7.0,
+            6.0
          ],
          "cost":[
             0,
@@ -141,11 +151,12 @@
             8,
             10
          ],
-         "description":"(Passive): Amumu takes reduced damage from physical attacks. Each time Amumu is hit by an attack, the cooldown on Tantrum's active is reduced by half a second.                     (Active): Amumu deals magic damage to surrounding units. ",
+         "description":"(Passive): Amumu takes reduced damage from physical attacks. Each time Amumu is hit by an attack, the cooldown on Tantrum's active is reduced by half a second. (Active): Amumu deals magic damage to surrounding units. ",
          "damage_ratio":0.5
       },
       "w":{
          "on":false,
+         "scaling":"hp_max",
          "name":"Despair",
          "damage_ratio_type_b":"ap",
          "damage":[
@@ -158,19 +169,19 @@
          ],
          "cooldown":[
             0,
-            0,
-            0,
-            0,
-            0,
-            0
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
          ],
          "damage_b":[
             0,
-            1.5,
-            1.8,
-            2.1,
-            2.4,
-            2.7
+            0.015,
+            0.018,
+            0.021,
+            0.024,
+            0.027
          ],
          "range":300,
          "cost_type":"mana",

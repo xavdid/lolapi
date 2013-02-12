@@ -96,15 +96,20 @@ def damageMult(damage,defense):
 
 def damageCalc(c1,c2,ability):
     # penlist = ['flat_armor_pen','perc_armor_pen','flat_magic_pen','perc_magic_pen']
+    if 'scaling' not in ability:
+        damage_total = ability['damage']
     if (ability['dtype'] == 'physical'):
         de = c2.armor()
         de -= c1.cur_stats['flat_armor_pen']
     elif (ability['dtype'] == 'magic'):
         # magic pen, blah blah
         de = c2.mr()
-    da = damageMult(ability['damage'],de)
+    if 'scaling' in ability:
+        print 'base damage:',ability['base_damage'],'\n','scaling:',ability['scaling_damage']
+        damage_total = ability['base_damage']+(ability['scaling_damage']*c2.cur_stats[ability['scaling']])
     # elif (dt == 'true'):
         # d = damageMult(c1.q(),c2.mr())
+    da = damageMult(damage_total,de)    
     return da
 
 def getChamp(input):
@@ -148,17 +153,21 @@ def namer(s):
     elif s == 'Mana Regen':
         return 'manareg'
 
-def pretty(s):
+def pretty(s,ult=False):
     s = s.strip('{}')
     s = s.replace('ap','0')
     s = s.replace('|',',')
     s = s.split(',')
-    s = [int(x) for x in s]
+    s = [float(x) for x in s]
     if len(s) == 1:
         s.append(s[0])
         s[0] = 0
-        for i in range(2,4):
-            s.append(s[1])
+        if ult:
+            for i in range(2,4):
+                s.append(s[1])
+        else:
+            for i in range(2,6):
+                s.append(s[1])
     return s
 
 def urlGrab(url):

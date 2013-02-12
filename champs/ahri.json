@@ -117,8 +117,7 @@
       "cost_type":"mana",
       "damage_type":"magic",
       "effect":{
-        "taunt":{
-          "duration":[
+        "taunt":[
             0,
             1.0,
             1.25,
@@ -126,8 +125,7 @@
             1.75,
             2.0
           ]
-        }
-      },
+        },
       "description":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
       "damage_ratio":0.35
     },
@@ -163,7 +161,7 @@
       "cost_type":"mana",
       "damage_type":"magic",
       "range":800,
-      "description":"Active: Ahri will blow a kiss that travels in a line in front of her. It will damage and charm the first enemy it encounters, forcing them to walk harmlessly towards her, while being slowed by 50% for the duration.",
+      "description":"Active: Ahri releases three fox-fires to surround her for up to 5 seconds. After a short delay after cast, each flame will target the closest enemy unit to itself, prioritizing champions, and deal magic damage to the target. Additional fox-fires that hit the same target will only deal 50% damage.",
       "damage_max":[
         0,
         80.0,
@@ -197,9 +195,7 @@
   },
   "name":"ahri",
   "title":"the Nine-Tailed Fox",
-  "items":[
-
-  ],
+  "items":[],
   "_cls":"Champion",
   "_id":"509af3b9bfc6c80ea6000000"
 }

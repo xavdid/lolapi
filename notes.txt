@@ -12,7 +12,7 @@ i'm passing letters a lot. I could be passing the functions, which would /mostly
 
 the way i'm changing abilities now (1/13/13), there'll be a big ugly function that applies any key that could return with the ability. that's the generic case though, so that's what it is. 
 
-by putting everything into a single ability funct, redefining individual champ's abilities doesn't do anyting (amumu w, for instance) #fix
+I can redefine getAbility for champs with specifics!
 
 FIXED for the regex, could grab everything until ^\|, and separate by'} {'. it'd be an exception case for 'leveling', but could probably maybe accomodate whatever comes. i'd have to write a bit to change some strings or something, but it's doable. 
 

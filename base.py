@@ -87,13 +87,19 @@ class Champion(object):
 
     def getAbility(self, ability):
         response = {}
-        if 'damage' in self.c['moves'][ability]:
-            response['damage'] = moveMult(self.c['moves'][ability]['damage'],self.cur_stats['ability_rank'][ability],
-                self.cur_stats[self.c['moves'][ability]['damage_ratio_type']],self.c['moves'][ability]['damage_ratio'])
+        ab = getattr(self, ability, None)
+        if callable(ab):
+            response = ab()
+            response['dtype'] = ab(True)
+        elif 'damage' in self.c['moves'][ability]:
+            response['damage'] = moveMult(self.c['moves'][ability]['damage'], self.cur_stats['ability_rank'][ability],
+                self.cur_stats[self.c['moves'][ability]['damage_ratio_type']], self.c['moves'][ability]['damage_ratio'])
             response['dtype'] = self.c['moves'][ability]['damage_type']
-        elif 'effect' in self.c['moves'][ability]:
+        if 'effect' in self.c['moves'][ability]:
             for k in self.c['moves'][ability]['effect']:
                 response[k] = self.c['moves'][ability]['effect'][k][self.cur_stats['ability_rank'][ability]]
+        if 'scaling' in self.c['moves'][ability]:
+            response['scaling'] = self.c['moves'][ability]['scaling']
         return response
 
     def ad(self):
@@ -147,7 +153,7 @@ class Champion(object):
                 self.c['moves'][ability]['on'] = False
             return False
 
-    def useAbility(self,ability,*args): #REMOVE HANDLER LATER, IT'S JUST FOR TESTING I THINK
+    def useAbility(self,ability,*args):
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
                 self.energy(-(self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]]))
@@ -158,16 +164,17 @@ class Champion(object):
                 if self.c['moves'][ability]['on'] == True: #toggling off
                     self.c['moves'][ability]['on'] = False
                     self.setCooldowns(ability)
-                elif self.c['moves'][ability]['on'] == False: #toggling on|| technically some abilities have a cooldown when you turn them on but i wont sweat that now
+                elif self.c['moves'][ability]['on'] == False: #toggling on || technically some abilities have a cooldown when you turn them on but i wont sweat that now
                     self.c['moves'][ability]['on'] = True
             else: 
                 self.setCooldowns(ability)
 
             abi = self.getAbility(ability) #gets the dictionary of the ability (any combination of damage, cc, steriod, etc)
             for k in abi:
-                if k == 'damage':
+                if k == 'damage' or k == 'scaling_damage':
                     for targ in args:
                         d = damageCalc(self,targ,abi)
+                        print 'hit the bitch for',d
                         targ.hp(-d)
         # else:
             # print 'can\'t cast now, sorry'
@@ -207,7 +214,6 @@ class Ahri(Champion):
     def __init__(self,cd):
         super(Ahri, self).__init__(cd)
 
-    # also may want to change this response from an int to json?
     def q(self, dypte = False):
         response = {}
         if (dtype):
@@ -225,11 +231,13 @@ class Akali(Ninja):
         self.cur_stats['essence_of_shadow'] = 0
 
     def e(self, dtype = False):
+        response = {}
         if (dtype):
             return self.c['moves']['e']['damage_type']
         else:
-            return moveMult(self.c['moves']['e']['damage'],self.cur_stats['ability_rank']['e'],self.cur_stats[self.c['moves']['e']['damage_ratio_type']],
+            response['damage'] = moveMult(self.c['moves']['e']['damage'],self.cur_stats['ability_rank']['e'],self.cur_stats[self.c['moves']['e']['damage_ratio_type']],
                 self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b'])
+            return response
 
 class Alistar(Champion):
     def __init__(self,cd):
@@ -251,12 +259,14 @@ class Amumu(Champion):
         super(Amumu, self).__init__(cd)
 
     def w(self, dtype = False):
+        response = {}
         if (dtype):
             return self.c['moves']['w']['damage_type']
         else:
-            return (moveMult(self.c['moves']['w']['damage_b'],self.cur_stats['ability_rank']['w'],
-                self.cur_stats[self.c['moves']['w']['damage_ratio_type_b']],self.c['moves']['w']['damage_ratio_b']) 
-                + self.c['moves']['w']['damage'][self.cur_stats['ability_rank']['w']])
+            response['scaling_damage'] = moveMult(self.c['moves']['w']['damage_b'],self.cur_stats['ability_rank']['w'],
+                self.cur_stats[self.c['moves']['w']['damage_ratio_type_b']],self.c['moves']['w']['damage_ratio_b'])
+            response['base_damage'] = self.c['moves']['w']['damage'][self.cur_stats['ability_rank']['w']]
+            return response
 
     def tick(self):
         self.hpRegen()
