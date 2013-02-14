@@ -143,14 +143,16 @@
          "range":200.0,
          "cost_type":"mana",
          "damage_type":"magic",
-         "damage_block":[
-            0,
-            2,
-            4,
-            6,
-            8,
-            10
-         ],
+         "passive":{
+            "damage_block":[
+               0,
+               2,
+               4,
+               6,
+               8,
+               10
+            ]
+         },
          "description":"(Passive): Amumu takes reduced damage from physical attacks. Each time Amumu is hit by an attack, the cooldown on Tantrum's active is reduced by half a second. (Active): Amumu deals magic damage to surrounding units. ",
          "damage_ratio":0.5
       },

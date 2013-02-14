@@ -217,12 +217,14 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                a.useAbility('w',b)
+                a.useAbility('e',b)
+                b.autoAttack(a)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 # else: 
                     # self.write('unable to cast')
                     # print 'mana when can\'t cast: '+str(a.cur_stats['mana'])
             # exit condition!
+                self.write('e\'s cooldown is%s'%a.cur_stats['cooldowns']['e'])
                 if b.hp()<=0:
                     break
                 a.tick()

@@ -50,12 +50,16 @@ class Champion(object):
         self.ninja = False
         attach(self,cd)
 
+    def show():
+        return self.c
+
     def setBase(self):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hp_regen':0,'mana':0,'mana_regen':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
-        #for debugging so that all the abilities are up: 
+                'cdr':0,'damage_block':0,'on_enemy_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},
+                'ability_rank':{'q':0,'w':0,'e':0,'r':0},'bonus_stats':{'ad':0,'ap':0,'hp':0,'mana':0}}
+        #for debugging so that all the abilities are maxed: 
         for a in self.cur_stats['ability_rank']:
             if a == 'r':
                 self.cur_stats['ability_rank'][a] = 3
@@ -65,7 +69,7 @@ class Champion(object):
     def resetStats(self):
         for s in self.cur_stats:
             if isinstance(self.cur_stats[s],int):
-                self.cur_stats[s] = statMult(self.c['stats'],s,18)
+                self.cur_stats[s] = statMult(self.c['stats'],s,18) #hardcoded for 18, will change to champ level later
 
     def doItems(self):
         i = getChamp('items')
@@ -146,7 +150,7 @@ class Champion(object):
         self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability): #this will at some point need to account for being silenced
         if (self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.c['moves'][ability]['cost_type']] 
-            and self.cur_stats['cooldowns'][ability] == 0):
+            and self.cur_stats['cooldowns'][ability] == 0 and 'silence' not in self.cur_stats['status']):
                 return True
         else:
             if 'on' in self.c['moves'][ability]:
@@ -174,10 +178,23 @@ class Champion(object):
                 if k == 'damage' or k == 'scaling_damage':
                     for targ in args:
                         d = damageCalc(self,targ,abi)
-                        print 'hit the bitch for',d
                         targ.hp(-d)
+                        
+    def autoAttack(self,targ):
+        d = damageCalc(self,targ,'aa')
+        targ.hp(-d)
+        for oh in self.cur_stats['on_enemy_hit']:
+            self.applyStaticAbility(self,oh,targ)
+        for a in targ.cur_stats['on_self_hit']:
+            self.applyStaticAbility(a) #i should make this
+
+    def applyStaticAbility(self, ability, targ=None):
+        ablist = {}
+        if ability not in ablist:
+            self.customStatic(ability)
         # else:
             # print 'can\'t cast now, sorry'
+    # def levelUp(self,)
 
 class Ninja(Champion):
     def __init__(self,cd):
@@ -188,7 +205,8 @@ class Ninja(Champion):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hp_regen':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
             'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'on_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0}}
+                'cdr':0,'damage_block':0,'on_enemy_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0},
+                'bonus_stats':{'ad':0,'ap':0,'hp':0,'mana':0}}
         for a in self.cur_stats['ability_rank']:
             if a == 'r':
                 self.cur_stats['ability_rank'][a] = 3
@@ -275,4 +293,8 @@ class Amumu(Champion):
             self.mana(-8)
         self.cooldowns()
 
-
+    def customStatic(ability):
+        if ability == 'aa':
+            if self.cur_stats['cooldowns']['e'] > 0:
+                self.cur_stats['cooldowns']['e'] -=1
+                print 'cooldown reduced!!'
