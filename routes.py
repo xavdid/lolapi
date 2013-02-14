@@ -174,6 +174,10 @@ class ChampPrint(tornado.web.RequestHandler):
             # self.write(c)
             a.items.append('faeriecharm')
             a.items.append('faeriecharm')
+            a.items.append('ruby')
+            a.items.append('giantbelt')
+            a.items.append('chainvest')
+            a.items.append('amp_tome')
             # a.items.append('brutalizer')
             a.doItems()
             self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
@@ -191,10 +195,7 @@ class ChampPrint(tornado.web.RequestHandler):
             # self.write("<br><br>")
             # self.write("%s's E does %s %s damage at lvl 18 with %s %s" %(a.name.title(), a.e(),a.c['moves']['e']['damage_type'],a.cur_stats['ap'],a.c['moves']['e']['damage_ratio_type'].upper()))
             # self.write(breaks(2))
-            a.items.append('ruby')
-            a.items.append('giantbelt')
-            a.items.append('chainvest')
-            a.items.append('amp_tome')
+            
             # a.items.append('dblade')
             # a.items.append('brutalizer')
             a.doItems()
@@ -228,7 +229,6 @@ class ChampPrint(tornado.web.RequestHandler):
                     # print 'mana when can\'t cast: '+str(a.cur_stats['mana'])
             # exit condition!
                 self.write('e\'s cooldown is%s'%a.cur_stats['cooldowns']['e'])
-                print b.cur_stats['status']
                 if b.hp()<=0:
                     break
                 a.tick()
@@ -238,8 +238,11 @@ class ChampPrint(tornado.web.RequestHandler):
                 # hp = b.hp()
                 # print 'mana:'+str(a.mana())+' tick: '+str(i)
 
-
-
+            for s in a.cur_stats:
+                self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+            self.write('<br>')
+            for s in b.cur_stats:
+                self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
 
 
             # self.write("<br>Items:<br>")

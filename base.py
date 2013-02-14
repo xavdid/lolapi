@@ -107,14 +107,14 @@ class Champion(object):
         return response
 
     def ad(self):
-        return self.cur_stats['ad']
+        return self.cur_stats['ad']+self.cur_stats['bonus_stats']['ad']
     def ap(self):
-        return self.cur_stats['ap']
+        return self.cur_stats['ap']+self.cur_stats['bonus_stats']['ap']
     def hp(self,val=0):
         if (val):
             self.cur_stats['hp'] += val
-            if self.cur_stats['hp'] > self.cur_stats['hp_max']:
-                self.cur_stats['hp'] = self.cur_stats['hp_max']
+            if self.cur_stats['hp'] > self.cur_stats['hp_max']+self.cur_stats['bonus_stats']['hp']:
+                self.cur_stats['hp'] = self.cur_stats['hp_max']+self.cur_stats['bonus_stats']['hp']
             elif self.cur_stats['hp'] < 0:
                 self.cur_stats['hp'] = 0
         else:
@@ -122,20 +122,21 @@ class Champion(object):
     def mana(self,val=0):
         if (val):
             self.cur_stats['mana'] += val
-            if self.cur_stats['mana'] > self.cur_stats['mana_max']:
-                self.cur_stats['mana'] = self.cur_stats['mana_max']
+            if self.cur_stats['mana'] > self.cur_stats['mana_max']+self.cur_stats['bonus_stats']['mana']:
+                self.cur_stats['mana'] = self.cur_stats['mana_max']+self.cur_stats['bonus_stats']['mana']
             elif self.cur_stats['mana'] < 0:
                 self.cur_stats['mana'] = 0
         else:
             return self.cur_stats['mana']
     def armor(self):
-        return self.cur_stats['armor']
+        return self.cur_stats['armor']+self.cur_stats['bonus_stats']['armor']
     def mr(self):
-        return self.cur_stats['mr']
+        return self.cur_stats['mr']+self.cur_stats['bonus_stats']['mr']
     def tick(self):
         self.hpRegen()
         self.secondaryRegen()
         self.cooldowns()
+        self.checkStats()
 
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
@@ -207,14 +208,23 @@ class Champion(object):
                     ab['stacks'] = 1
                     targ.cur_stats['status'].update({ability:ab})
                 elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
-                    targ.cur_stats['status'][ability]['stacks'] += 1 
-                targ.cur_stats[ef] += ab['effect'][ef]
+                    targ.cur_stats['status'][ability]['stacks'] += 1
+                # targ.cur_stats[ef] += ab['effect'][ef]
 
-    def checkStats():
+    def checkStats(self):
+        for s in self.cur_stats['bonus_stats']:
+            self.cur_stats['bonus_stats'][s] = 0
         for buff in self.cur_stats['status']:
             for e in self.cur_stats['status'][buff]['effect']:
-                self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][buff]['effect']*self.cur_stats['status'][buff]['stacks'])
-               
+                self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][buff]['effect'][e]*self.cur_stats['status'][buff]['stacks'])
+        self.statusTimers()
+
+    def fullHeal(self):
+        self.cur_stats['hp'] = self.cur_stats['bonus_stats']['hp']+self.cur_stats['hp_max']
+        if self.ninja:
+            self.cur_stats['energy'] = 200
+        else:
+            self.cur_stats['mana'] = self.cur_stats['bonus_stats']['mana']+self.cur_stats['mana_max']
 
 class Ninja(Champion):
     def __init__(self,cd):
@@ -307,6 +317,7 @@ class Amumu(Champion):
         if (self.c['moves']['w']['on']):
             self.mana(-8)
         self.cooldowns()
+        self.checkStats()
 
     def customStatic(self, ability):
         if ability == 'tantrum':
