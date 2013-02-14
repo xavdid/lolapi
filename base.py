@@ -149,8 +149,13 @@ class Champion(object):
             if self.cur_stats['cooldowns'][a] > 0:
                self.cur_stats['cooldowns'][a] -= 1
     def statusTimers(self):
+        poplist = []
         for b in self.cur_stats['status']:
             self.cur_stats['status'][b]['duration'] -= 1
+            if self.cur_stats['status'][b]['duration'] <= 0:
+                poplist.append(b)
+        for d in poplist:
+            self.cur_stats['status'].pop(b)
     def setCooldowns(self,ability):
         self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability): #this will at some point need to account for being silenced
