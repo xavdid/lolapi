@@ -57,8 +57,8 @@ class Champion(object):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hp_regen':0,'mana':0,'mana_regen':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'on_enemy_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},
-                'ability_rank':{'q':0,'w':0,'e':0,'r':0},'bonus_stats':{'ad':0,'ap':0,'hp':0,'mana':0}}
+                'cdr':0,'damage_block':0,'on_enemy_hit':[],'on_self_hit':[],'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},
+                'ability_rank':{'q':0,'w':0,'e':0,'r':0},'bonus_stats':{'ad':0,'ap':0,'hp':0,'mana':0,'armor':0,'mr':0,'ms':0,'as':0}}
         #for debugging so that all the abilities are maxed: 
         for a in self.cur_stats['ability_rank']:
             if a == 'r':
@@ -136,6 +136,7 @@ class Champion(object):
         self.hpRegen()
         self.secondaryRegen()
         self.cooldowns()
+
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
             self.hp(self.cur_stats['hp_regen']/5.0)
@@ -146,6 +147,9 @@ class Champion(object):
         for a in self.cur_stats['cooldowns']:
             if self.cur_stats['cooldowns'][a] > 0:
                self.cur_stats['cooldowns'][a] -= 1
+    def statusTimers(self):
+        for b in self.cur_stats['status']:
+            self.cur_stats['status'][b]['duration'] -= 1
     def setCooldowns(self,ability):
         self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability): #this will at some point need to account for being silenced
@@ -184,34 +188,42 @@ class Champion(object):
         d = damageCalc(self,targ,'aa')
         targ.hp(-d)
         for oh in self.cur_stats['on_enemy_hit']:
-            self.applyStaticAbility(self,oh,targ)
+            self.applyStaticAbility(oh,targ)
         for a in targ.cur_stats['on_self_hit']:
-            self.applyStaticAbility(a) #i should make this
+            targ.applyStaticAbility(a) #i should make this
 
-    def applyStaticAbility(self, ability, targ=None):
-        ablist = {}
+    def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
+        ablist = {'cursed_touch':{'effect':{'mr':self.c['moves']['p']['onhit']['mr'][2]},'duration':self.c['moves']['p']['onhit']['duration'][2],
+            'max_stacks':self.c['moves']['p']['onhit']['max_stacks'][2]}} 
+        # print 'in apply static'
         if ability not in ablist:
             self.customStatic(ability)
-        # else:
-            # print 'can\'t cast now, sorry'
-    # def levelUp(self,)
+        else:
+            ab = ablist[ability]
+            ab['stacks'] = 0
+            for ef in ab['effect']:
+                # print 'ef',targ.cur_stats[ef],'other',ablist[ability]['effect'][ef]
+                if ability not in targ.cur_stats['status']:
+                    ab['stacks'] = 1
+                    targ.cur_stats['status'].update({ability:ab})
+                elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
+                    targ.cur_stats['status'][ability]['stacks'] += 1 
+                targ.cur_stats[ef] += ab['effect'][ef]
+
+    def checkStats():
+        for buff in self.cur_stats['status']:
+            for e in self.cur_stats['status'][buff]['effect']:
+                self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][buff]['effect']*self.cur_stats['status'][buff]['stacks'])
+               
 
 class Ninja(Champion):
     def __init__(self,cd):
         super(Ninja, self).__init__(cd)
         self.ninja = True
-
-    def setBase(self):
-        # self.cur_stats 
-        self.cur_stats = {'level':0,'hp':0,'hp_max':0,'hp_regen':0,'energy':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,'mr':0,'crit':0,
-            'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
-                'cdr':0,'damage_block':0,'on_enemy_hit':{},'on_self_hit':{},'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},'ability_rank':{'q':0,'w':0,'e':0,'r':0},
-                'bonus_stats':{'ad':0,'ap':0,'hp':0,'mana':0}}
-        for a in self.cur_stats['ability_rank']:
-            if a == 'r':
-                self.cur_stats['ability_rank'][a] = 3
-            else:
-                self.cur_stats['ability_rank'][a] = 5
+        self.cur_stats.pop('mana')
+        self.cur_stats.pop('mana_max')
+        self.cur_stats.pop('mana_regen')
+        self.cur_stats['energy'] = 0
 
     def energy(self, val=0):
         if val:
@@ -275,6 +287,9 @@ class Alistar(Champion):
 class Amumu(Champion):
     def __init__(self,cd):
         super(Amumu, self).__init__(cd)
+        self.cur_stats['damage_block'] = self.c['moves']['e']['passive']['damage_block'][self.cur_stats['ability_rank']['e']] #this (and other similar abilities) will need to be reallocated on levelup
+        self.cur_stats['on_self_hit'].append('tantrum')
+        self.cur_stats['on_enemy_hit'].append('cursed_touch')
 
     def w(self, dtype = False):
         response = {}
@@ -293,8 +308,7 @@ class Amumu(Champion):
             self.mana(-8)
         self.cooldowns()
 
-    def customStatic(ability):
-        if ability == 'aa':
+    def customStatic(self, ability):
+        if ability == 'tantrum':
             if self.cur_stats['cooldowns']['e'] > 0:
                 self.cur_stats['cooldowns']['e'] -=1
-                print 'cooldown reduced!!'

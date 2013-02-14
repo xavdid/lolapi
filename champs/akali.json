@@ -186,7 +186,11 @@
       "hp_ratio":85.0,
       "as_ratio":3.1,
       "hpreg_ratio":0.65,
-      "hp_base":445.0
+      "hp_base":445.0,
+      "mana_base":0,
+      "manareg_base":0,
+      "mana_ratio":0,
+      "manareg_ratio":0
    },
    "name":"akali",
    "title":"the Fist of Shadow",
