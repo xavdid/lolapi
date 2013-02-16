@@ -50,8 +50,10 @@ class Champion(object):
         self.ninja = False
         attach(self,cd)
 
-    def show():
-        return self.c
+    # def show(self,handler):#will change for command line- doesn't need handler, can just take print
+        # slist = ['hp'
+        # for s in a.cur_stats:
+                # self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
 
     def setBase(self):
         # self.cur_stats 
@@ -197,7 +199,8 @@ class Champion(object):
                         self.applyStaticAbility(k,targ)
                         
     def autoAttack(self,targ):
-        d = damageCalc(self,targ,'aa')
+        abi = {'damage':self.ad(),'dtype':'physical'}
+        d = damageCalc(self,targ,abi)
         targ.hp(-d)
         for oh in self.cur_stats['on_enemy_hit']:
             self.applyStaticAbility(oh,targ)

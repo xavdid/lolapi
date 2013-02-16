@@ -96,11 +96,9 @@ def damageMult(damage,defense):
 
 def damageCalc(c1,c2,ability):
     # penlist = ['flat_armor_pen','perc_armor_pen','flat_magic_pen','perc_magic_pen']
-    if ('scaling' not in ability and ability != 'aa'):
+    if ('scaling' not in ability):
         damage_total = ability['damage']
-    elif (ability == 'aa'):
-        damage_total = c1.ad()
-    if (ability == 'aa' or ability['dtype'] == 'physical'):
+    if (ability['dtype'] == 'physical'):
         de = c2.armor()
         de -= c1.cur_stats['flat_armor_pen']
     elif (ability['dtype'] == 'magic'):

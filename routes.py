@@ -198,7 +198,7 @@ class ChampPrint(tornado.web.RequestHandler):
             
             # a.items.append('dblade')
             # a.items.append('brutalizer')
-            a.doItems()
+            # a.doItems()
             self.write(breaks(1))
         # # initializing second champ, only needed for fighting
             asdf = getChamp('akali')
