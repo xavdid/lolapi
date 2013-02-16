@@ -173,7 +173,7 @@
          }
       },
 
-      "recurve":{
+      "recurvebow":{
          "cost":950,
          "tag":"recurve",
          "name":"Recurve Bow",
@@ -211,7 +211,8 @@
          "name":"Sightstone",
          "effect":{
             "hp_max":100
-         }
+         },
+         "ability":{"ghost_ward":4}
       },
       "brutalizer":{
          "cost":1337,

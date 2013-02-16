@@ -1,0 +1,168 @@
+{
+   "_types":[
+      "ChampBase"
+   ],
+   "moves":{
+      "q":{
+         "cost":[
+            0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0
+         ],
+         "cost_type":"mana per attack",
+         "description":"Toggle: Ashe's basic attacks slow her targets for 2 seconds.",
+         "name":"Frost Shot",
+         "on_enemy_hit":{
+            "slow":[
+               0,
+               0.15,
+               0.20,
+               0.25,
+               0.30,
+               0.35
+            ],
+            "duration":[
+               0,
+               2,
+               2,
+               2,
+               2,
+               2
+            ],
+            "max_stacks":[
+               0,
+               1,
+               1,
+               1,
+               1,
+               1
+            ]
+         }     
+      },
+      "p":{
+         "description":"Ashe's critical strike chance increases by [3/6/9/12/15/18]% every 3 seconds while not attacking. Focus' bonus is expended with her next basic attack.",
+         "name":"Focus",
+         "effect":{
+            "crit_chance":[
+               0,
+               3,
+               6,
+               9,
+               12,
+               15,
+               18
+            ]
+         }
+      },
+      "r":{
+         "cost_type":"Mana",
+         "cost":[
+            0,
+            150.0,
+            150.0,
+            150.0
+         ],
+         "name":"Enchanted Crystal Arrow",
+         "description":"Active:  Ashe fires a large arrow in a straight line. If it hits an enemy champion, it will deal magic damage and stun that champion for 1 to 3.5 seconds based on the distance the arrow traveled, reaching max stun duration at 2800 units traveled. Additionally, surrounding units take half the damage and are slowed by 50% for 3 seconds.",
+         "damage":[
+            0.0,
+            250.0,
+            425.0,
+            600.0
+         ],
+         "range":"Global",
+         "cooldown":[
+            0.0,
+            100.0,
+            90.0,
+            80.0
+         ],
+         "damage_type":"magic",
+         "damage_ratio":1.0,
+         "speed":1600,
+         "explosion_radius":125,
+         "effect":{
+            "stun":[
+               0,
+               3.5,
+               3.5,
+               3.5
+            ]
+         }
+      },
+      "e":{
+         "range":[0,2500,3250,4000,4750,5500],
+         "cooldown":[
+            0,
+            60.0,
+            60.0,
+            60.0,
+            60.0,
+            60.0
+         ],
+         "description2":"Active:  Ashe animates a hawk to scout for her, revealing terrain for 2 seconds as it flies towards a target location. Hawkshot reveals a wide area for 5 seconds when it reaches its destination. The hawk will reveal units in the brushes, but will not reveal stealthed units or objects.",
+         "description":"Passive:  Ashe gains bonus gold whenever she kills a unit or destroys a structure.",
+         "name":"Hawkshot"
+      },
+      "w":{
+         "cost_type":"Mana",
+         "cost":[
+            0,
+            60.0,
+            60.0,
+            60.0,
+            60.0,
+            60.0
+         ],
+         "description":"Active:  Ashe fires 7 arrows in a cone, dealing physical damage to each target hit. Each arrow will only hit one enemy, and each enemy will only be hit by one arrow. Volley also applies the current rank of Frost Shot, regardless if it is toggled on or not.",
+         "range":"1200",
+         "cooldown":[
+            0.0,
+            16.0,
+            13.0,
+            10.0,
+            7.0,
+            4.0
+         ],
+         "damage":[
+            0,
+            40,
+            50,
+            60,
+            70,
+            80
+         ],
+         "damage_ratio":1.0,
+         "damage_ratio_type":"ad",
+         "speed":2000,
+         "name":"Volley"
+      }
+   },
+   "stats":{
+      "armor_ratio":3.4,
+      "armor_base":11.5,
+      "ad_base":46.3,
+      "manareg_base":6.3,
+      "manareg_ratio":0.4,
+      "mr_ratio":0.0,
+      "mana_ratio":35.0,
+      "ad_ratio":2.85,
+      "mr_base":30.0,
+      "hp_ratio":79.0,
+      "hpreg_base":4.5,
+      "ms_base":325.0,
+      "hpreg_ratio":0.55,
+      "mana_base":173.0,
+      "hp_base":395.0,
+      "as_base":0.0658,
+      "as_ratio":0.0334
+
+   },
+   "name": "ashe", 
+   "title": "the Frost Archer", 
+   "_cls": "ChampBase",
+   "_id": "511e91c8b59060a536368923"
+}

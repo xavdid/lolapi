@@ -56,7 +56,7 @@ class Champion(object):
     def setBase(self):
         # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hp_regen':0,'mana':0,'mana_regen':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
-            'mr':0,'crit':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
+            'mr':0,'crit_chance':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
                 'cdr':0,'damage_block':0,'on_enemy_hit':[],'on_self_hit':[],'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},
                 'ability_rank':{'q':0,'w':0,'e':0,'r':0},'bonus_stats':{'ad':0,'ap':0,'hp':0,'mana':0,'armor':0,'mr':0,'ms':0,'as':0}}
         #for debugging so that all the abilities are maxed: 
@@ -105,7 +105,7 @@ class Champion(object):
         if 'scaling' in self.c['moves'][ability]:
             response['scaling'] = self.c['moves'][ability]['scaling']
         return response
-
+#these functions return the base+bonus for their given stat
     def ad(self):
         return self.cur_stats['ad']+self.cur_stats['bonus_stats']['ad']
     def ap(self):
@@ -132,12 +132,14 @@ class Champion(object):
         return self.cur_stats['armor']+self.cur_stats['bonus_stats']['armor']
     def mr(self):
         return self.cur_stats['mr']+self.cur_stats['bonus_stats']['mr']
+    def ats(self): #as is reserved in python, bummer
+        return self.cur_stats['as']*(1+self.cur_stats['bonus_stats']['as'])
+#these take care of maitenence stuff (cooldowns, buffs, etc)
     def tick(self):
         self.hpRegen()
         self.secondaryRegen()
         self.cooldowns()
         self.checkStats()
-
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
             self.hp(self.cur_stats['hp_regen']/5.0)
@@ -160,7 +162,8 @@ class Champion(object):
         self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability): #this will at some point need to account for being silenced
         if (self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.c['moves'][ability]['cost_type']] 
-            and self.cur_stats['cooldowns'][ability] == 0 and 'silence' not in self.cur_stats['status']):
+            and self.cur_stats['cooldowns'][ability] <= 0 and 'silence' not in self.cur_stats['status'] and 'stun' not in self.cur_stats['status'] 
+            and 'taunt' not in self.cur_stats['status']):
                 return True
         else:
             if 'on' in self.c['moves'][ability]:
@@ -189,6 +192,9 @@ class Champion(object):
                     for targ in args:
                         d = damageCalc(self,targ,abi)
                         targ.hp(-d)
+                elif k == 'stun' or k == 'taunt':
+                    for targ in args:
+                        self.applyStaticAbility(k,targ)
                         
     def autoAttack(self,targ):
         d = damageCalc(self,targ,'aa')
@@ -199,8 +205,11 @@ class Champion(object):
             targ.applyStaticAbility(a) #i should make this
 
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
-        ablist = {'cursed_touch':{'effect':{'mr':self.c['moves']['p']['onhit']['mr'][2]},'duration':self.c['moves']['p']['onhit']['duration'][2],
-            'max_stacks':self.c['moves']['p']['onhit']['max_stacks'][2]}} 
+        ablist = {
+        'cursed_touch':{'effect':{'mr':self.c['moves']['p']['onhit']['mr'][2]},'duration':self.c['moves']['p']['onhit']['duration'][2],
+            'max_stacks':self.c['moves']['p']['onhit']['max_stacks'][2]},
+        'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1}
+        } 
         # print 'in apply static'
         if ability not in ablist:
             self.customStatic(ability)
@@ -328,3 +337,15 @@ class Amumu(Champion):
         if ability == 'tantrum':
             if self.cur_stats['cooldowns']['e'] > 0:
                 self.cur_stats['cooldowns']['e'] -=1
+
+class Anivia(Champion):
+    def __init__(self,cd):
+        super(Anivia, self).__init__(cd)
+
+    def tick(self):
+        self.hpRegen()
+        self.secondaryRegen()
+        if (self.c['moves']['w']['on']):
+            self.mana(-(self.c['moves']['r']['cost'][self.c['cur_stats']['ability_rank']['r']]))
+        self.cooldowns()
+        self.checkStats()

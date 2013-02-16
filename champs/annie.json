@@ -131,7 +131,9 @@
       "ms_base":335.0,
       "hpreg_ratio":0.55,
       "mana_base":250.0,
-      "hp_base":384.0
+      "hp_base":384.0,
+      "as_base":0.0579,
+      "as_ratio":0.0136
    },
    "name":"annie",
    "title":"the Dark Child",

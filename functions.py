@@ -136,6 +136,7 @@ def breaks(i):
         s+="<br>"
     return s
 
+#these are for scraping
 def namer(s):
     if s == 'Damage':
         return 'ad'

@@ -18,15 +18,15 @@ class ChampAdd(tornado.web.RequestHandler):
         db = c.loldb
         champ = ChampBase()
 
-        champ.stats = souper('http://na.leagueoflegends.com/champions/1/annie_the_dark_child') #takes na.league url
-        champ.moves = regexer('http://leagueoflegends.wikia.com/api.php?action=query&titles=annie&prop=revisions&rvprop=content&format=dumpfm') #takes lolwiki
+        champ.stats = souper('http://na.leagueoflegends.com/champions/22/ashe_the_frost_archer') #takes na.league url
+        champ.moves = regexer('http://leagueoflegends.wikia.com/api.php?action=query&titles=ashe&prop=revisions&rvprop=content&format=dumpfm') #takes lolwiki
         #boom
         # asdf = ItemBase()
         # asdf.items = {"ruby":{"name":"Ruby Crystal","effect":{"hp":180},"cost":475,"tag":"ruby"},
             # "amp_tome":{"name":"Amplification Tome","effect":{"ap":20},"cost":435,"tag":"amp_tome"}}
         # asdf.name = 'items'
-        champ.name = 'annie'
-        champ.title = 'the Dark Child'
+        champ.name = 'ashe'
+        champ.title = 'the Frost Archer'
         # st = {}
         # st['hp_base'] = 472.0
         # st['hp_ratio'] = 84.0
@@ -174,7 +174,7 @@ class ChampPrint(tornado.web.RequestHandler):
             # self.write(c)
             a.items.append('faeriecharm')
             a.items.append('faeriecharm')
-            a.items.append('ruby')
+            a.items.append('recurvebow')
             a.items.append('giantbelt')
             a.items.append('chainvest')
             a.items.append('amp_tome')

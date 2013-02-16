@@ -17,7 +17,7 @@
       "mr_base":30.0,
       "hpreg_base":7.45,
       "hp_ratio":84.0,
-      "as_ratio":2.18,
+      "as_ratio":0.0218,
       "hpreg_ratio":0.85,
       "mana_base":220.0,
       "hp_base":472.0
@@ -29,7 +29,7 @@
       "p":{
          "description":"Amumu's attacks reduce the target's magic resistance by 15/25/35 for 3 seconds. The debuff doesn't stack but it refreshes with every attack.",
          "name":"Cursed Touch",
-         "onhit":{
+         "on_enemy_hit":{
             "mr":[
                -15.0,
                -25.0,
@@ -76,12 +76,12 @@
          ],
          "effect":{
             "stun":[
-            0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0
+               0,
+               1.0,
+               1.0,
+               1.0,
+               1.0,
+               1.0
             ]
          },
          "range":1100.0,
@@ -207,7 +207,7 @@
             8
          ],
          "damage_ratio_b":0.01,
-         "description":"(Toggle): Overcome by anguish, nearby enemies will be dealt a percentage of their maximum health plus a base amount as magic damage each second."
+         "description":"Toggle: Overcome by anguish, nearby enemies will be dealt a percentage of their maximum health plus a base amount as magic damage each second."
       }
    }
 }
