@@ -209,8 +209,8 @@ class Champion(object):
 
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
         ablist = {
-        'cursed_touch':{'effect':{'mr':self.c['moves']['p']['onhit']['mr'][2]},'duration':self.c['moves']['p']['onhit']['duration'][2],
-            'max_stacks':self.c['moves']['p']['onhit']['max_stacks'][2]},
+        'cursed_touch':{'effect':{'mr':self.c['moves']['p']['on_enemy_hit']['mr'][2]},'duration':self.c['moves']['p']['on_enemy_hit']['duration'][2],
+            'max_stacks':self.c['moves']['p']['on_enemy_hit']['max_stacks'][2]},
         'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1}
         } 
         # print 'in apply static'

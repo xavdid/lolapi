@@ -113,7 +113,7 @@ def damageCalc(c1,c2,ability):
 
 def getChamp(input):
     c = pymongo.Connection()
-    db = c.loldb
+    db = c.lolapi
     champ = db.champs.find({'name':input},limit=1)
     for i in champ:
         c = prepare(i)
