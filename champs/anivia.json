@@ -102,7 +102,7 @@
             60
          ],
          "name":"Glacial Storm",
-         "description":"Active: Anivia creates a blizzard in a target 800-diameter area. Enemies inside this area take magic damage over time and are \"chilled\", slowing their movement and attack speed by 20%. Glacial Storm drains mana from Anivia while active, and deactivates if she runs out.",
+         "description":"Toggle: Anivia creates a blizzard in a target 800-diameter area. Enemies inside this area take magic damage over time and are \"chilled\", slowing their movement and attack speed by 20%. Glacial Storm drains mana from Anivia while active, and deactivates if she runs out.",
          "damage":[
             0,
             80,

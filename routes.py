@@ -284,7 +284,7 @@ class PatchHandler(tornado.web.RequestHandler):
         if input == patchkey:
             co = pymongo.Connection()
             db = co.loldb
-            champlist = ['items','ahri','akali','alistar','amumu']
+            champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
             for n in champlist: 
                 js = open('champs/%s.json' %n)
                 c = json.load(js)
