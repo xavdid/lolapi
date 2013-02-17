@@ -20,7 +20,10 @@ class Application(tornado.web.Application):
 		tornado.web.Application.__init__(self,base.route.get_routes(), **settings)
 
 def main():
-	port = int(sys.argv[1])
+	try:
+		port = int(sys.argv[1])
+	except:
+		port = 8888
 	# tornado.options.parse_command_line()
 	http_server = tornado.httpserver.HTTPServer(Application()) 
 	http_server.listen(port) 

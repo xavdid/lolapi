@@ -28,3 +28,4 @@ pip-log.txt
 
 #etc
 .DS_store
+secrets.py

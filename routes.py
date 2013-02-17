@@ -8,9 +8,16 @@ import tornado.web
 from tornado.web import asynchronous
 from tornado.gen import engine, Task
 from pprint import pprint
-from secrets import patchkey
+from secrets import patchkey,username,password
 from dictmaker import *
 import sys
+
+@route('')
+class FrontPage(tornado.web.RequestHandler):
+    def get(self):
+        s = '<html><title>LoL API</title>\
+            <body> <title> Welcome to the LoL API!</title><br><br>\
+            Click on a champion name to get a 
 
 @route('/champions/add')
 class ChampAdd(tornado.web.RequestHandler):
@@ -283,7 +290,7 @@ class ChampPrintJson(tornado.web.RequestHandler):
 class PatchHandler(tornado.web.RequestHandler):
     def get(self,input):
         if input == patchkey:
-            conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
+            conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
             db = conn.lolapi
             champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
             for n in champlist: 
