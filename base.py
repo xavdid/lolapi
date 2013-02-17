@@ -12,7 +12,6 @@ from dictshield.fields.compound import ListField
 from functions import *
 from pprint import pprint
 
-# define("port", de, help="run on the given port", type=int)
 
 class route(object):
     _routes = []

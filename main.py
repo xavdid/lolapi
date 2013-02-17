@@ -7,7 +7,11 @@ import tornado.httpclient
 import asyncmongo
 import base
 import routes
-from tornado.options import define, options
+# from tornado.options import define, options
+import sys
+
+# define("port", default=1234, help="run on the given port", type=int)
+
 
 class Application(tornado.web.Application): 
 	def __init__(self):
@@ -16,9 +20,10 @@ class Application(tornado.web.Application):
 		tornado.web.Application.__init__(self,base.route.get_routes(), **settings)
 
 def main():
-	tornado.options.parse_command_line()
+	port = int(sys.argv[1])
+	# tornado.options.parse_command_line()
 	http_server = tornado.httpserver.HTTPServer(Application()) 
-	http_server.listen(options.port) 
+	http_server.listen(port, '0.0.0.0') 
 	tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
