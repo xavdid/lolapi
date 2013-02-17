@@ -9,6 +9,7 @@ from bson import objectid
 import pymongo
 from pprint import pprint
 import urllib2
+import sys
 
 def api_response(status,response,handler=None,code=200,errors=[]):
     if handler: handler.set_status(code)
@@ -112,8 +113,9 @@ def damageCalc(c1,c2,ability):
     return da
 
 def getChamp(input):
-    c = pymongo.Connection()
-    db = c.lolapi
+    # conn = sys.argv[2]
+    conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
+    db = conn.lolapi
     champ = db.champs.find({'name':input},limit=1)
     for i in champ:
         c = prepare(i)

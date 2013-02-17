@@ -10,6 +10,7 @@ from tornado.gen import engine, Task
 from pprint import pprint
 from secrets import patchkey
 from dictmaker import *
+import sys
 
 @route('/champions/add')
 class ChampAdd(tornado.web.RequestHandler):
@@ -282,11 +283,11 @@ class ChampPrintJson(tornado.web.RequestHandler):
 class PatchHandler(tornado.web.RequestHandler):
     def get(self,input):
         if input == patchkey:
-            co = pymongo.Connection()
-            db = co.lolapi
+            conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
+            db = conn.lolapi
             champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
             for n in champlist: 
-                js = open('champs/%s.json' %n)
+                js = open('champs/%s.json' %n) #that is, json
                 c = json.load(js)
                 if (n=='items'):
                     ch = ItemBase()

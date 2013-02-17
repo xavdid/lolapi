@@ -23,7 +23,7 @@ def main():
 	port = int(sys.argv[1])
 	# tornado.options.parse_command_line()
 	http_server = tornado.httpserver.HTTPServer(Application()) 
-	http_server.listen(port, '0.0.0.0') 
+	http_server.listen(port) 
 	tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
