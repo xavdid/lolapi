@@ -12,12 +12,15 @@ from secrets import patchkey,username,password
 from dictmaker import *
 import sys
 
-@route('')
+@route('/')
 class FrontPage(tornado.web.RequestHandler):
     def get(self):
         s = '<html><title>LoL API</title>\
-            <body> <title> Welcome to the LoL API!</title><br><br>\
-            Click on a champion name to get a 
+            <body> <font size = 8> Welcome to the LoL API!</font><br><br>\
+            Click on a champion name to get a .json of their data<br>\
+            <a href = "/champions/show/ahri">Ahri</a></body>\
+            </html>'
+        self.write(s)
 
 @route('/champions/add')
 class ChampAdd(tornado.web.RequestHandler):
