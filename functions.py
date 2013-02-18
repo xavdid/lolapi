@@ -110,9 +110,8 @@ def damageCalc(c1,c2,ability):
     return da
 
 def getChamp(input):
-    # conn = sys.argv[2]
     conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
-    #the line below is the read-only, non-authenticated version.
+#the line below is the read-only, non-authenticated version.
     # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
     db = conn.lolapi
     champ = db.champs.find({'name':input},limit=1)

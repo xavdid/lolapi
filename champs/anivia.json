@@ -14,7 +14,7 @@
             160
          ],
          "name":"Flash Frost",
-         "description":"Active:  Anivia fires an orb of ice that travels in a line at 850-speed. All enemies it hits take magic damage and are &quot;chilled&quot; for 3 seconds, slowing their movement speed by 20%. The shard will detonate when reaching its maximum range or if the ability is activated again. When the shard explodes, it deals the same damage to all enemies within 75 range, stuns them for 1 second, and \"chills\" them for 3 seconds.",
+         "description":"Active:  Anivia fires an orb of ice that travels in a line at 850 speed. All enemies it hits take magic damage and are \"chilled\" for 3 seconds, slowing their movement speed by 20%. The shard will detonate when reaching its maximum range or if the ability is activated again. When the shard explodes, it deals the same damage to all enemies within 75 range, stuns them for 1 second, and \"chills\" them for 3 seconds.",
          "damage":[
             0,
             60.0,

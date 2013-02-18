@@ -174,6 +174,7 @@ class ChampPrint(tornado.web.RequestHandler):
     # @asynchronous
     def get(self,input):
         c = getChamp(input)
+        # print 'in print, input is',input
         try:
             if (input == 'akali'):
                 a = Akali(c)
@@ -191,19 +192,18 @@ class ChampPrint(tornado.web.RequestHandler):
                 a = Ashe(c)
             else:
                 assert(1==0)
-        except AssertionError:
-            self.write('Champion not found')
-
-        else:
+        except:
+            self.write('Champ not found')
         #this is for nice output
-            # self.write(c)
+        # self.write(c)
+        else:
             a.items.append('faeriecharm')
             a.items.append('faeriecharm')
             a.items.append('recurvebow')
             a.items.append('giantbelt')
             a.items.append('chainvest')
             a.items.append('amp_tome')
-            # a.items.append('brutalizer')
+            # a.items.append('brutalizer')`
             a.doItems()
             self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
             for s in a.cur_stats:
@@ -245,8 +245,8 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                # a.useAbility('e',b)
-                a.autoAttack(b)
+                a.useAbility('q',b)
+                # a.autoAttack(b)
                 b.autoAttack(a)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 # else: 
@@ -288,28 +288,6 @@ class ChampPrint(tornado.web.RequestHandler):
 class ChampPrintJson(tornado.web.RequestHandler):
     def get(self,input):
         c = getChamp(input)
-        try:
-            if (input == 'akali'):
-                a = Akali(c)
-            elif (input == 'ahri'):
-                a = Ahri(c)
-            elif (input == 'alistar'):
-                a = Alistar(c)
-            elif (input == 'amumu'):
-                a = Amumu(c)
-            elif (input == 'anivia'):
-                a = Anivia(c)
-            elif (input == 'annie'):
-                a = Annie(c)
-            elif (input == 'ashe'):
-                a = Ashe(c)
-            else:
-                assert(1==0)
-        except:
-            self.write('Champion not found')
-            # traceback.print_exc()
-            
-
         self.write(c)
             
 @route('/patch')
@@ -340,4 +318,6 @@ class PatchHandler(tornado.web.RequestHandler):
             self.write('patched to v3.0.1')
         except:
             self.write('Authentication error!')
+
+        
 
