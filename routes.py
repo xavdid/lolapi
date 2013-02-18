@@ -314,30 +314,29 @@ class ChampPrintJson(tornado.web.RequestHandler):
 @route('/patch')
 class PatchHandler(tornado.web.RequestHandler):
     def get(self,input):
-        if input == patchkey:
-            try:
-                conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
-            #the line below is the read-only, non-authenticated version.
-                # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
-                db = conn.lolapi
-                champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
-                for n in champlist: 
-                    js = open('champs/%s.json' %n) #that is, json
-                    c = json.load(js)
-                    if (n=='items'):
-                        ch = ItemBase()
-                        ch.items = c
-                        ch.name = 'items'
-                    else:
-                        ch = ChampBase()
-                        attach(ch,c)
+        try:
+            conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
+        #the line below is the read-only, non-authenticated version.
+            # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
+            db = conn.lolapi
+            champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
+            for n in champlist: 
+                js = open('champs/%s.json' %n) #that is, json
+                c = json.load(js)
+                if (n=='items'):
+                    ch = ItemBase()
+                    ch.items = c
+                    ch.name = 'items'
+                else:
+                    ch = ChampBase()
+                    attach(ch,c)
 
-                    db.champs.update({'name':n},ch.to_python(),True)
-                    # pprint(ch.to_python())
-                    js.close()
-                self.write('patched to v3.0.1')
-            except:
-                self.write('Authentication error! Check your secrets.py file or use the unauthenticated call in /patch')
+                db.champs.update({'name':n},ch.to_python(),True)
+                # pprint(ch.to_python())
+                js.close()
+            self.write('patched to v3.0.1')
+        except:
+            self.write('Authentication error! Check your secrets.py file or use the unauthenticated call in /patch')
         else:
             self.write('secret key not included, patching failed')
 
