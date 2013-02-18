@@ -1,1 +1,1 @@
-web: python main.py $PORT $MONGOLAB_URI
+web: python main.py $PORT

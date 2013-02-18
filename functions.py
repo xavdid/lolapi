@@ -1,7 +1,3 @@
-"""
-Some handy util functions
-"""
-
 import simplejson as json
 import httplib
 from datetime import datetime
@@ -10,6 +6,7 @@ import pymongo
 from pprint import pprint
 import urllib2
 import sys
+from secrets import username, password
 
 def api_response(status,response,handler=None,code=200,errors=[]):
     if handler: handler.set_status(code)
@@ -114,7 +111,9 @@ def damageCalc(c1,c2,ability):
 
 def getChamp(input):
     # conn = sys.argv[2]
-    conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
+    conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
+    #the line below is the read-only, non-authenticated version.
+    # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
     db = conn.lolapi
     champ = db.champs.find({'name':input},limit=1)
     for i in champ:

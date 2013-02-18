@@ -8,7 +8,7 @@ import tornado.web
 from tornado.web import asynchronous
 from tornado.gen import engine, Task
 from pprint import pprint
-from secrets import patchkey,username,password
+from secrets import username,password
 from dictmaker import *
 import sys
 
@@ -18,7 +18,15 @@ class FrontPage(tornado.web.RequestHandler):
         s = '<html><title>LoL API</title>\
             <body> <font size = 8> Welcome to the LoL API!</font><br><br>\
             Click on a champion name to get a .json of their data<br>\
-            <a href = "/champions/show/ahri">Ahri</a></body>\
+            <a href = "/champions/show/ahri/json">Ahri</a><br>\
+            <a href = "/champions/show/akali/json">Akali</a><br>\
+            <a href = "/champions/show/alistar/json">Alistar</a><br>\
+            <a href = "/champions/show/amumu/json">Amumu</a><br>\
+            <a href = "/champions/show/anivia/json">Anivia</a><br>\
+            <a href = "/champions/show/annie/json">Annie</a><br>\
+            <a href = "/champions/show/ashe/json">Ashe</a><br>\
+            <a href = "/champions/show/items/json">Items</a><br>\
+            </body>\
             </html>'
         self.write(s)
 
@@ -175,6 +183,12 @@ class ChampPrint(tornado.web.RequestHandler):
                 a = Alistar(c)
             elif (input == 'amumu'):
                 a = Amumu(c)
+            elif (input == 'anivia'):
+                a = Anivia(c)
+            elif (input == 'annie'):
+                a = Annie(c)
+            elif (input == 'ashe'):
+                a = Ashe(c)
             else:
                 assert(1==0)
         except AssertionError:
@@ -281,6 +295,14 @@ class ChampPrintJson(tornado.web.RequestHandler):
                 a = Ahri(c)
             elif (input == 'alistar'):
                 a = Alistar(c)
+            elif (input == 'amumu'):
+                a = Amumu(c)
+            elif (input == 'anivia'):
+                a = Anivia(c)
+            elif (input == 'annie'):
+                a = Annie(c)
+            elif (input == 'ashe'):
+                a = Ashe(c)
             else:
                 assert(1==0)
         except:
@@ -289,28 +311,33 @@ class ChampPrintJson(tornado.web.RequestHandler):
         else:
             self.write(c)
             
-@route('/patch/(\w+)')
+@route('/patch')
 class PatchHandler(tornado.web.RequestHandler):
     def get(self,input):
         if input == patchkey:
-            conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
-            db = conn.lolapi
-            champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
-            for n in champlist: 
-                js = open('champs/%s.json' %n) #that is, json
-                c = json.load(js)
-                if (n=='items'):
-                    ch = ItemBase()
-                    ch.items = c
-                    ch.name = 'items'
-                else:
-                    ch = ChampBase()
-                    attach(ch,c)
+            try:
+                conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
+            #the line below is the read-only, non-authenticated version.
+                # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
+                db = conn.lolapi
+                champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
+                for n in champlist: 
+                    js = open('champs/%s.json' %n) #that is, json
+                    c = json.load(js)
+                    if (n=='items'):
+                        ch = ItemBase()
+                        ch.items = c
+                        ch.name = 'items'
+                    else:
+                        ch = ChampBase()
+                        attach(ch,c)
 
-                db.champs.update({'name':n},ch.to_python(),True)
-                # pprint(ch.to_python())
-                js.close()
-            self.write('patched to v 1.0.3.1!')
+                    db.champs.update({'name':n},ch.to_python(),True)
+                    # pprint(ch.to_python())
+                    js.close()
+                self.write('patched to v3.0.1')
+            except:
+                self.write('Authentication error! Check your secrets.py file or use the unauthenticated call in /patch')
         else:
             self.write('secret key not included, patching failed')
 
