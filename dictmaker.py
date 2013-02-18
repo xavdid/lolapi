@@ -40,7 +40,7 @@ def regexer(url): #takes the lolwiki url
 				elif (t == 'leveling'):
 					#first ability ratio
 					try:
-						ratio = re.search(r'\{\{(ability scaling|as)\|\(\+([ 0-9]*)% ([A-Z]*)',j)
+						ratio = re.search(r'\{\{(ability scaling|as)\|\(\+([ 0-9]*)% ([A-Za-z]*)',j)
 						c[a.group('id').lower()]['damage_ratio'] = float(ratio.group(2).strip())/100.0
 						c[a.group('id').lower()]['damage_ratio_type'] = ratio.group(3).lower()
 					except:
