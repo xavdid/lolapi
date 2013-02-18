@@ -1,2 +1,0 @@
-username = 'd'
-password = 'b'
