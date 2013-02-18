@@ -58,7 +58,7 @@
          }
       },
       "r":{
-         "cost_type":"Mana",
+         "cost_type":"mana",
          "cost":[
             0,
             150.0,

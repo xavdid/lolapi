@@ -33,12 +33,12 @@ class FrontPage(tornado.web.RequestHandler):
 @route('/champions/add')
 class ChampAdd(tornado.web.RequestHandler):
     def get(self):
-    	c = pymongo.Connection()
-        db = c.loldb
+    	# c = pymongo.Connection()
+        # db = c.loldb
         champ = ChampBase()
 
-        champ.stats = souper('http://na.leagueoflegends.com/champions/22/ashe_the_frost_archer') #takes na.league url
-        champ.moves = regexer('http://leagueoflegends.wikia.com/api.php?action=query&titles=ashe&prop=revisions&rvprop=content&format=dumpfm') #takes lolwiki
+        champ.stats = souper('http://na.leagueoflegends.com/champions/34/anivia_the_cryophoenix') #takes na.league url
+        champ.moves = regexer('http://leagueoflegends.wikia.com/api.php?action=query&titles=anivia&prop=revisions&rvprop=content&format=dumpfm') #takes lolwiki
         #boom
         # asdf = ItemBase()
         # asdf.items = {"ruby":{"name":"Ruby Crystal","effect":{"hp":180},"cost":475,"tag":"ruby"},
@@ -158,9 +158,9 @@ class ChampAdd(tornado.web.RequestHandler):
         # db.champs.update({'name':"items"},asdf.to_python(),True)
 
 
-        db.champs.update({'name':champ.name},champ.to_python(),True)
-        c = getChamp(champ.name)
-        self.write(c)
+        # db.champs.update({'name':champ.name},champ.to_python(),True)
+        # c = getChamp(champ.name)
+        self.write(champ.to_python())
         # f = open('champs/%s.json'%champ.name,'w+')
         # f.write()
         # f.close()
@@ -175,27 +175,28 @@ class ChampPrint(tornado.web.RequestHandler):
     def get(self,input):
         c = getChamp(input)
         # print 'in print, input is',input
-        try:
-            if (input == 'akali'):
-                a = Akali(c)
-            elif (input == 'ahri'):
-                a = Ahri(c)
-            elif (input == 'alistar'):
-                a = Alistar(c)
-            elif (input == 'amumu'):
-                a = Amumu(c)
-            elif (input == 'anivia'):
-                a = Anivia(c)
-            elif (input == 'annie'):
-                a = Annie(c)
-            elif (input == 'ashe'):
-                a = Ashe(c)
-            else:
-                assert(1==0)
-        except:
-            self.write('Champ not found')
+    # try:
+        if (input == 'akali'):
+            a = Akali(c)
+        elif (input == 'ahri'):
+            a = Ahri(c)
+        elif (input == 'alistar'):
+            a = Alistar(c)
+        elif (input == 'amumu'):
+            a = Amumu(c)
+        elif (input == 'anivia'):
+            a = Anivia(c)
+        elif (input == 'annie'):
+            a = Annie(c)
+        elif (input == 'ashe'):
+            a = Ashe(c)
+        else:
+            assert(1==0)
+    # except:
+            # self.write('Champ not found')
         #this is for nice output
         # self.write(c)
+        if 1==0: pass
         else:
             a.items.append('faeriecharm')
             a.items.append('faeriecharm')
@@ -241,22 +242,24 @@ class ChampPrint(tornado.web.RequestHandler):
             i = 0
             cooldown = 0
             # while (True):
-            while(i<700):
+            a.useAbility('w',[b],toggle=True)
+            while(i<300):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                a.useAbility('q',b)
+                
                 # a.autoAttack(b)
-                b.autoAttack(a)
+                # b.autoAttack(a)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 # else: 
                     # self.write('unable to cast')
                     # print 'mana when can\'t cast: '+str(a.cur_stats['mana'])
             # exit condition!
-                self.write('e\'s cooldown is%s'%a.cur_stats['cooldowns']['e'])
+                # self.write('e\'s cooldown is%s'%a.cur_stats['cooldowns']['e'])
+
+                a.tick(b)
                 if b.hp()<=0:
                     break
-                a.tick()
                 b.tick()
                 self.write(" tick "+str(i))
                 i+=1

@@ -93,18 +93,18 @@ class Champion(object):
     def getAbility(self, ability):
         response = {}
         ab = getattr(self, ability, None)
-        if callable(ab):
+        if callable(ab): #for amumu's w, this has base damage and scaling damage
             response = ab()
             response['dtype'] = ab(True)
-        elif 'damage' in self.c['moves'][ability]:
-            response['damage'] = moveMult(self.c['moves'][ability]['damage'], self.cur_stats['ability_rank'][ability],
-                self.cur_stats[self.c['moves'][ability]['damage_ratio_type']], self.c['moves'][ability]['damage_ratio'])
-            response['dtype'] = self.c['moves'][ability]['damage_type']
-        if 'effect' in self.c['moves'][ability]:
-            for k in self.c['moves'][ability]['effect']:
-                response[k] = self.c['moves'][ability]['effect'][k][self.cur_stats['ability_rank'][ability]]
-        if 'scaling' in self.c['moves'][ability]:
-            response['scaling'] = self.c['moves'][ability]['scaling']
+        elif 'damage' in self.moves[ability]:
+            response['damage'] = moveMult(self.moves[ability]['damage'], self.cur_stats['ability_rank'][ability],
+                self.cur_stats[self.moves[ability]['damage_ratio_type']], self.moves[ability]['damage_ratio'])
+            response['dtype'] = self.moves[ability]['damage_type']
+        if 'effect' in self.moves[ability]:
+            for k in self.moves[ability]['effect']:
+                response[k] = self.moves[ability]['effect'][k][self.cur_stats['ability_rank'][ability]]
+        if 'scaling' in self.moves[ability]:
+            response['scaling'] = self.moves[ability]['scaling'] #that is, what it scales on
         return response
 #these functions return the base+bonus for their given stat
     def ad(self):
@@ -135,6 +135,7 @@ class Champion(object):
         return self.cur_stats['mr']+self.cur_stats['bonus_stats']['mr']
     def ats(self): #as is reserved in python, bummer
         return self.cur_stats['as']*(1+self.cur_stats['bonus_stats']['as'])
+
 #these take care of maitenence stuff (cooldowns, buffs, etc)
     def tick(self):
         self.hpRegen()
@@ -154,45 +155,53 @@ class Champion(object):
     def statusTimers(self):
         poplist = []
         for b in self.cur_stats['status']:
-            self.cur_stats['status'][b]['duration'] -= 1
-            if self.cur_stats['status'][b]['duration'] <= 0:
-                poplist.append(b)
+            if 'duration' in b:
+                self.cur_stats['status'][b]['duration'] -= 1
+                if self.cur_stats['status'][b]['duration'] <= 0:
+                    poplist.append(b)
         for d in poplist:
             self.cur_stats['status'].pop(b)
     def setCooldowns(self,ability):
-        self.cur_stats['cooldowns'][ability] = self.c['moves'][ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
+        self.cur_stats['cooldowns'][ability] = self.moves[ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability): #this will at some point need to account for being silenced
-        if (self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.c['moves'][ability]['cost_type']] 
+        if (self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.moves[ability]['cost_type']] 
             and self.cur_stats['cooldowns'][ability] <= 0 and 'silence' not in self.cur_stats['status'] and 'stun' not in self.cur_stats['status'] 
             and 'taunt' not in self.cur_stats['status']):
+                # print 'true'
                 return True
         else:
-            if 'on' in self.c['moves'][ability]:
-                self.c['moves'][ability]['on'] = False
+            if 'on' in self.moves[ability]:
+                self.moves[ability]['on'] = False
+                # print 'false'
             return False
 
-    def useAbility(self,ability,*args):
+    def useAbility(self,ability,targlist,toggle=False):
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
-                self.energy(-(self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]]))
+                self.energy(-(self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]]))
             else: #spend mana
-                self.mana(-(self.c['moves'][ability]['cost'][self.cur_stats['ability_rank'][ability]]))
+                self.mana(-(self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]]))
 
-            if 'on' in self.c['moves'][ability]: #decides whether or not the ability is a toggle one
-                if self.c['moves'][ability]['on'] == True: #toggling off
-                    self.c['moves'][ability]['on'] = False
-                    self.setCooldowns(ability)
-                elif self.c['moves'][ability]['on'] == False: #toggling on || technically some abilities have a cooldown when you turn them on but i wont sweat that now
-                    self.c['moves'][ability]['on'] = True
-            else: 
+            #whether it's being switched or just used for damage
+            if 'on' in self.moves[ability]: #decides whether or not the ability is a toggle one
+                if toggle:
+                    if self.moves[ability]['on'] == True: #toggling off
+                        self.moves[ability]['on'] = False
+                        print 'offing'
+                        self.setCooldowns(ability)
+                    elif self.moves[ability]['on'] == False: #toggling on || technically some abilities have a cooldown when you turn them on but i wont sweat that now
+                        self.moves[ability]['on'] = True
+                        self.cur_stats['status'].update({self.moves[ability]['name']:0})
+            else:
                 self.setCooldowns(ability)
 
             abi = self.getAbility(ability) #gets the dictionary of the ability (any combination of damage, cc, steriod, etc)
             for k in abi:
                 if k == 'damage' or k == 'scaling_damage':
-                    for targ in args:
+                    for targ in targlist:
                         d = damageCalc(self,targ,abi)
                         targ.hp(-d)
+                        # print 'hit her for %s' %d
                 elif k == 'stun' or k == 'taunt':
                     for targ in args:
                         self.applyStaticAbility(k,targ)
@@ -207,16 +216,17 @@ class Champion(object):
             targ.applyStaticAbility(a) #i should make this
 
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
-        ablist = {
-        'cursed_touch':{'effect':{'mr':self.c['moves']['p']['on_enemy_hit']['mr'][2]},'duration':self.c['moves']['p']['on_enemy_hit']['duration'][2],
-            'max_stacks':self.c['moves']['p']['on_enemy_hit']['max_stacks'][2]},
-        'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1}
-        } 
+        # ablist = {
+        # 'cursed_touch':{'effect':{'mr':self.moves['p']['on_enemy_hit']['mr'][2]},'duration':self.moves['p']['on_enemy_hit']['duration'][2],
+            # 'max_stacks':self.moves['p']['on_enemy_hit']['max_stacks'][2]},
+        # 'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1},
+        # 'stun':{'effect':{},'duration':self.moves[ability]['effect']['stun']['duration'][self.cur_stats['ability_rank'][ability]]}
+        # } 
         # print 'in apply static'
-        if ability not in ablist:
+        if ability not in self.ablist:
             self.customStatic(ability)
         else:
-            ab = ablist[ability]
+            ab = self.ablist[ability]
             ab['stacks'] = 0
             for ef in ab['effect']:
                 # print 'ef',targ.cur_stats[ef],'other',ablist[ability]['effect'][ef]
@@ -231,8 +241,11 @@ class Champion(object):
         for s in self.cur_stats['bonus_stats']:
             self.cur_stats['bonus_stats'][s] = 0
         for buff in self.cur_stats['status']:
-            for e in self.cur_stats['status'][buff]['effect']:
-                self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][buff]['effect'][e]*self.cur_stats['status'][buff]['stacks'])
+            try:
+                for e in self.cur_stats['status'][buff]['effect']:
+                    self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][buff]['effect'][e]*self.cur_stats['status'][buff]['stacks'])
+            except:
+                pass
         self.statusTimers()
 
     def fullHeal(self):
@@ -273,12 +286,12 @@ class Ahri(Champion):
     def q(self, dypte = False):
         response = {}
         if (dtype):
-            response['dtype'] = self.c['moves']['q']['damage_type']
+            response['dtype'] = self.moves['q']['damage_type']
         else:
-            response['damage'] = moveMult(self.c['moves']['q']['damage'],self.cur_stats['ability_rank']['q'],
-                self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_ratio'])
-            response['damage2'] = moveMult(self.c['moves']['q']['damage_2'],self.cur_stats['ability_rank']['q'],
-                self.cur_stats[self.c['moves']['q']['damage_ratio_type']],self.c['moves']['q']['damage_2_ratio'])
+            response['damage'] = moveMult(self.moves['q']['damage'],self.cur_stats['ability_rank']['q'],
+                self.cur_stats[self.moves['q']['damage_ratio_type']],self.moves['q']['damage_ratio'])
+            response['damage2'] = moveMult(self.moves['q']['damage_2'],self.cur_stats['ability_rank']['q'],
+                self.cur_stats[self.moves['q']['damage_ratio_type']],self.moves['q']['damage_2_ratio'])
         return response
 
 class Akali(Ninja):
@@ -289,49 +302,55 @@ class Akali(Ninja):
     def e(self, dtype = False):
         response = {}
         if (dtype):
-            return self.c['moves']['e']['damage_type']
+            return self.moves['e']['damage_type']
         else:
-            response['damage'] = moveMult(self.c['moves']['e']['damage'],self.cur_stats['ability_rank']['e'],self.cur_stats[self.c['moves']['e']['damage_ratio_type']],
-                self.c['moves']['e']['damage_ratio'],self.cur_stats[self.c['moves']['e']['damage_ratio_type_b']],self.c['moves']['e']['damage_ratio_b'])
+            response['damage'] = moveMult(self.moves['e']['damage'],self.cur_stats['ability_rank']['e'],self.cur_stats[self.moves['e']['damage_ratio_type']],
+                self.moves['e']['damage_ratio'],self.cur_stats[self.moves['e']['damage_ratio_type_b']],self.moves['e']['damage_ratio_b'])
             return response
 
 class Alistar(Champion):
     def __init__(self,cd):
         super(Alistar, self).__init__(cd)
+        self.ablist = {'stun':{'effect':{},'duration':self.moves['q']['effect']['stun'][self.cur_stats['ability_rank']['q']]}}
 
     def e(self, dtype = False):
         response = {}
         if (dtype):
             pass
         else:
-            response['self_heal'] = moveMult(self.c['moves']['e']['self_heal_val'],self.cur_stats['ability_rank']['e'],
-                self.cur_stats[self.c['moves']['e']['heal_ratio_type']],self.c['moves']['e']['self_heal_ratio'])
-            response['ally_heal'] = moveMult(self.c['moves']['e']['ally_heal_val'],self.cur_stats['ability_rank']['e'],
-                self.cur_stats[self.c['moves']['e']['ally_heal_ratio_type']],self.c['moves']['e']['ally_heal_ratio'])
+            response['self_heal'] = moveMult(self.moves['e']['self_heal_val'],self.cur_stats['ability_rank']['e'],
+                self.cur_stats[self.moves['e']['heal_ratio_type']],self.moves['e']['self_heal_ratio'])
+            response['ally_heal'] = moveMult(self.moves['e']['ally_heal_val'],self.cur_stats['ability_rank']['e'],
+                self.cur_stats[self.moves['e']['ally_heal_ratio_type']],self.moves['e']['ally_heal_ratio'])
             return response
 
 class Amumu(Champion):
     def __init__(self,cd):
         super(Amumu, self).__init__(cd)
-        self.cur_stats['damage_block'] = self.c['moves']['e']['passive']['damage_block'][self.cur_stats['ability_rank']['e']] #this (and other similar abilities) will need to be reallocated on levelup
+        self.cur_stats['damage_block'] = self.moves['e']['passive']['damage_block'][self.cur_stats['ability_rank']['e']] #this (and other similar abilities) will need to be reallocated on levelup
         self.cur_stats['on_self_hit'].append('tantrum')
         self.cur_stats['on_enemy_hit'].append('cursed_touch')
+        self.ablist = {
+        'stun':{'effect':{},'duration':self.moves['q']['effect']['stun'][self.cur_stats['ability_rank']['q']]},
+        'cursed_touch':{'effect':{'mr':self.moves['p']['on_enemy_hit']['mr'][2]},'duration':self.moves['p']['on_enemy_hit']['duration'][2],
+            'max_stacks':self.moves['p']['on_enemy_hit']['max_stacks'][2]}
+            }
 
     def w(self, dtype = False):
         response = {}
         if (dtype):
-            return self.c['moves']['w']['damage_type']
+            return self.moves['w']['damage_type']
         else:
-            response['scaling_damage'] = moveMult(self.c['moves']['w']['damage_b'],self.cur_stats['ability_rank']['w'],
-                self.cur_stats[self.c['moves']['w']['damage_ratio_type_b']],self.c['moves']['w']['damage_ratio_b'])
-            response['base_damage'] = self.c['moves']['w']['damage'][self.cur_stats['ability_rank']['w']]
+            response['scaling_damage'] = moveMult(self.moves['w']['damage_b'],self.cur_stats['ability_rank']['w'],
+                self.cur_stats[self.moves['w']['damage_ratio_type_b']],self.moves['w']['damage_ratio_b'])
+            response['base_damage'] = self.moves['w']['damage'][self.cur_stats['ability_rank']['w']]
             return response
 
-    def tick(self):
+    def tick(self, targ = None):
         self.hpRegen()
         self.secondaryRegen()
-        if (self.c['moves']['w']['on']):
-            self.mana(-8)
+        if (self.moves['w']['on']):
+            self.useAbility('w', [targ])
         self.cooldowns()
         self.checkStats()
 
@@ -343,11 +362,15 @@ class Amumu(Champion):
 class Anivia(Champion):
     def __init__(self,cd):
         super(Anivia, self).__init__(cd)
+        self.ablist = {
+        'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1},
+        'stun':{'effect':{},'duration':self.moves['q']['effect']['stun'][self.cur_stats['ability_rank']['q']]}
+        }
 
     def tick(self):
         self.hpRegen()
         self.secondaryRegen()
-        if (self.c['moves']['w']['on']):
-            self.mana(-(self.c['moves']['r']['cost'][self.c['cur_stats']['ability_rank']['r']]))
+        # if (self.moves['r']['on']):
+            # self.mana(-(self.moves['r']['cost'][self.cur_stats['ability_rank']['r']]))
         self.cooldowns()
         self.checkStats()

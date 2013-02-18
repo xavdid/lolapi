@@ -173,11 +173,11 @@
          "damage_ratio_type_b":"ap",
          "damage":[
             0,
-            8,
-            12,
-            16,
-            20,
-            24
+            8.0,
+            12.0,
+            16.0,
+            20.0,
+            24.0
          ],
          "cooldown":[
             0,
@@ -206,7 +206,7 @@
             8,
             8
          ],
-         "damage_ratio_b":0.01,
+         "damage_ratio_b":0.0001,
          "description":"Toggle: Overcome by anguish, nearby enemies will be dealt a percentage of their maximum health plus a base amount as magic damage each second."
       }
    }

@@ -77,6 +77,7 @@ def statMult(c, stat, level):
 
 def moveMult(base, rank, stat, ratio, stat2='',ratio2=0):
     damage = base[rank]
+    # print 'da',damage,'stat',stat,'ratio',ratio
     damage += (stat*ratio) #stat is relevant stat (ap, ad, level, health, etc)
     if (stat2):
         damage += (stat2*ratio2)
@@ -104,6 +105,7 @@ def damageCalc(c1,c2,ability):
         de = c2.mr()
     if 'scaling' in ability:
         damage_total = ability['base_damage']+(ability['scaling_damage']*c2.cur_stats[ability['scaling']])
+        # print 'base',ability['base_damage'],'scaling ratio',ability['scaling_damage'],'scales on',c2.cur_stats[ability['scaling']]
     # elif (dt == 'true'):
         # d = damageMult(c1.q(),c2.mr())
     da = damageMult(damage_total,de)    
