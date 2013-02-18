@@ -26,22 +26,27 @@ def regexer(url): #takes the lolwiki url
 
 		things = ['description','description2','name','cooldown','cost','costtype','range','leveling']
 		for t in things:
-			try:
-				if t == 'leveling':
-					j = re.search(r'\|leveling *=([. \{\}A-Za-z\|0-9\(\)+%\n]*?)(?=\n^(\||\}))',a.group(0),re.M).group(1)
-				else:
-					j = re.search(r'^\|%s *= *(.+)'%t,a.group(0),re.M).group(1).strip()
-				if j:
-					if (t == 'cooldown' or t == 'cost'): #there's more here...
-						if ab == 'R':
-							j = pretty(j,True)
-						else:
-							j = pretty(j)
-					elif (t == 'leveling'):
-						#first ability ratio
-						ratio = re.search(r'\{\{(ability scaling|as)\|\(\+([ 0-9]*)',j).group(2).strip()
-						c[a.group('id').lower()]['damage_ratio'] = float(ratio)/100.0
-						#ability's damage type
+			if t == 'leveling':
+				j = re.search(r'\|leveling *=([. \{\}A-Za-z\|0-9\(\)+%\n]*?)(?=\n^(\||\}))',a.group(0),re.M)
+			else:
+				j = re.search(r'^\|%s *= *(.+)'%t,a.group(0),re.M)
+			if j:
+				j = j.group(1).strip()
+				if (t == 'cooldown' or t == 'cost'): #there's more here...
+					if ab == 'R':
+						j = pretty(j,True)
+					else:
+						j = pretty(j)
+				elif (t == 'leveling'):
+					#first ability ratio
+					try:
+						ratio = re.search(r'\{\{(ability scaling|as)\|\(\+([ 0-9]*)% ([A-Z]*)',j)
+						c[a.group('id').lower()]['damage_ratio'] = float(ratio.group(2).strip())/100.0
+						c[a.group('id').lower()]['damage_ratio_type'] = ratio.group(3).lower()
+					except:
+						print 'wait! the ratio in leveling throws and error!'
+					#ability's damage type
+					try:
 						damage_type = re.search(r'{{lc\|(.*?})',j).group(1)
 						if damage_type[0] == 'P':
 							c[a.group('id').lower()]['damage_type'] = 'physical'
@@ -54,24 +59,31 @@ def regexer(url): #takes the lolwiki url
 							c[a.group('id').lower()]['ally_heal_val'] = damage
 						else:
 							c[a.group('id').lower()]['damage_type'] = 'true'
-
+					except:
+						print 'damage type in leveling throws an error!'
+					try:
 						if damage_type[0] != 'H':	
 							damage = re.search(r'ap[\|0-9]*',j).group(0)
 							damage = pretty(damage)
 							c[a.group('id').lower()]['damage'] = damage
-					elif (t == 'description' or t == 'description2'):
-						if j[0] == '{':
-							if j[6] == 'A':
-								j = 'Active: '+j[15:]
-							else:
-								j = 'Passive: '+j[16:]
+					except:
+						print 'still an error in here'
+
+				elif (t == 'description' or t == 'description2'):
+					if j[0] == '{':
+						if j[6] == 'A':
+							j = 'Active: '+j[15:]
+						else:
+							j = 'Passive: '+j[16:]
 
 
-					elif t == 'costtype':
-						t = 'cost_type'
+				elif t == 'costtype':
+					t = 'cost_type'
+				try:
+					c[a.group('id').lower()][t] = j.lower()
+				except:
 					c[a.group('id').lower()][t] = j
-			except:
-				print 'wait! the key %s for %s gives this champ an error!' % (t,ab)
+			
 	return c
 
 # print d
