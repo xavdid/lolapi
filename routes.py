@@ -231,9 +231,9 @@ class ChampPrint(tornado.web.RequestHandler):
             b = Akali(asdf)
             self.write('Name: <b>%s</b>, %s<br>' %(b.name.title(),b.title))
             b.items.append('nullmagic')
-            b.items.append('giantbelt')
-            b.items.append('giantbelt')
-            b.items.append('giantbelt')
+            # b.items.append('giantbelt')
+            # b.items.append('giantbelt')
+            # b.items.append('giantbelt')
             # b.doItems()
             for s in b.cur_stats:
                 self.write('%s: %s <br>' %(s.replace('_',' ').title(), b.cur_stats[s]))
@@ -242,12 +242,12 @@ class ChampPrint(tornado.web.RequestHandler):
             i = 0
             cooldown = 0
             # while (True):
-            a.useAbility('w',[b],toggle=True)
+            a.useAbility('r',[b],toggle=True)
             while(i<300):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                
+                # a.useAbility('q',[b])
                 # a.autoAttack(b)
                 # b.autoAttack(a)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))

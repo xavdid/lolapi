@@ -187,7 +187,6 @@ class Champion(object):
                 if toggle:
                     if self.moves[ability]['on'] == True: #toggling off
                         self.moves[ability]['on'] = False
-                        print 'offing'
                         self.setCooldowns(ability)
                     elif self.moves[ability]['on'] == False: #toggling on || technically some abilities have a cooldown when you turn them on but i wont sweat that now
                         self.moves[ability]['on'] = True
@@ -203,7 +202,7 @@ class Champion(object):
                         targ.hp(-d)
                         # print 'hit her for %s' %d
                 elif k == 'stun' or k == 'taunt':
-                    for targ in args:
+                    for targ in targlist:
                         self.applyStaticAbility(k,targ)
                         
     def autoAttack(self,targ):
@@ -367,10 +366,10 @@ class Anivia(Champion):
         'stun':{'effect':{},'duration':self.moves['q']['effect']['stun'][self.cur_stats['ability_rank']['q']]}
         }
 
-    def tick(self):
+    def tick(self, targ = None):
         self.hpRegen()
         self.secondaryRegen()
-        # if (self.moves['r']['on']):
-            # self.mana(-(self.moves['r']['cost'][self.cur_stats['ability_rank']['r']]))
+        if (self.moves['r']['on']):
+            self.useAbility('r', [targ])
         self.cooldowns()
         self.checkStats()
