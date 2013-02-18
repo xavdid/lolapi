@@ -10,7 +10,7 @@ from tornado.gen import engine, Task
 from pprint import pprint
 from secrets import username,password
 from dictmaker import *
-import sys
+import sys, traceback
 
 @route('/')
 class FrontPage(tornado.web.RequestHandler):
@@ -307,21 +307,24 @@ class ChampPrintJson(tornado.web.RequestHandler):
                 assert(1==0)
         except:
             self.write('Champion not found')
+            # traceback.print_exc()
+            
 
-        else:
-            self.write(c)
+        self.write(c)
             
 @route('/patch')
 class PatchHandler(tornado.web.RequestHandler):
-    def get(self,input):
+    def get(self):
         try:
+            if (not username or not password):
+                assert(1==0)
             conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
         #the line below is the read-only, non-authenticated version.
             # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
             db = conn.lolapi
             champlist = ['items','ahri','akali','alistar','amumu','anivia','annie','ashe']
             for n in champlist: 
-                js = open('champs/%s.json' %n) #that is, json
+                js = open('champs/%s.json' %n) #that is, js = json
                 c = json.load(js)
                 if (n=='items'):
                     ch = ItemBase()
@@ -336,7 +339,5 @@ class PatchHandler(tornado.web.RequestHandler):
                 js.close()
             self.write('patched to v3.0.1')
         except:
-            self.write('Authentication error! Check your secrets.py file or use the unauthenticated call in /patch')
-        else:
-            self.write('secret key not included, patching failed')
+            self.write('Authentication error!')
 

@@ -12,7 +12,7 @@ import sys
 class Application(tornado.web.Application): 
 	def __init__(self):
 
-		settings = {'static_path': 'static', 'debug': "True"}
+		settings = {'static_path': 'static', 'debug': "False"}
 		tornado.web.Application.__init__(self,base.route.get_routes(), **settings)
 
 def main():

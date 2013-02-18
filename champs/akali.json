@@ -178,7 +178,7 @@
       "as_base":0.694,
       "mr_ratio":1.25,
       "energy":200,
-      "ms":325.0,
+      "ms_base":325.0,
       "arange":125.0,
       "ad_ratio":3.2,
       "mr_base":30,

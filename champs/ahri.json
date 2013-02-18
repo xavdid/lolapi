@@ -180,7 +180,7 @@
     "ad_base":50,
     "manareg_base":6.25,
     "manareg_ratio":0.6,
-    "ms":305,
+    "ms_base":305,
     "as_base":0.668,
     "arange":550,
     "ad_ratio":3,

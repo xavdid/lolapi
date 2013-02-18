@@ -10,7 +10,7 @@
       "manareg_base":6.5,
       "manareg_ratio":0.525,
       "mr_ratio":1.25,
-      "ms":335.0,
+      "ms_base":335.0,
       "as_base":0.638,
       "arange":125.0,
       "ad_ratio":3.8,

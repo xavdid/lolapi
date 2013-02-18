@@ -60,8 +60,8 @@ def statMult(c, stat, level):
         gain = c['mr_ratio']
     elif stat == 'energy':
         return 200
-    elif stat == 'ms':
-        base = c['ms']
+    elif stat == 'ms_base':
+        base = c['ms_base']
         gain = 0
     # elif (stat == 'cooldowns' or stat == 'ability_rank'):
         # return {'i':0,'q':0,'w':0,'e':0,'r':0}
