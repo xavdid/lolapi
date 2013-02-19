@@ -88,7 +88,10 @@ class Champion(object):
                     except KeyError:
                         continue
         self.cur_stats['hp'] = self.cur_stats['hp_max']
-        # self.cur_stats['mana'] = self.cur_stats['mana_max'] #FIX FOR NINJA
+        if self.ninja:
+            self.cur_stats['energy'] = 200
+        else:
+            self.cur_stats['mana'] = self.cur_stats['mana_max']
 
     def getAbility(self, ability):
         response = {}

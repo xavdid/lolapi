@@ -3,7 +3,7 @@
       "ItemBase"
    ],
    "items":{
-      "amp_tome":{
+      "amptome":{
          "cost":435,
          "tag":"amp_tome",
          "name":"Amplification Tome",

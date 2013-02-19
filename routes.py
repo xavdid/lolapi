@@ -127,7 +127,7 @@ class ChampPrint(tornado.web.RequestHandler):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                a.useAbility('e',[b])
+                a.useAbility('w',[b])
                 # a.autoAttack(b)
                 b.autoAttack(a)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
