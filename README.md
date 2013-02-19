@@ -1,7 +1,7 @@
 #LoLdb
 
 
-A restful API for returning champion and item stats for League of Legends. The database holds all the info you could ever want to know about LoL champions. It's updated from a bunch of jsons that I maintain.
+A restful API for returning champion and item stats for League of Legends. The database holds all the info you could ever want to know about LoL champions. It's updated from a bunch of jsons that I maintain. You can see the live version at (lolapi.net)[lolapi.herokuapp.com].
 
 
 ##About the code
@@ -10,6 +10,13 @@ This code is actually 2 products side by side:
 
 1. A restful API full of data on champions and their abilities. This is mean to be used by the public for the creation of awesome LoL apps. 
 2. A dual between champions taking into account most of the LoL engine created entirely in Python. This is mostly a proof of concept for using my own API, but it was also an awesome coding exercise. 
+
+###The story
+
+I’ve always loved coding and working with databases, so the natural idea was a simulator to test champion builds. Unfortunately, routinely maintained champ data is hard to come by and/or hard to parse. So, I decided that I needed to make my own dataset if I was going to have any sort of stability. After typing the first couple of .json files manually, I recognized that an automated algorithm was the way to go. Processing what I scraped from both the lolwiki source and the league site itself yielded nicely formatted results. Those files in hand, I could easily edit them and patch to a cloud database so that anyone using my API would have current data.  
+
+With my database in hand, I turned my focus to the simulator. It grew rapidly in both size and complexity when I realized I not only wanted to test builds, but champion matchups as well. I fervently coded an entire LoL engine complete with abilities, buffs, items, stat caps, resistances, and champions (which became dramatically harder than I had initially expected). It was quite the journey- realizing every 10 lines that I needed another feature or function, which kept me on my toes throughout.
+
 
 
 ##Where does this data come from?

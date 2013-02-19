@@ -108,6 +108,7 @@ class Champion(object):
                 response[k] = self.moves[ability]['effect'][k][self.cur_stats['ability_rank'][ability]]
         if 'scaling' in self.moves[ability]:
             response['scaling'] = self.moves[ability]['scaling'] #that is, what it scales on
+        response['name'] = self.moves[ability]['name']
         return response
 #these functions return the base+bonus for their given stat
     def ad(self):
@@ -191,9 +192,12 @@ class Champion(object):
                     if self.moves[ability]['on'] == True: #toggling off
                         self.moves[ability]['on'] = False
                         self.setCooldowns(ability)
+                        print 'Toggling off'
+                        return 0
                     elif self.moves[ability]['on'] == False: #toggling on || technically some abilities have a cooldown when you turn them on but i wont sweat that now
                         self.moves[ability]['on'] = True
                         self.cur_stats['status'].update({self.moves[ability]['name']:0})
+                        print 'Toggling on'
             else:
                 self.setCooldowns(ability)
 
@@ -203,15 +207,19 @@ class Champion(object):
                     for targ in targlist:
                         d = damageCalc(self,targ,abi)
                         targ.hp(-d)
+                        print targ.name.title(),'took ',d,'damage from',abi['name'],'!'
                         # print 'hit her for %s' %d
                 elif k == 'stun' or k == 'taunt':
                     for targ in targlist:
                         self.applyStaticAbility(k,targ)
+        else:
+            print 'Can\'t cast now'
                         
     def autoAttack(self,targ):
         abi = {'damage':self.ad(),'dtype':'physical'}
         d = damageCalc(self,targ,abi)
         targ.hp(-d)
+        print targ.name,'was hit for',d,'!'
         for oh in self.cur_stats['on_enemy_hit']:
             self.applyStaticAbility(oh,targ)
         for a in targ.cur_stats['on_self_hit']:

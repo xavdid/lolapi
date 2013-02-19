@@ -11,7 +11,7 @@ def checkState(c1,c2):
         print 'Game over, the computer has defeated you!'
         sys.exit(0)
     elif c2.hp() <= 0:
-        print 'Well done, you\'ve bested the computer as %s'%c2.name()
+        print 'Well done, you\'ve bested the computer(%s) with %s!'%(c2.name.title(),c1.name.title())
         sys.exit(0)
     else:
         pass
@@ -23,13 +23,13 @@ def act(c1,c2):
         act(c1,c2)
     elif a == 'q' or a == 'w' or a == 'e' or a == 'r':
         if 'on' in c1.moves[a]:
-            c1.useAbility(a,c[c2],toggle=True)
+            c1.useAbility(a,[c2],toggle=True)
         else:
             c1.useAbility(a,[c2])
-    elif a == 'aa':
+    elif a == 'a':
         c1.autoAttack(c2)
     elif a == 'p':
-        shop()
+        shop(c1)
     elif a == 'exit':
         sys.exit(0)
 
@@ -37,27 +37,27 @@ def help():
     print 'Type (Q|W|E|R) to use that ability.\nType A to auto-attack\nType S for stats (hp, mana, cooldowns)\nType C for current status (all stats)\nType P to shop\nType exit to quit\nEverything is type-insensitive'
 
 def shop(c1):
-    conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
-    db = conn.lolapi
-    champ = db.champs.find({'name':'items'},limit=1)
-    for i in champ:
-        c = prepare(i)
+    c = getChamp('items')
     k = c['items']
+        # print k
     s = raw_input('type an item\'s name to buy it, or "list" to see all of the items names ')
     if s == 'list':
         shoplist(k)
         s = raw_input('type an item\'s name to buy it, or "list" to see all of the items names ')
     if s in k:
-        c1.items.append('s')
+        c1.items.append(s)
         c1.doItems()
+        print 'purchased',s,'!'
+    else:
+        print 'item not found, sorry!'
 
 def shoplist(i):
     for item in i:
         print item,
 
 def init(p):
-    conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
-    db = conn.lolapi
+    # conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
+    # db = conn.lolapi
     if p == 1:
         while True:
             inp = raw_input('Who do you want to play as? ')
@@ -65,10 +65,10 @@ def init(p):
                 break
     else:
         inp = 'akali'
-
-    champ = db.champs.find({'name':inp},limit=1)
-    for i in champ:
-        c = prepare(i)
+    c = getChamp(inp)
+    # champ = db.champs.find({'name':inp},limit=1)
+    # for i in champ:
+        # c = prepare(i)
     if (inp == 'akali'):
         a = Akali(c)
     elif (inp == 'ahri'):
@@ -95,3 +95,6 @@ c1 = init(1)
 c2 = init(2)
 while True:
     act(c1,c2)
+    checkState(c1,c2)
+    c1.tick(c2)
+    c2.tick()
