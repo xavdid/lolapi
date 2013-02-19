@@ -93,7 +93,7 @@ class Champion(object):
     def getAbility(self, ability):
         response = {}
         ab = getattr(self, ability, None)
-        if callable(ab): #for amumu's w, this has base damage and scaling damage
+        if callable(ab):
             response = ab()
             response['dtype'] = ab(True)
         elif 'damage' in self.moves[ability]:
@@ -175,7 +175,7 @@ class Champion(object):
                 # print 'false'
             return False
 
-    def useAbility(self,ability,targlist,toggle=False):
+    def useAbility(self,ability,targlist=[],toggle=False):
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
                 self.energy(-(self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]]))
@@ -212,7 +212,7 @@ class Champion(object):
         for oh in self.cur_stats['on_enemy_hit']:
             self.applyStaticAbility(oh,targ)
         for a in targ.cur_stats['on_self_hit']:
-            targ.applyStaticAbility(a) #i should make this
+            targ.applyStaticAbility(a,self) 
 
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
         # ablist = {
@@ -229,7 +229,11 @@ class Champion(object):
             ab['stacks'] = 0
             for ef in ab['effect']:
                 # print 'ef',targ.cur_stats[ef],'other',ablist[ability]['effect'][ef]
-                if ability not in targ.cur_stats['status']:
+                if ef == 'on_enemy_hit':
+                    self.cur_stats['on_enemy_hit'].append(ef)
+                elif ef == 'on_self_hit':
+                    self.cur_stats['on_self_hit'].append(ef)
+                elif ability not in targ.cur_stats['status']:
                     ab['stacks'] = 1
                     targ.cur_stats['status'].update({ability:ab})
                 elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
@@ -373,3 +377,32 @@ class Anivia(Champion):
             self.useAbility('r', [targ])
         self.cooldowns()
         self.checkStats()
+
+class Annie(Champion):
+    def __init__(self,cd):
+        super(Annie, self).__init__(cd)
+        self.ablist = {
+        'stun':{'effect':{},'duration':1.75},
+        'molten_shield':{'effect':{'armor':self.moves['e']['effect']['armor'][self.cur_stats['ability_rank']['e']],'mr':self.moves['e']['effect']['mr'][self.cur_stats['ability_rank']['e']],'on_self_hit':'burn'},'duration':5,"max_stacks":1}
+        }
+
+    def customStatic(self, ability, targ):
+        if ability == 'burn':
+            abi['damage'] = self.moves['e']['burn']['damage'][self.cur_stats['ability_rank']['e']]
+            abi['dtype'] = 'magic'
+            d = damageCalc(self,targ,abi)
+            targ.hp(-d)
+            print 'burned!'
+
+    def e(self, dtype = False):
+        response = {}
+        if (dtype):
+            return self.moves['e']['damage_type']
+        else:
+            response['damage'] = 0
+            response['effect'] = 'burn'
+            return response
+
+
+
+

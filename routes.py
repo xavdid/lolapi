@@ -122,14 +122,14 @@ class ChampPrint(tornado.web.RequestHandler):
             i = 0
             cooldown = 0
             # while (True):
-            a.useAbility('r',[b],toggle=True)
+            # a.useAbility('r',[b],toggle=True)
             while(i<300):
                 self.write(breaks(1))
                 self.write('%s has %i HP left\n' %(a.name,a.hp()))
                 self.write('%s has %i HP left\n' %(b.name,b.hp()))
-                # a.useAbility('q',[b])
+                a.useAbility('e',[b])
                 # a.autoAttack(b)
-                # b.autoAttack(a)
+                b.autoAttack(a)
                     # a.mana(-(a.c['moves']['q']['cost_val'][5]))
                 # else: 
                     # self.write('unable to cast')
@@ -137,7 +137,7 @@ class ChampPrint(tornado.web.RequestHandler):
             # exit condition!
                 # self.write('e\'s cooldown is%s'%a.cur_stats['cooldowns']['e'])
 
-                a.tick(b)
+                a.tick()
                 if b.hp()<=0:
                     break
                 b.tick()

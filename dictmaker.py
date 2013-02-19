@@ -32,9 +32,11 @@ def regexer(url): #takes the lolwiki url
 				j = re.search(r'^\|%s *= *(.+)'%t,a.group(0),re.M)
 			if j:
 				j = j.group(1).strip()
-				if (t == 'cooldown' or t == 'cost'): #there's more here...
+				if (t == 'cooldown' or t == 'cost' or t == 'range'): #there's more here...
 					if ab == 'R':
-						j = pretty(j,True)
+						j = pretty(j,ult=True)
+					elif t == 'range':
+						j = pretty(j,arange=True)
 					else:
 						j = pretty(j)
 				elif (t == 'leveling'):

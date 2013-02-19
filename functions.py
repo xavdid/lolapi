@@ -155,13 +155,13 @@ def namer(s):
     elif s == 'Mana Regen':
         return 'manareg'
 
-def pretty(s,ult=False):
+def pretty(s,ult=False,arange=False):
     s = s.strip('{}')
     s = s.replace('ap','0')
     s = s.replace('|',',')
     s = s.split(',')
     s = [float(x) for x in s]
-    if len(s) == 1:
+    if len(s) == 1 and not arange:
         s.append(s[0])
         s[0] = 0
         if ult:
@@ -170,6 +170,8 @@ def pretty(s,ult=False):
         else:
             for i in range(2,6):
                 s.append(s[1])
+    elif arange:
+        s = s[0]
     return s
 
 def urlGrab(url):
