@@ -129,9 +129,6 @@ class Champion(object):
             response['damage'] = moveMult(self.moves[ability]['damage'], self.cur_stats['ability_rank'][ability],
                 self.cur_stats[self.moves[ability]['damage_ratio_type']], self.moves[ability]['damage_ratio'])
             response['dtype'] = self.moves[ability]['damage_type']
-        if 'effect' in self.moves[ability]:
-            for k in self.moves[ability]['effect']:
-                response[k] = self.moves[ability]['effect'][k][self.cur_stats['ability_rank'][ability]]
         if 'scaling' in self.moves[ability]:
             response['scaling'] = self.moves[ability]['scaling'] #that is, what it scales on
         response['name'] = self.moves[ability]['name']
@@ -229,19 +226,26 @@ class Champion(object):
                 self.setCooldowns(ability)
 
             abi = self.getAbility(ability) #gets the dictionary of the ability (any combination of damage, cc, steriod, etc)
+            print abi
             for k in abi:
                 if k == 'damage' or k == 'scaling_damage':
                     for targ in targlist:
                         d = damageCalc(self,targ,abi)
                         targ.hp(-d)
-                        print targ.name.title(),'took ',d,'damage from',abi['name'],'!'
+                        print targ.name.title(),'took ',d,'damage from',abi['name'].title()+'!'
                         # print 'hit her for %s' %d
                 elif k == 'stun' or k == 'taunt':
                     for targ in targlist:
                         self.applyStaticAbility(k,targ)
+                elif k == 'effect':
+                    for targ in targlist:
+                        self.applyStaticAbility(abi[k],targ)
                 elif k == 'heal':
                     self.hp(abi['heal'])
                     print 'Healed self for',abi['heal']
+                elif k == 'stats':
+                    for st in k:
+                        self.cur_stats[st] += abi[k][st]
             return 1
         else:
             print 'Can\'t cast now'
@@ -263,7 +267,7 @@ class Champion(object):
             d -= self.cur_stats['damage_block']
         #deal damage
         targ.hp(-d)
-        print targ.name.title(),'was hit for %0.3f !' %d
+        print targ.name.title(),'was hit for %0.3f!' %d
         #apply abilities
         for oh in self.cur_stats['on_enemy_hit']:
             self.applyStaticAbility(oh,targ)
@@ -271,8 +275,12 @@ class Champion(object):
             targ.applyStaticAbility(a,self) 
 
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
+        print 'applying'
         if ability not in self.ablist:
-            self.customStatic(ability)
+            if targ:
+                self.customStatic(ability,targ)
+            else:
+                self.customStatic(ability)
         else:
             ab = self.ablist[ability]
             ab['stacks'] = 0
@@ -314,8 +322,8 @@ class Ninja(Champion):
         self.cur_stats.pop('mana')
         self.cur_stats.pop('mana_max')
         self.cur_stats.pop('mana_regen')
-        self.cur_stats['energy'] = 0
-        self.cur_stats['energy_max'] = 200
+        self.cur_stats['energy'] = 200.0
+        self.cur_stats['energy_max'] = 200.0
 
     def energy(self, val=0):
         if val:
@@ -350,7 +358,7 @@ class Ahri(Champion):
 class Akali(Ninja):
     def __init__(self,cd):
         super(Akali, self).__init__(cd)
-        self.cur_stats['essence_of_shadow'] = 0
+        self.cur_stats['essence_of_shadow'] = 3
 
     def e(self, dtype = False):
         response = {}
@@ -438,7 +446,7 @@ class Annie(Champion):
 
     def customStatic(self, ability, targ):
         if ability == 'burn':
-            abi['damage'] = self.moves['e']['burn']['damage'][self.cur_stats['ability_rank']['e']]
+            abi['damage'] = self.moves['e']['effect']['burn'][self.cur_stats['ability_rank']['e']]
             abi['dtype'] = 'magic'
             d = damageCalc(self,targ,abi)
             targ.hp(-d)
@@ -450,7 +458,7 @@ class Annie(Champion):
             return self.moves['e']['damage_type']
         else:
             response['damage'] = 0
-            response['effect'] = 'burn'
+            response['effect'] = 'molten_shield'
             return response
 
 

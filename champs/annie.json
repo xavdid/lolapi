@@ -110,16 +110,6 @@
          ],
          "description":"active:  for 5 seconds, annie has increased armor and magic resistance and deals magic damage to enemies whenever they use a basic attack against her.",
          "name":"molten shield",
-         "burn":{
-            "damage":[
-               0,
-               20.0,
-               30.0,
-               40.0,
-               50.0,
-               60.0
-            ]
-         },
          "damage_ratio":0.2,
          "damage_type":"magic",
          "damage_ratio_type":"ap",
@@ -155,7 +145,15 @@
                1,
                1,
                1
-            ]
+            ],
+            "burn":[
+               0,
+               20.0,
+               30.0,
+               40.0,
+               50.0,
+               60.0
+            ]  
          }
       },
       "w":{

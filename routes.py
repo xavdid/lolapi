@@ -83,7 +83,7 @@ class ChampPrint(tornado.web.RequestHandler):
             a.items.append('recurvebow')
             a.items.append('giantbelt')
             a.items.append('chainvest')
-            a.items.append('amp_tome')
+            a.items.append('amptome')
             # a.items.append('brutalizer')`
             a.doItems()
             self.write('Name: <b>%s</b>, %s<br>' %(a.name.title(),a.title))
@@ -199,6 +199,8 @@ class PatchHandler(tornado.web.RequestHandler):
                 # pprint(ch.to_python())
                 js.close()
             self.write('patched to v3.0.1')
+        except json.JSONDecodeError:
+            self.write('json error')
         except:
             self.write('Authentication error!')
 

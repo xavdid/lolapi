@@ -4,15 +4,23 @@ FIXED there's a lot of hardcoding of rank 5 abilities right now, will need to ch
 
 FIXED Gotta do something with cooldowns. will need to wait until the timeline is written, but it could be some sort of cooldown function that checks/keeps track/is called by canCast()
 
-everything with energy is hard coded to 200. i'll worry about increasing it through runes and whatever later
+DISCARDED everything with energy is hard coded to 200. i'll worry about increasing it through runes and whatever later
 
 akali doesn't consume the mark from her q right now. that'll be an onhit maybe? that's the lazy way to do it. could just put it on the timeline
 
-i'm passing letters a lot. I could be passing the functions, which would /mostly/ work? i'm hesistant to do it unless I go through and figure out who it wouldn't work for. 
+FIXED i'm passing letters a lot. I could be passing the functions, which would /mostly/ work? i'm hesistant to do it unless I go through and figure out who it wouldn't work for. 
 
-the way i'm changing abilities now (1/13/13), there'll be a big ugly function that applies any key that could return with the ability. that's the generic case though, so that's what it is. 
+RESOLVED the way i'm changing abilities now (1/13/13), there'll be a big ugly function that applies any key that could return with the ability. that's the generic case though, so that's what it is. 
 
-I can redefine getAbility for champs with specifics!
+FIXED I can redefine getAbility for champs with specifics!
 
 FIXED for the regex, could grab everything until ^\|, and separate by'} {'. it'd be an exception case for 'leveling', but could probably maybe accomodate whatever comes. i'd have to write a bit to change some strings or something, but it's doable. 
 
+todo:
+akali mark/passive
+ahri passive
+ali passive
+anivia egg
+annie stuns/shield
+ASHE
+AI?

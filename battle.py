@@ -53,7 +53,7 @@ def act(c1,c2):
     elif a == 'exit' or a == 'quit':
         sys.exit(0)
     else:
-        print 'Incorrect input'
+        print 'Invalid input'
         return 0
 
 def help():
@@ -154,4 +154,5 @@ while True:
         c1.tick(c2)
     except:
         c1.tick()
+    c2.autoAttack(c1)
     c2.tick()
