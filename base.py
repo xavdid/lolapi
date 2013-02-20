@@ -44,26 +44,39 @@ class Champion(object):
         self.ninja = False
         attach(self,cd)
 
-    def showStats(self):#will change for command line- doesn't need handler, can just take print
-        slist = ['hp','mana','energy','ad','ap','as']
+    def showStats(self,full=False):#will change for command line- doesn't need handler, can just take print
+        if full:
+            slist = ['level','hp','mana','energy','hpreg','manareg','ad','ap','as','armor','mr','crit_chance','lifesteal','spellvamp','cdr',]
+        else:
+            slist = ['hp','mana','energy','ad','ap','as','armor','mr']
         alist = ['q','w','e','r']
         for s in slist:
             try:
                 st = self.cur_stats[s]
-                print s.title(),':',st
+                if s == 'hp' or s == 'mana' or s == 'energy':
+                    print reverseNamer(s).title()+': %0.1f/%s'%(st,str(self.cur_stats[s+'_max']))
+                else:
+                    try:
+                        print reverseNamer(s).title()+': %0.2f' %st
+                    except:
+                        print reverseNamer(s).title()+':',st
             except:
                 pass
         print 'Cooldowns:'
         for a in alist:
-            print '\t',a,':',self.cur_stats['cooldowns'][a]
+            print a+':',self.cur_stats['cooldowns'][a]
         print 'Status:'
-        for st in self.cur_stats['status']:
-            print st.title()
+        if len(self.cur_stats['status']) == 0:
+            print None
+        else:
+            for st in self.cur_stats['status']:
+                print st.title()
 
     def showItems(self):
+        k = getChamp('items')
         x = 0
         for i in self.items:
-            print x,':',k[i]['name']
+            print str(x)+':',k['items'][i]['name']
             x+=1
 
     def setBase(self):
@@ -81,10 +94,11 @@ class Champion(object):
 
     def resetStats(self):
         for s in self.cur_stats:
-            if isinstance(self.cur_stats[s],int):
+            if isinstance(self.cur_stats[s],float) or isinstance(self.cur_stats[s],int):
                 self.cur_stats[s] = statMult(self.c['stats'],s,18) #hardcoded for 18, will change to champ level later
 
     def doItems(self):
+        self.resetStats()
         i = getChamp('items')
         # pprint(i)
         for e in self.items:
@@ -236,8 +250,21 @@ class Champion(object):
     def autoAttack(self,targ):
         abi = {'damage':self.ad(),'dtype':'physical'}
         d = damageCalc(self,targ,abi)
+        #scale for attack speed
+        d *= self.cur_stats['as']
+        #check for crit
+        if self.cur_stats['crit_chance'] > 0:
+            cr = random.randint(1,100)
+            if cr/100.0 <= self.cur_stats['crit_chance']:
+                print 'crit!'
+                d *= 2
+        #check for damage block
+        if self.cur_stats['damage_block'] > 0:
+            d -= self.cur_stats['damage_block']
+        #deal damage
         targ.hp(-d)
-        print targ.name.title(),'was hit for',d,'!'
+        print targ.name.title(),'was hit for %0.3f !' %d
+        #apply abilities
         for oh in self.cur_stats['on_enemy_hit']:
             self.applyStaticAbility(oh,targ)
         for a in targ.cur_stats['on_self_hit']:
@@ -273,7 +300,7 @@ class Champion(object):
                 pass
         self.statusTimers()
 
-    def fullHeal(self):
+    def fullRestore(self):
         self.cur_stats['hp'] = self.cur_stats['bonus_stats']['hp']+self.cur_stats['hp_max']
         if self.ninja:
             self.cur_stats['energy'] = 200
@@ -288,6 +315,7 @@ class Ninja(Champion):
         self.cur_stats.pop('mana_max')
         self.cur_stats.pop('mana_regen')
         self.cur_stats['energy'] = 0
+        self.cur_stats['energy_max'] = 200
 
     def energy(self, val=0):
         if val:

@@ -111,15 +111,15 @@ def damageCalc(c1,c2,ability):
     da = damageMult(damage_total,de)    
     return da
 
-def getChamp(input):
+def getChamp(inp):
     conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
 #the line below is the read-only, non-authenticated version.
     # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
     db = conn.lolapi
-    champ = db.champs.find({'name':input},limit=1)
+    champ = db.champs.find({'name':inp},limit=1)
     for i in champ:
         c = prepare(i)
-    if input == 'items':
+    if inp == 'items':
         return c['items']
     else:
         return c
@@ -135,6 +135,24 @@ def breaks(i):
     for j in range(i):
         s+="<br>"
     return s
+
+def reverseNamer(s):
+    if s == 'ad':
+        return 'Attack Damage'
+    elif s == 'ap':
+        return 'Ability Power'
+    elif s == 'as':
+        return 'Attack Speed'
+    elif s == 'ap':
+        return 'Ability Power'
+    elif s == 'crit_chance':
+        return 'Crit Strike Chance'
+    elif s == 'cdr':
+        return 'Cooldown Reduction'
+    elif s == 'mr':
+        return 'Magic Resist'
+    else: 
+        return s
 
 #these are for scraping
 def namer(s):

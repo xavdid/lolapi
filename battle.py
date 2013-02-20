@@ -41,6 +41,12 @@ def act(c1,c2):
     elif a == 's':
         c1.showStats()
         return 0
+    elif a == 'c':
+        c1.showStats(True)
+        return 0
+    elif a == 'enemy':
+        c2.showStats()
+        return 0
     elif a == 'i':
         c1.showItems()
         return 0
@@ -51,7 +57,7 @@ def act(c1,c2):
         return 0
 
 def help():
-    print 'Type (Q|W|E|R) to use that ability.\nType A to auto-attack\nType S for stats (hp, mana, ad, ap, as, buffs, and cooldowns)\nType C for current status (all stats)\nType I to show inventory\nType P to shop\nType exit to quit\nEverything is type-insensitive'
+    print 'Type (Q|W|E|R) to use that ability.\nType A to auto-attack\nType S for status (hp, mana, ad, ap, as, buffs, and cooldowns)\nType Enemy for opponent status\nType C for current status (all stats)\nType I to show inventory\nType P to shop\nType exit to quit\nEverything is type-insensitive'
 
 def shop(c1):
     c = getChamp('items')
@@ -72,7 +78,7 @@ def buy(c1, k):
         except:
             print 'List index out of range, you\'ve been booted from the shop for tomfoolery'
             return 1
-    s = raw_input('type an item\'s name to buy it, or "list" to see all of the items names -->')
+    s = raw_input('type an item\'s name to buy it, or "list" to see all of the item tags -->')
     if s == 'list':
         shoplist(k)
         s = raw_input('type an item\'s name to buy it -->').lower()
@@ -80,7 +86,7 @@ def buy(c1, k):
     if s in k:
         c1.items.append(s)
         c1.doItems()
-        print 'purchased',k[s]['name'],'!'
+        print 'purchased',k[s]['name']+'!'
     else:
         print 'item not found, sorry!'
 
@@ -94,11 +100,11 @@ def shoplist(k):
     # print i
     l = []
     for item in k:
-        print item
+        l.append(item.encode('utf-8'))
         # l.append(k[item])
     # print l
-    # l.sort()
-    # print l
+    l.sort()
+    print l
 
 def init(p):
     # conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
