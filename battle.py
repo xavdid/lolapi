@@ -150,9 +150,9 @@ while True:
         if a: 
             break
     checkState(c1,c2)
-    # try:
-    c1.tick(c2)
-    # except:
-        # c1.tick()
+    try:
+        c1.tick(c2)
+    except:
+        c1.tick()
     c2.autoAttack(c1)
     c2.tick()

@@ -6,6 +6,7 @@ from dictshield.fields import (StringField, DictField)
 from dictshield.fields.compound import ListField
 from functions import *
 import random
+import copy
 
 
 class route(object):
@@ -295,7 +296,7 @@ class Champion(object):
             except:
                 self.customStatic(ability)
         else:
-            ab = self.ablist[ability]
+            ab = copy.deepcopy(self.ablist[ability])
             ab['stacks'] = 0
             for ef in ab['effect']:
                 # print 'ef',targ.cur_stats[ef],'other',ablist[ability]['effect'][ef]
@@ -308,7 +309,6 @@ class Champion(object):
                     if ability not in targ.cur_stats['status']:
                         ab['stacks'] = 1
                         targ.cur_stats['status'][ability] = ab
-                        print 'added',ability,ab
                     elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
                             targ.cur_stats['status'][ability]['stacks'] += 1
                 elif ab['target'] == 'self':
