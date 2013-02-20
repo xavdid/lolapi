@@ -42,11 +42,12 @@ class Champion(object):
         self.resetStats()
         self.items = []  
         self.ninja = False
+        self.ablist = {}
         attach(self,cd)
 
     def showStats(self,full=False):#will change for command line- doesn't need handler, can just take print
         if full:
-            slist = ['level','hp','mana','energy','hpreg','manareg','ad','ap','as','armor','mr','crit_chance','lifesteal','spellvamp','cdr',]
+            slist = ['level','hp','mana','energy','hpreg','manareg','ad','ap','as','armor','mr','crit_chance','lifesteal','spellvamp','cdr','on_enemy_hit','on_self_hit','bonus_stats']
         else:
             slist = ['hp','mana','energy','ad','ap','as','armor','mr']
         alist = ['q','w','e','r']
@@ -55,6 +56,8 @@ class Champion(object):
                 st = self.cur_stats[s]
                 if s == 'hp' or s == 'mana' or s == 'energy':
                     print reverseNamer(s).title()+': %0.1f/%s'%(st,str(self.cur_stats[s+'_max']))
+                elif s == 'ad' or s == 'ap' or s == 'armor' or s == 'mr':
+                    print reverseNamer(s).title()+': %.1f'%getattr(self, s, None)
                 else:
                     try:
                         print reverseNamer(s).title()+': %0.2f' %st
@@ -70,7 +73,7 @@ class Champion(object):
             print None
         else:
             for st in self.cur_stats['status']:
-                print st.title()
+                print st.title(),self.cur_stats['status'][st]
 
     def showItems(self):
         k = getChamp('items')
@@ -169,7 +172,9 @@ class Champion(object):
         self.hpRegen()
         self.secondaryRegen()
         self.cooldowns()
+        self.statusTimers()
         self.checkStats()
+
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
             self.hp(self.cur_stats['hp_regen']/5.0)
@@ -181,17 +186,22 @@ class Champion(object):
             if self.cur_stats['cooldowns'][a] > 0:
                self.cur_stats['cooldowns'][a] -= 1
     def statusTimers(self):
+        # print 'checking!'
         poplist = []
         for b in self.cur_stats['status']:
-            if 'duration' in b:
+            if 'duration' in self.cur_stats['status'][b]:
                 self.cur_stats['status'][b]['duration'] -= 1
                 if self.cur_stats['status'][b]['duration'] <= 0:
                     poplist.append(b)
         for d in poplist:
-            self.cur_stats['status'].pop(b)
+            for e in self.cur_stats['status'][d]['effect']:
+                if e == 'on_self_hit' or e == 'on_enemy_hit':
+                    self.cur_stats[e].remove(self.cur_stats['status'][d]['effect'][e])
+            self.cur_stats['status'].pop(d)
+        self.checkStats()
     def setCooldowns(self,ability):
         self.cur_stats['cooldowns'][ability] = self.moves[ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
-    def canCast(self,ability): #this will at some point need to account for being silenced
+    def canCast(self,ability):
         if (self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.moves[ability]['cost_type']] 
             and self.cur_stats['cooldowns'][ability] <= 0 and 'taunt' not in self.cur_stats['status'] and 'stun' not in self.cur_stats['status'] 
             and 'taunt' not in self.cur_stats['status']):
@@ -226,7 +236,6 @@ class Champion(object):
                 self.setCooldowns(ability)
 
             abi = self.getAbility(ability) #gets the dictionary of the ability (any combination of damage, cc, steriod, etc)
-            print abi
             for k in abi:
                 if k == 'damage' or k == 'scaling_damage':
                     for targ in targlist:
@@ -274,8 +283,7 @@ class Champion(object):
         for a in targ.cur_stats['on_self_hit']:
             targ.applyStaticAbility(a,self) 
 
-    def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
-        print 'applying'
+    def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whomever's hitting them;  I can change it later. also hardcoded
         if ability not in self.ablist:
             if targ:
                 self.customStatic(ability,targ)
@@ -287,26 +295,35 @@ class Champion(object):
             for ef in ab['effect']:
                 # print 'ef',targ.cur_stats[ef],'other',ablist[ability]['effect'][ef]
                 if ef == 'on_enemy_hit':
-                    self.cur_stats['on_enemy_hit'].append(ef)
+                    self.cur_stats['on_enemy_hit'].append(ab['effect'][ef])
                 elif ef == 'on_self_hit':
-                    self.cur_stats['on_self_hit'].append(ef)
-                elif ability not in targ.cur_stats['status']:
-                    ab['stacks'] = 1
-                    targ.cur_stats['status'].update({ability:ab})
-                elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
-                    targ.cur_stats['status'][ability]['stacks'] += 1
-                # targ.cur_stats[ef] += ab['effect'][ef]
-
-    def checkStats(self):
+                    self.cur_stats['on_self_hit'].append(ab['effect'][ef])
+                #check if it's an ability that goes on enemy or self and increment appropreately.
+                elif ab['target'] == 'enemy':
+                    if ability not in targ.cur_stats['status']:
+                        ab['stacks'] = 1
+                        targ.cur_stats['status'].update({ability:ab})
+                    elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
+                            targ.cur_stats['status'][ability]['stacks'] += 1
+                elif ab['target'] == 'self':
+                    if ability not in self.cur_stats['status']:
+                        ab['stacks'] = 1
+                        self.cur_stats['status'].update({ability:ab})
+                    elif self.cur_stats['status'][ability]['stacks'] < self.cur_stats['status'][ability]['max_stacks']:
+                            self.cur_stats['status'][ability]['stacks'] += 1
+    
+    def resetBonuses(self):
         for s in self.cur_stats['bonus_stats']:
             self.cur_stats['bonus_stats'][s] = 0
+    def checkStats(self):
+        self.resetBonuses()
         for buff in self.cur_stats['status']:
-            try:
-                for e in self.cur_stats['status'][buff]['effect']:
+            # try:
+            for e in self.cur_stats['status'][buff]['effect']:
+                if e != 'on_enemy_hit' and e != 'on_self_hit':
                     self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][buff]['effect'][e]*self.cur_stats['status'][buff]['stacks'])
-            except:
-                pass
-        self.statusTimers()
+            # except:
+                # pass
 
     def fullRestore(self):
         self.cur_stats['hp'] = self.cur_stats['bonus_stats']['hp']+self.cur_stats['hp_max']
@@ -394,7 +411,7 @@ class Amumu(Champion):
         self.ablist = {
         'stun':{'effect':{},'duration':self.moves['q']['effect']['stun'][self.cur_stats['ability_rank']['q']]},
         'cursed_touch':{'effect':{'mr':self.moves['p']['on_enemy_hit']['mr'][2]},'duration':self.moves['p']['on_enemy_hit']['duration'][2],
-            'max_stacks':self.moves['p']['on_enemy_hit']['max_stacks'][2]}
+            'max_stacks':self.moves['p']['on_enemy_hit']['max_stacks'][2],'target':'enemy'}
             }
 
     def w(self, dtype = False):
@@ -413,6 +430,7 @@ class Amumu(Champion):
         if (self.moves['w']['on']):
             self.useAbility('w', [targ])
         self.cooldowns()
+        self.statusTimers()
         self.checkStats()
 
     def customStatic(self, ability):
@@ -424,7 +442,7 @@ class Anivia(Champion):
     def __init__(self,cd):
         super(Anivia, self).__init__(cd)
         self.ablist = {
-        'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1},
+        'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1,'target':'enemy'},
         'stun':{'effect':{},'duration':self.moves['q']['effect']['stun'][self.cur_stats['ability_rank']['q']]}
         }
 
@@ -434,6 +452,7 @@ class Anivia(Champion):
         if (self.moves['r']['on']):
             self.useAbility('r', [targ])
         self.cooldowns()
+        self.statusTimers()
         self.checkStats()
 
 class Annie(Champion):
@@ -441,16 +460,17 @@ class Annie(Champion):
         super(Annie, self).__init__(cd)
         self.ablist = {
         'stun':{'effect':{},'duration':1.75},
-        'molten_shield':{'effect':{'armor':self.moves['e']['effect']['armor'][self.cur_stats['ability_rank']['e']],'mr':self.moves['e']['effect']['mr'][self.cur_stats['ability_rank']['e']],'on_self_hit':'burn'},'duration':5,"max_stacks":1}
+        'molten_shield':{'effect':{'armor':self.moves['e']['effect']['armor'][self.cur_stats['ability_rank']['e']],'mr':self.moves['e']['effect']['mr'][self.cur_stats['ability_rank']['e']],'on_self_hit':'burn'},'duration':5,"max_stacks":1,'target':'self'}
         }
 
     def customStatic(self, ability, targ):
         if ability == 'burn':
+            abi = {}
             abi['damage'] = self.moves['e']['effect']['burn'][self.cur_stats['ability_rank']['e']]
             abi['dtype'] = 'magic'
             d = damageCalc(self,targ,abi)
             targ.hp(-d)
-            print 'burned!'
+            print targ.name.title(),'took',d,'from Molten Shield'
 
     def e(self, dtype = False):
         response = {}
