@@ -20,7 +20,8 @@ todo:
 akali mark/passive
 ahri passive
 ali passive
-anivia egg
-annie stuns/shield
+anivia egg/chilled/e-damage
+annie stuns/ shield(fixed)
 ASHE
+
 AI?

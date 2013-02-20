@@ -199,7 +199,7 @@
       "hpreg_ratio":0.55,
       "mana_base":257.0,
       "hp_base":350.0,
-      "as_base":0.0625,
+      "as_base":0.625,
       "as_ratio":0.0168
    },
    "name":"anivia",

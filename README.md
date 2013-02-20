@@ -26,7 +26,13 @@ All of the ability descriptions, damage, and scaling is pulled from the [LoLWiki
 All of the code from both can be found in `dictmaker.py`.
 
 ##I want to play in the sandbox!
-Cool! Clone the repo, install the requirements (`pip install requirements.txt`) and run battle (`python battle.py`)!
+Cool! Clone the repo, install the requirements (`pip install requirements.txt`) and run battle (`python battle.py`)! At this point, you shouldn't get any errors, but... well, we know how that works. Kindy contact me through git or email me at beamneocube (at) gmail (dot) com to report bugs.
+###Notable changes in the sandbox vs the real LoL client
+Firstly, the sandbox is commandline. One second passes per actual action taken. You can reduce cooldowns to non-whole numbers, but you still can't use the ability until the cooldown is < 0.  
+The big change is in attack speed- since there wasn't a great way to adjust the time frame, each attack is your AD*your attack speed. So, if your attack speed is only .7, you would have only launched most of your attack, so you don't get the full value.  
+Also, slow's (while accounted for), don't really do much, as there's no motion.
+###Will there be an AI?
+Maybe at some point. As it stands, there's an Akali that just auto attacks you until one of you is dead. I've got a plan for AI, but as of today (Feb 20, 2013), I'm too busy to do something that non-essential. 
 
 ##Frequently Answered Queries
 

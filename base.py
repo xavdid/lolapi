@@ -216,7 +216,7 @@ class Champion(object):
         else:
             if 'on' in self.moves[ability]:
                 self.moves[ability]['on'] = False
-                # print 'false'
+                print 'Toggling off'
             return False
 
     def useAbility(self,ability,targlist=[],toggle=False):
@@ -247,7 +247,7 @@ class Champion(object):
                     for targ in targlist:
                         d = damageCalc(self,targ,abi)
                         targ.hp(-d)
-                        print targ.name.title(),'took ',d,'damage from',abi['name'].title()+'!'
+                        print targ.name.title(),'took %0.2f damage from'%d,abi['name'].title()+'!'
                         # print 'hit her for %s' %d
                 elif k == 'stun' or k == 'taunt':
                     for targ in targlist:
