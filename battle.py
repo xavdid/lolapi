@@ -20,27 +20,35 @@ def act(c1,c2):
     a = raw_input('What would you like to do (Type h for help)? -->').lower()
     if a == 'h':
         help()
-        act(c1,c2)
+        return 0
     #using an ability
     elif a == 'q' or a == 'w' or a == 'e' or a == 'r':
         if 'on' in c1.moves[a]:
-            c1.useAbility(a,[c2],toggle=True)
+            g = c1.useAbility(a,[c2],toggle=True)
         else:
-            c1.useAbility(a,[c2])
+            g = c1.useAbility(a,[c2])
+        if g:
+            return 1
+
     #autoattack
     elif a == 'a':
         c1.autoAttack(c2)
+        return 1
     #shop
     elif a == 'p':
         shop(c1)
+        return 0
     elif a == 's':
         c1.showStats()
+        return 0
     elif a == 'i':
         c1.showItems()
+        return 0
     elif a == 'exit' or a == 'quit':
         sys.exit(0)
     else:
-        return 1
+        print 'Incorrect input'
+        return 0
 
 def help():
     print 'Type (Q|W|E|R) to use that ability.\nType A to auto-attack\nType S for stats (hp, mana, ad, ap, as, buffs, and cooldowns)\nType C for current status (all stats)\nType I to show inventory\nType P to shop\nType exit to quit\nEverything is type-insensitive'
@@ -133,7 +141,7 @@ c2 = init(2)
 while True:
     while True:
         a = act(c1,c2)
-        if a == 1: 
+        if a: 
             break
     checkState(c1,c2)
     try:

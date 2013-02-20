@@ -228,8 +228,10 @@ class Champion(object):
                 elif k == 'heal':
                     self.hp(abi['heal'])
                     print 'Healed self for',abi['heal']
+            return 1
         else:
             print 'Can\'t cast now'
+            return 0
                         
     def autoAttack(self,targ):
         abi = {'damage':self.ad(),'dtype':'physical'}
