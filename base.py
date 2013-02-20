@@ -67,7 +67,7 @@ class Champion(object):
                         print reverseNamer(s).title()+':',st
             except KeyError:
                 pass
-                
+
         print 'Cooldowns:'
         for a in alist:
             print a+':',self.cur_stats['cooldowns'][a]
@@ -170,7 +170,7 @@ class Champion(object):
     def ats(self): #as is reserved in python, bummer
         return self.cur_stats['as']*(1+self.cur_stats['bonus_stats']['as'])
 
-#these take care of maitenence stuff (cooldowns, buffs, etc)
+#these take care of maitenence stuff (cooldowns, bs, etc)
     def tick(self):
         self.hpRegen()
         self.secondaryRegen()
@@ -192,7 +192,9 @@ class Champion(object):
         # print 'checking!'
         poplist = []
         for b in self.cur_stats['status']:
-            if 'duration' in self.cur_stats['status'][b]:
+            if self.cur_stats['status'][b] == 0:
+                pass
+            elif 'duration' in self.cur_stats['status'][b]:
                 self.cur_stats['status'][b]['duration'] -= 1
                 if self.cur_stats['status'][b]['duration'] <= 0:
                     poplist.append(b)
@@ -288,9 +290,9 @@ class Champion(object):
 
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whomever's hitting them;  I can change it later. also hardcoded
         if ability not in self.ablist:
-            if targ:
+            try:
                 self.customStatic(ability,targ)
-            else:
+            except:
                 self.customStatic(ability)
         else:
             ab = self.ablist[ability]
@@ -305,7 +307,8 @@ class Champion(object):
                 elif ab['target'] == 'enemy':
                     if ability not in targ.cur_stats['status']:
                         ab['stacks'] = 1
-                        targ.cur_stats['status'].update({ability:ab})
+                        targ.cur_stats['status'][ability] = ab
+                        print 'added',ability,ab
                     elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
                             targ.cur_stats['status'][ability]['stacks'] += 1
                 elif ab['target'] == 'self':
@@ -320,11 +323,13 @@ class Champion(object):
             self.cur_stats['bonus_stats'][s] = 0
     def checkStats(self):
         self.resetBonuses()
-        for buff in self.cur_stats['status']:
-            # try:
-            for e in self.cur_stats['status'][buff]['effect']:
-                if e != 'on_enemy_hit' and e != 'on_self_hit':
-                    self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][buff]['effect'][e]*self.cur_stats['status'][buff]['stacks'])
+        for b in self.cur_stats['status']:
+            if self.cur_stats['status'][b] == 0:
+                pass
+            else:
+                for e in self.cur_stats['status'][b]['effect']:
+                    if e != 'on_enemy_hit' and e != 'on_self_hit':
+                        self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][b]['effect'][e]*self.cur_stats['status'][b]['stacks'])
             # except:
                 # pass
 
