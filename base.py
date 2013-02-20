@@ -47,7 +47,7 @@ class Champion(object):
 
     def showStats(self,full=False):#will change for command line- doesn't need handler, can just take print
         if full:
-            slist = ['level','hp','mana','energy','hpreg','manareg','ad','ap','as','armor','mr','crit_chance','lifesteal','spellvamp','cdr','on_enemy_hit','on_self_hit','bonus_stats']
+            slist = ['level','hp','mana','energy','hp_regen','mana_regen','ad','ap','as','armor','mr','crit_chance','lifesteal','spellvamp','cdr','on_enemy_hit','on_self_hit','bonus_stats']
         else:
             slist = ['hp','mana','energy','ad','ap','as','armor','mr']
         alist = ['q','w','e','r']
@@ -57,14 +57,17 @@ class Champion(object):
                 if s == 'hp' or s == 'mana' or s == 'energy':
                     print reverseNamer(s).title()+': %0.1f/%s'%(st,str(self.cur_stats[s+'_max']))
                 elif s == 'ad' or s == 'ap' or s == 'armor' or s == 'mr':
-                    print reverseNamer(s).title()+': %.1f'%getattr(self, s, None)
+                    func = getattr(self, s, None)
+                    f = func()
+                    print reverseNamer(s).title()+': %.1f'%f
                 else:
                     try:
                         print reverseNamer(s).title()+': %0.2f' %st
                     except:
                         print reverseNamer(s).title()+':',st
-            except:
+            except KeyError:
                 pass
+                
         print 'Cooldowns:'
         for a in alist:
             print a+':',self.cur_stats['cooldowns'][a]
