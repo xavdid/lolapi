@@ -1,16 +1,11 @@
 import tornado.web
-import tornado.httpserver 
-import tornado.ioloop
 import pymongo
-import tornado.httpclient
 from tornado.web import HTTPError
-import asyncmongo
-from tornado.options import define, options
 from dictshield.document import Document
-from dictshield.fields import (StringField, DictField, BooleanField, IntField, FloatField)
+from dictshield.fields import (StringField, DictField)
 from dictshield.fields.compound import ListField
 from functions import *
-from pprint import pprint
+import random
 
 
 class route(object):
@@ -49,10 +44,27 @@ class Champion(object):
         self.ninja = False
         attach(self,cd)
 
-    # def show(self,handler):#will change for command line- doesn't need handler, can just take print
-        # slist = ['hp'
-        # for s in a.cur_stats:
-                # self.write('%s: %s <br>' %(s.replace('_',' ').title(), a.cur_stats[s]))
+    def showStats(self):#will change for command line- doesn't need handler, can just take print
+        slist = ['hp','mana','energy','ad','ap','as']
+        alist = ['q','w','e','r']
+        for s in slist:
+            try:
+                st = self.cur_stats[s]
+                print s.title(),':',st
+            except:
+                pass
+        print 'Cooldowns:'
+        for a in alist:
+            print '\t',a,':',self.cur_stats['cooldowns'][a]
+        print 'Status:'
+        for st in self.cur_stats['status']:
+            print st.title()
+
+    def showItems(self):
+        x = 0
+        for i in self.items:
+            print x,':',k[i]['name']
+            x+=1
 
     def setBase(self):
         # self.cur_stats 
@@ -109,6 +121,7 @@ class Champion(object):
         if 'scaling' in self.moves[ability]:
             response['scaling'] = self.moves[ability]['scaling'] #that is, what it scales on
         response['name'] = self.moves[ability]['name']
+
         return response
 #these functions return the base+bonus for their given stat
     def ad(self):
@@ -169,7 +182,7 @@ class Champion(object):
         self.cur_stats['cooldowns'][ability] = self.moves[ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability): #this will at some point need to account for being silenced
         if (self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.moves[ability]['cost_type']] 
-            and self.cur_stats['cooldowns'][ability] <= 0 and 'silence' not in self.cur_stats['status'] and 'stun' not in self.cur_stats['status'] 
+            and self.cur_stats['cooldowns'][ability] <= 0 and 'taunt' not in self.cur_stats['status'] and 'stun' not in self.cur_stats['status'] 
             and 'taunt' not in self.cur_stats['status']):
                 # print 'true'
                 return True
@@ -212,6 +225,9 @@ class Champion(object):
                 elif k == 'stun' or k == 'taunt':
                     for targ in targlist:
                         self.applyStaticAbility(k,targ)
+                elif k == 'heal':
+                    self.hp(abi['heal'])
+                    print 'Healed self for',abi['heal']
         else:
             print 'Can\'t cast now'
                         
@@ -219,20 +235,13 @@ class Champion(object):
         abi = {'damage':self.ad(),'dtype':'physical'}
         d = damageCalc(self,targ,abi)
         targ.hp(-d)
-        print targ.name,'was hit for',d,'!'
+        print targ.name.title(),'was hit for',d,'!'
         for oh in self.cur_stats['on_enemy_hit']:
             self.applyStaticAbility(oh,targ)
         for a in targ.cur_stats['on_self_hit']:
             targ.applyStaticAbility(a,self) 
 
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whoever's hitting them;  I can change it later. also hardcoded
-        # ablist = {
-        # 'cursed_touch':{'effect':{'mr':self.moves['p']['on_enemy_hit']['mr'][2]},'duration':self.moves['p']['on_enemy_hit']['duration'][2],
-            # 'max_stacks':self.moves['p']['on_enemy_hit']['max_stacks'][2]},
-        # 'chill':{'effect':{'as':-0.2,'ms':-0.2},'duration':3,'max_stacks':1},
-        # 'stun':{'effect':{},'duration':self.moves[ability]['effect']['stun']['duration'][self.cur_stats['ability_rank'][ability]]}
-        # } 
-        # print 'in apply static'
         if ability not in self.ablist:
             self.customStatic(ability)
         else:
@@ -332,10 +341,10 @@ class Alistar(Champion):
         if (dtype):
             pass
         else:
-            response['self_heal'] = moveMult(self.moves['e']['self_heal_val'],self.cur_stats['ability_rank']['e'],
+            response['heal'] = moveMult(self.moves['e']['self_heal_val'],self.cur_stats['ability_rank']['e'],
                 self.cur_stats[self.moves['e']['heal_ratio_type']],self.moves['e']['self_heal_ratio'])
-            response['ally_heal'] = moveMult(self.moves['e']['ally_heal_val'],self.cur_stats['ability_rank']['e'],
-                self.cur_stats[self.moves['e']['ally_heal_ratio_type']],self.moves['e']['ally_heal_ratio'])
+            # response['ally_heal'] = moveMult(self.moves['e']['ally_heal_val'],self.cur_stats['ability_rank']['e'],
+                # self.cur_stats[self.moves['e']['ally_heal_ratio_type']],self.moves['e']['ally_heal_ratio'])
             return response
 
 class Amumu(Champion):

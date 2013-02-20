@@ -5,7 +5,7 @@
    "items":{
       "amptome":{
          "cost":435,
-         "tag":"amp_tome",
+         "tag":"amptome",
          "name":"Amplification Tome",
          "effect":{
             "ap":20
