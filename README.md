@@ -17,8 +17,6 @@ I’ve always loved coding and working with databases, so the natural idea was a
 
 With my database in hand, I turned my focus to the simulator. It grew rapidly in both size and complexity when I realized I not only wanted to test builds, but champion matchups as well. I fervently coded an entire LoL engine complete with abilities, buffs, items, stat caps, resistances, and champions (which became dramatically harder than I had initially expected). It was quite the journey- realizing every 10 lines that I needed another feature or function, which kept me on my toes throughout.
 
-
-
 ##Where does this data come from?
 
 All of the data about champion base stats is scraped from [Riot's Champion info section](http://na.leagueoflegends.com/champions) using the python library Beautiful Soup. 
