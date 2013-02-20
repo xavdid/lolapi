@@ -9,7 +9,7 @@ A restful API for returning champion and item stats for League of Legends. The d
 This code is actually 2 products side by side: 
 
 1. A restful API full of data on champions and their abilities. This is mean to be used by the public for the creation of awesome LoL apps. 
-2. A dual between champions taking into account most of the LoL engine created entirely in Python. This is mostly a proof of concept for using my own API, but it was also an awesome coding exercise. 
+2. A duel between champions taking into account most of the LoL engine created entirely in Python. This was intended to fill the gap of a sandbox mdoe for LoL (or -wtf for the Dota vets). This is mostly a proof of concept for using my own API, but it was also an awesome coding exercise. 
 
 ###The story
 
@@ -24,6 +24,9 @@ All of the data about champion base stats is scraped from [Riot's Champion info 
 All of the ability descriptions, damage, and scaling is pulled from the [LoLWiki](http://leagueoflegends.wikia.com/api.php?action=query&titles=ashe&prop=revisions&rvprop=content&format=dumpfm) source and parsed using Python's Regex library (re).
 
 All of the code from both can be found in `dictmaker.py`.
+
+##I want to play in the sandbox!
+Cool! Clone the repo, install the requirements (`pip install requirements.txt`) and run battle (`python battle.py`)!
 
 ##Frequently Answered Queries
 
