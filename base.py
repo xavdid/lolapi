@@ -309,6 +309,8 @@ class Champion(object):
                     if ability not in targ.cur_stats['status']:
                         ab['stacks'] = 1
                         targ.cur_stats['status'][ability] = ab
+                    if ability in targ.cur_stats['status']:
+                        targ.cur_stats['status'][ability]['duration'] = ab['duration']
                     elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
                             targ.cur_stats['status'][ability]['stacks'] += 1
                 elif ab['target'] == 'self':
