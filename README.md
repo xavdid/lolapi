@@ -27,7 +27,8 @@ All of the ability descriptions, damage, and scaling is pulled from the [LoLWiki
 All of the code from both can be found in `dictmaker.py`.
 
 ##I want to play in the sandbox!
-Cool! Clone the repo, install the requirements (`pip install requirements.txt`) and run battle (`python battle.py`)! At this point, you shouldn't get any errors, but... well, we know how that works. Kindy contact me through git or email me at beamneocube (at) gmail (dot) com to report bugs.
+Cool! You can download current files from the webapp (http://lolapi.herokuapp.com). Make sure to install requirements (`pip install requirements.txt`) and then just run `python battle.py`!
+
 ###Notable changes in the sandbox vs the real LoL client
 Firstly, the sandbox is commandline. One second passes per actual action taken. You can reduce cooldowns to non-whole numbers, but you still can't use the ability until the cooldown is < 0.  
 The big change is in attack speed- since there wasn't a great way to adjust the time frame, each attack is your AD*your attack speed. So, if your attack speed is only .7, you would have only launched most of your attack, so you don't get the full value.  

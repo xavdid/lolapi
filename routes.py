@@ -17,7 +17,7 @@ class FrontPage(tornado.web.RequestHandler):
     def get(self):
         s = '<html><title>LoL API</title>\
             <body> <font size = 8> Welcome to the LoL API!</font><br><br>\
-            Click on a champion name to get a .json of their data<br>\
+            Click on a champion name below to get a .json of their data:<br>\
             <a href = "/champions/show/ahri/json">Ahri</a><br>\
             <a href = "/champions/show/akali/json">Akali</a><br>\
             <a href = "/champions/show/alistar/json">Alistar</a><br>\
@@ -25,10 +25,23 @@ class FrontPage(tornado.web.RequestHandler):
             <a href = "/champions/show/anivia/json">Anivia</a><br>\
             <a href = "/champions/show/annie/json">Annie</a><br>\
             <a href = "/champions/show/ashe/json">Ashe</a><br>\
-            <a href = "/champions/show/items/json">Items</a><br>\
-            </body>\
+            <a href = "/champions/show/items/json">Items</a><br><br>'
+        s += 'I also made an app to test builds and champion matchups! To download it, just click <a href="/download"> here</a>!<br><br><br>'
+        s += '<footer>\
+                <p>Made by David Brownman (who is not a web designer)</p>\
+                <p>Contact him <a href=mailto:beamneocube@gmail.com>here</a>.\
+                </footer> '
+        s += '</body>\
             </html>'
         self.write(s)
+
+@route('/download')
+class DLPage(tornado.web.RequestHandler):
+    def get(self):
+        self.set_header ('Content-Type', 'archive/tar')
+        self.set_header ('Content-Disposition', 'attachment; filename=battle.tar')
+        f = open('battle.tar','r')
+        self.write(f.read())
 
 @route('/champions/add')
 class ChampAdd(tornado.web.RequestHandler):
