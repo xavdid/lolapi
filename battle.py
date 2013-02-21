@@ -71,18 +71,14 @@ def shop(c1):
 def buy(c1, k):
     if len(c1.items) >= 6:
         print 'Items are full, choose item to sell:'
-        c1.showItems()
-        r = raw_input('Which item slot do you want to emtpy? -->')
-        try:
-            c1.items.pop(int(r))
-        except:
-            print 'List index out of range, you\'ve been booted from the shop for tomfoolery'
-            return 1
-    s = raw_input('type an item\'s name to buy it, or "list" to see all of the item tags -->')
+        if not sell(c1,k):
+            return 0
+    s = raw_input('type an item\'s name to buy it, "list" to see all of the item tags, or "sell" to drop an item -->')
     if s == 'list':
         shoplist(k)
         s = raw_input('type an item\'s name to buy it -->').lower()
-
+    elif s == 'sell':
+        sell(c1,k)
     if s in k:
         c1.items.append(s)
         c1.doItems()
@@ -94,6 +90,15 @@ def buy(c1, k):
     if l == 'yes' or l == 'y':
         return 0
     else:
+        return 1
+
+def sell(c1,k):
+    c1.showItems()
+    r = raw_input('Which item slot do you want to emtpy? -->')
+    try:
+        c1.items.pop(int(r))
+    except:
+        print 'List index out of range, you\'ve been booted from the shop for tomfoolery'
         return 1
 
 def shoplist(k):
@@ -145,6 +150,7 @@ def init(p):
 c1 = init(1)
 c2 = init(2)
 while True:
+    print '===Player\'s Turn==='
     while True:
         a = act(c1,c2)
         if a: 
@@ -154,5 +160,6 @@ while True:
         c1.tick(c2)
     except:
         c1.tick()
+    print '===Enemy\'s Turn==='
     c2.autoAttack(c1)
     c2.tick()

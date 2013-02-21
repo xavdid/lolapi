@@ -80,7 +80,7 @@
             1
          ],
          "range":800,
-         "cost_type":"essence of shadow",
+         "cost_type":"essence_of_shadow",
          "damage_type":"magic",
          "description":"Active: Akali moves through the shadows to quickly appear next to her target and deal magic damage to it. Akali gains an Essence of Shadow periodically, affected by cooldown reduction, up to a maximum of 3. Additionally, Akali gains an Essence of Shadow for each kill or assist.",
          "damage_ratio":0.5

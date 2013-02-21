@@ -177,7 +177,8 @@ class Champion(object):
         self.secondaryRegen()
         self.cooldowns()
         self.statusTimers()
-        self.checkStats()
+        self.stockpile()
+
 
     def hpRegen(self):
         if self.cur_stats['hp'] < self.cur_stats['hp_max']:
@@ -208,10 +209,11 @@ class Champion(object):
     def setCooldowns(self,ability):
         self.cur_stats['cooldowns'][ability] = self.moves[ability]['cooldown'][self.cur_stats['ability_rank'][ability]]
     def canCast(self,ability):
-        if (self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]] < self.cur_stats[self.moves[ability]['cost_type']] 
+        if (self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]] <= self.cur_stats[self.moves[ability]['cost_type']] 
             and self.cur_stats['cooldowns'][ability] <= 0 and 'taunt' not in self.cur_stats['status'] and 'stun' not in self.cur_stats['status'] 
-            and 'taunt' not in self.cur_stats['status']):
+            and 'silence' not in self.cur_stats['status']):
                 # print 'true'
+                print self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]],self.cur_stats[self.moves[ability]['cost_type']] 
                 return True
         else:
             if 'on' in self.moves[ability]:
@@ -222,7 +224,10 @@ class Champion(object):
     def useAbility(self,ability,targlist=[],toggle=False):
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
-                self.energy(-(self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]]))
+                if ability == 'r':
+                    self.cur_stats['essence_of_shadow'] -= 1
+                else:
+                    self.energy(-(self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]]))
             else: #spend mana
                 self.mana(-(self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]]))
 
@@ -323,17 +328,20 @@ class Champion(object):
     def resetBonuses(self):
         for s in self.cur_stats['bonus_stats']:
             self.cur_stats['bonus_stats'][s] = 0
+        self.cur_stats['spellvamp'] = 0
+        self.cur_stats['lifesteal'] = 0
     def checkStats(self):
         self.resetBonuses()
         for b in self.cur_stats['status']:
             if self.cur_stats['status'][b] == 0:
-                pass
+                # try:
+                    self.applyStaticAbility(b)
+                # except:
+                    # pass
             else:
                 for e in self.cur_stats['status'][b]['effect']:
                     if e != 'on_enemy_hit' and e != 'on_self_hit':
                         self.cur_stats['bonus_stats'][e] += (self.cur_stats['status'][b]['effect'][e]*self.cur_stats['status'][b]['stacks'])
-            # except:
-                # pass
 
     def fullRestore(self):
         self.cur_stats['hp'] = self.cur_stats['bonus_stats']['hp']+self.cur_stats['hp_max']
@@ -341,6 +349,8 @@ class Champion(object):
             self.cur_stats['energy'] = 200
         else:
             self.cur_stats['mana'] = self.cur_stats['bonus_stats']['mana']+self.cur_stats['mana_max']
+    def stockpile(self):
+        pass
 
 class Ninja(Champion):
     def __init__(self,cd):
@@ -386,6 +396,25 @@ class Akali(Ninja):
     def __init__(self,cd):
         super(Akali, self).__init__(cd)
         self.cur_stats['essence_of_shadow'] = 3
+        self.cur_stats['on_enemy_hit'].append('discipline_of_force')
+        self.cur_stats['status']['discipline_of_might'] = 0
+        self.cur_stats['stockcounter'] = 0
+
+    def customStatic(self, ability, targ=None):
+        print 'ab is',ability
+        if ability == 'discipline_of_might':
+            print 'mighty!'
+            bon = self.ad()-statMult(self.c['stats'],'ad',18) #bonus AD
+            print 'bon is',bon
+            bon = ((bon/6.0)*0.01)+0.06
+            self.cur_stats['spellvamp'] += bon
+        elif ability == 'discipline_of_force':
+            bon = self.ad()
+            a = self.ap()
+            a = ((a/6.0)*0.01)+0.06
+            bon = bon*a
+            targ.hp(-bon)
+            print 'dealt %0.2f bonus magic damage'%bon
 
     def e(self, dtype = False):
         response = {}
@@ -395,6 +424,15 @@ class Akali(Ninja):
             response['damage'] = moveMult(self.moves['e']['damage'],self.cur_stats['ability_rank']['e'],self.cur_stats[self.moves['e']['damage_ratio_type']],
                 self.moves['e']['damage_ratio'],self.cur_stats[self.moves['e']['damage_ratio_type_b']],self.moves['e']['damage_ratio_b'])
             return response
+
+    def stockpile(self):
+        if self.cur_stats['essence_of_shadow'] < 3:
+            self.cur_stats['stockcounter'] += 1
+            if self.cur_stats['stockcounter'] >= self.moves['r']['essence_regen_rate'][self.cur_stats['ability_rank']['r']]:
+                self.cur_stats['essence_of_shadow'] += 1
+                self.cur_stats['stockcounter'] = 0
+
+
 
 class Alistar(Champion):
     def __init__(self,cd):
@@ -441,7 +479,7 @@ class Amumu(Champion):
             self.useAbility('w', [targ])
         self.cooldowns()
         self.statusTimers()
-        self.checkStats()
+
 
     def customStatic(self, ability):
         if ability == 'tantrum':
@@ -463,7 +501,7 @@ class Anivia(Champion):
             self.useAbility('r', [targ])
         self.cooldowns()
         self.statusTimers()
-        self.checkStats()
+
 
 class Annie(Champion):
     def __init__(self,cd):
