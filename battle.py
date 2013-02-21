@@ -30,7 +30,6 @@ def act(c1,c2):
         if g:
             return 1
 
-    #autoattack
     elif a == 'a':
         c1.autoAttack(c2)
         return 1
@@ -102,18 +101,14 @@ def sell(c1,k):
         return 1
 
 def shoplist(k):
-    # print i
     l = []
     for item in k:
         l.append(item.encode('utf-8'))
-        # l.append(k[item])
-    # print l
     l.sort()
     print l
 
 def init(p):
-    # conn = pymongo.Connection('mongodb://d:b@ds031877.mongolab.com:31877/lolapi')
-    # db = conn.lolapi
+
     if p == 1:
         while True:
             inp = raw_input('Who do you want to play as? -->').lower()
@@ -122,9 +117,6 @@ def init(p):
     else:
         inp = 'akali'
     c = getChamp(inp)
-    # champ = db.champs.find({'name':inp},limit=1)
-    # for i in champ:
-        # c = prepare(i)
     if (inp == 'akali'):
         a = Akali(c)
     elif (inp == 'ahri'):
