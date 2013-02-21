@@ -139,6 +139,9 @@ class Champion(object):
         if 'scaling' in self.moves[ability]:
             response['scaling'] = self.moves[ability]['scaling'] #that is, what it scales on
         response['name'] = self.moves[ability]['name']
+        if 'effect' in self.moves[ability]:
+            for e in self.moves[ability]['effect']:
+                response['effect'] = e
 
         return response
 #these functions return the base+bonus for their given stat
@@ -253,6 +256,8 @@ class Champion(object):
                         d = damageCalc(self,targ,abi)
                         targ.hp(-d)
                         print targ.name.title(),'took %0.2f damage from'%d,abi['name'].title()+'!'
+                        if self.cur_stats['spellvamp'] > 0:
+                            self.hp(d*self.cur_stats['spellvamp'])
                         # print 'hit her for %s' %d
                 elif k == 'stun' or k == 'taunt':
                     for targ in targlist:
@@ -288,6 +293,8 @@ class Champion(object):
         #deal damage
         targ.hp(-d)
         print targ.name.title(),'was hit for %0.3f!' %d
+        if self.cur_stats['lifesteal'] > 0:
+            self.hp(d*self.cur_stats['lifesteal'])
         #apply abilities
         for oh in self.cur_stats['on_enemy_hit']:
             self.applyStaticAbility(oh,targ)
@@ -308,13 +315,16 @@ class Champion(object):
                 if ef == 'on_enemy_hit':
                     self.cur_stats['on_enemy_hit'].append(ab['effect'][ef])
                 elif ef == 'on_self_hit':
-                    self.cur_stats['on_self_hit'].append(ab['effect'][ef])
+                    if ab['target'] == 'enemy':
+                        targ.cur_stats[ef].append(ab['effect'][ef])
+                    else:
+                        self.cur_stats['on_self_hit'].append(ab['effect'][ef])
                 #check if it's an ability that goes on enemy or self and increment appropreately.
                 elif ab['target'] == 'enemy':
                     if ability not in targ.cur_stats['status']:
                         ab['stacks'] = 1
                         targ.cur_stats['status'][ability] = ab
-                    if ability in targ.cur_stats['status']:
+                    elif ability in targ.cur_stats['status']:
                         targ.cur_stats['status'][ability]['duration'] = ab['duration']
                     elif targ.cur_stats['status'][ability]['stacks'] < targ.cur_stats['status'][ability]['max_stacks']:
                             targ.cur_stats['status'][ability]['stacks'] += 1
@@ -334,10 +344,10 @@ class Champion(object):
         self.resetBonuses()
         for b in self.cur_stats['status']:
             if self.cur_stats['status'][b] == 0:
-                # try:
+                try:
                     self.applyStaticAbility(b)
-                # except:
-                    # pass
+                except:
+                    pass
             else:
                 for e in self.cur_stats['status'][b]['effect']:
                     if e != 'on_enemy_hit' and e != 'on_self_hit':
@@ -398,12 +408,12 @@ class Akali(Ninja):
         self.cur_stats['essence_of_shadow'] = 3
         self.cur_stats['on_enemy_hit'].append('discipline_of_force')
         self.cur_stats['status']['discipline_of_might'] = 0
+        self.cur_stats['on_enemy_hit'].append('mark_hunter')
         self.cur_stats['stockcounter'] = 0
+        self.ablist = {'assassins_mark':{'effect':{'hp':0},'duration':self.moves['q']['effect']['assassins_mark']['duration'][self.cur_stats['ability_rank']['q']],'max_stacks':1,'target':'enemy'}}
 
     def customStatic(self, ability, targ=None):
-        print 'ab is',ability
         if ability == 'discipline_of_might':
-            print 'mighty!'
             bon = self.ad()-statMult(self.c['stats'],'ad',18) #bonus AD
             print 'bon is',bon
             bon = ((bon/6.0)*0.01)+0.06
@@ -415,6 +425,12 @@ class Akali(Ninja):
             bon = bon*a
             targ.hp(-bon)
             print 'dealt %0.2f bonus magic damage'%bon
+        elif ability == 'mark_hunter':
+            if 'assassins_mark' in targ.cur_stats['status']:
+                da = damageMult(self.moves['q']['damage'][self.cur_stats['ability_rank']['q']],targ.mr())
+                print 'Mark popped dealing %.2f damage'%da
+                self.energy(self.moves['q']['energy_restored'][self.cur_stats['ability_rank']['q']])
+                del targ.cur_stats['status']['assassins_mark']
 
     def e(self, dtype = False):
         response = {}
@@ -423,6 +439,7 @@ class Akali(Ninja):
         else:
             response['damage'] = moveMult(self.moves['e']['damage'],self.cur_stats['ability_rank']['e'],self.cur_stats[self.moves['e']['damage_ratio_type']],
                 self.moves['e']['damage_ratio'],self.cur_stats[self.moves['e']['damage_ratio_type_b']],self.moves['e']['damage_ratio_b'])
+            response['effect'] = 'mark_hunter'
             return response
 
     def stockpile(self):

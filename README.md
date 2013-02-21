@@ -1,15 +1,16 @@
 #LoLdb
 
 
-A restful API for returning champion and item stats for League of Legends. The database holds all the info you could ever want to know about LoL champions. It's updated from a bunch of jsons that I maintain. You can see the live version at (lolapi.net)[lolapi.herokuapp.com].
+A restful API for returning champion and item stats for League of Legends. The database holds all the info you could ever want to know about LoL champions. It's updated from a bunch of jsons that I maintain. You can see the live version at [lolapi.herokuapp.com](http://lolapi.herokuapp.com).
 
 
 ##About the code
 
 This code is actually 2 products side by side: 
 
+2. A duel between champions taking into account most of the LoL engine created entirely in Python. This was intended to fill the gap of a sandbox mdoe for LoL (or -wtf for the Dota vets). This is mostly a proof of concept for using my own API, but it was also an awesome coding exercise.  
 1. A restful API full of data on champions and their abilities. This is mean to be used by the public for the creation of awesome LoL apps. 
-2. A duel between champions taking into account most of the LoL engine created entirely in Python. This was intended to fill the gap of a sandbox mdoe for LoL (or -wtf for the Dota vets). This is mostly a proof of concept for using my own API, but it was also an awesome coding exercise. 
+
 
 ###The story
 
@@ -50,7 +51,6 @@ Maybe at some point. As it stands, there's an Akali that just auto attacks you u
 Awesome! I encourage it. Hopefully I've made it easy enough to understand and it can be used to answer some mid level python/tornado questions.
 #####To run a local instance using the cloud database, follow a few easy steps:
 
-1. Make sure to use the non-authenticated connection version (found in `functions.py@getChamp()`.
 2. run `python main.py` in the appropriate directory (default port is 8888, you can change it on the command line if you're so inclined).
 4. Visit [localhost/champions/show/ahri](http://localhost:8888/champions/show/ahri) (or any champion who's name starts with A) to see them duel to the death against Akali. As it stands, they're coded to auto attack each other the while time, but you can change that behavior in `routes.py` under the comment header "#Where they fight!".
 7. To see a champion's whole json, append/json to any /champions/show/NAME; that is, [/champions/show/ahri/json](http://localhost:8888/champions/show/ahri/json).
@@ -59,4 +59,4 @@ Awesome! I encourage it. Hopefully I've made it easy enough to understand and it
 
 1. Right now my code references the cloud, so you'll need to change each instance of `pymongo.connection()` to the default. You may be able to just leave those parens blank and it'll use 27017. For reference, you can check their site [here](http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/).
 1. You'll need your own instance of mongo running. Download it and run it with `sudo mongod`.
-1. Then, start following at #2 in the above section.
+1. Then, start following at #1 in the above section.

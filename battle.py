@@ -150,6 +150,7 @@ def init(p):
 c1 = init(1)
 c2 = init(2)
 while True:
+    print ''
     print '===Player\'s Turn==='
     while True:
         a = act(c1,c2)

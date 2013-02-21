@@ -1,0 +1,5 @@
+Anivia doesn't properly apply chilled, nor does her e double damage when it should.
+
+Ashe doesn't have abilities or stuff yet.
+
+Alistar, Annie, Anivia, Amumu, and Ahri don't properly stun/taunt.

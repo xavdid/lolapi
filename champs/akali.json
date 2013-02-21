@@ -12,6 +12,18 @@
       "q":{
          "name":"Mark of the Assassin",
          "damage_ratio_type":"ap",
+         "effect":{
+            "assassins_mark":{
+               "duration":[
+                  0,
+                  6,
+                  6,
+                  6,
+                  6,
+                  6
+               ]
+            }
+         },
          "damage":[
             0,
             50.0,
@@ -22,11 +34,11 @@
          ],
          "energy_restored":[
             0,
-            15,
             20,
             25,
             30,
-            35
+            35,
+            40
          ],
          "cooldown":[
             0,
