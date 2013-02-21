@@ -46,6 +46,9 @@ Maybe at some point. As it stands, there's an Akali that just auto attacks you u
 3.  Q: What's in it for you?  
 	A: Personally, not much. It was a fun puzzle and I learned a lot. Hopefully other devs in the LoL community will utilize it and make some awesome apps! Also, see 'job at Riot'.
 
+4.  Q: Where do you go from here?
+    A: Well, I'd like to flesh out the sandbox. I've got a buglist of things that don't yet work that I'll work though, plus adding a bunch more champs. From there, who knows? It's a time intensive activity, but it's fun. Hopefully Riot'll add their own sandbox and I wont even need to use this, haha. Only time will tell, I suppose. 
+
 
 ##I want to fiddle with your code!
 Awesome! I encourage it. Hopefully I've made it easy enough to understand and it can be used to answer some mid level python/tornado questions.

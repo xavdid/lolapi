@@ -8,7 +8,6 @@ from functions import *
 import random
 import copy
 
-
 class route(object):
     _routes = []
 
@@ -46,7 +45,7 @@ class Champion(object):
         self.ablist = {}
         attach(self,cd)
 
-    def showStats(self,full=False):#will change for command line- doesn't need handler, can just take print
+    def showStats(self,full=False):
         if full:
             slist = ['level','hp','mana','energy','hp_regen','mana_regen','ad','ap','as','armor','mr','crit_chance','lifesteal','spellvamp','cdr','on_enemy_hit','on_self_hit','bonus_stats']
         else:
@@ -85,9 +84,8 @@ class Champion(object):
         for i in self.items:
             print str(x)+':',k['items'][i]['name']
             x+=1
-
+#initializing all of the stats I may need
     def setBase(self):
-        # self.cur_stats 
         self.cur_stats = {'level':0,'hp':0,'hp_max':0,'mana_max':0,'hp_regen':0,'mana':0,'mana_regen':0,'ad':0,'ap':0,'ms':0,'as':0,'armor':0,
             'mr':0,'crit_chance':0,'lifesteal':0,'spellvamp':0,'flat_armor_pen':0,'flat_magic_pen':0,'perc_armor_pen':0,'perc_magic_pen':0,
                 'cdr':0,'damage_block':0,'on_enemy_hit':[],'on_self_hit':[],'status':{},'cooldowns':{'p':0,'q':0,'w':0,'e':0,'r':0},
@@ -107,7 +105,6 @@ class Champion(object):
     def doItems(self):
         self.resetStats()
         i = getChamp('items')
-        # pprint(i)
         for e in self.items:
             for s in i['items'][e]['effect']:
                 if (s == 'armor_pen' or s == 'magic_pen'):
@@ -215,15 +212,13 @@ class Champion(object):
         if (self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]] <= self.cur_stats[self.moves[ability]['cost_type']] 
             and self.cur_stats['cooldowns'][ability] <= 0 and 'taunt' not in self.cur_stats['status'] and 'stun' not in self.cur_stats['status'] 
             and 'silence' not in self.cur_stats['status']):
-                # print 'true'
-                print self.moves[ability]['cost'][self.cur_stats['ability_rank'][ability]],self.cur_stats[self.moves[ability]['cost_type']] 
                 return True
         else:
             if 'on' in self.moves[ability]:
                 self.moves[ability]['on'] = False
                 print 'Toggling off'
             return False
-
+#the whole process of using an ability- if it isn't cast, nothing happens.
     def useAbility(self,ability,targlist=[],toggle=False):
         if self.canCast(ability):#if you can cast
             if self.ninja: #spend energy if ninja
@@ -300,7 +295,7 @@ class Champion(object):
             self.applyStaticAbility(oh,targ)
         for a in targ.cur_stats['on_self_hit']:
             targ.applyStaticAbility(a,self) 
-
+#pretty broad category, it deals with buffs and stuff
     def applyStaticAbility(self, ability, targ=None): #applying these will assume full level of whomever's hitting them;  I can change it later. also hardcoded
         if ability not in self.ablist:
             try:
@@ -311,7 +306,6 @@ class Champion(object):
             ab = copy.deepcopy(self.ablist[ability])
             ab['stacks'] = 0
             for ef in ab['effect']:
-                # print 'ef',targ.cur_stats[ef],'other',ablist[ability]['effect'][ef]
                 if ef == 'on_enemy_hit':
                     self.cur_stats['on_enemy_hit'].append(ab['effect'][ef])
                 elif ef == 'on_self_hit':
@@ -340,6 +334,7 @@ class Champion(object):
             self.cur_stats['bonus_stats'][s] = 0
         self.cur_stats['spellvamp'] = 0
         self.cur_stats['lifesteal'] = 0
+#goes through status and adds to bonus stats appropriately
     def checkStats(self):
         self.resetBonuses()
         for b in self.cur_stats['status']:
@@ -359,9 +354,10 @@ class Champion(object):
             self.cur_stats['energy'] = 200
         else:
             self.cur_stats['mana'] = self.cur_stats['bonus_stats']['mana']+self.cur_stats['mana_max']
+#for amassing annie stuns and akali ult charges. Doesn't do anything by default.
     def stockpile(self):
         pass
-
+#takes away mana, adds ninja stuff
 class Ninja(Champion):
     def __init__(self,cd):
         super(Ninja, self).__init__(cd)
@@ -386,7 +382,7 @@ class Ninja(Champion):
         if self.cur_stats['energy'] < 200:
             self.energy(5)
 
-# this doesn't reattach to the dictfields because it's not needed in the accessing
+#each champion is it's own class to help deal with specifics
 class Ahri(Champion):
     def __init__(self,cd):
         super(Ahri, self).__init__(cd)
@@ -415,7 +411,6 @@ class Akali(Ninja):
     def customStatic(self, ability, targ=None):
         if ability == 'discipline_of_might':
             bon = self.ad()-statMult(self.c['stats'],'ad',18) #bonus AD
-            print 'bon is',bon
             bon = ((bon/6.0)*0.01)+0.06
             self.cur_stats['spellvamp'] += bon
         elif ability == 'discipline_of_force':

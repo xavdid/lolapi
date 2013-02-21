@@ -141,12 +141,8 @@ def init(p):
         a = Ashe(c)
 
     return a
-        
 
-
-    
-
-
+## MAIN ##
 c1 = init(1)
 c2 = init(2)
 while True:

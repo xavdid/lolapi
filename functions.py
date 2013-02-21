@@ -63,10 +63,6 @@ def statMult(c, stat, level):
     elif stat == 'ms_base':
         base = c['ms_base']
         gain = 0
-    # elif (stat == 'cooldowns' or stat == 'ability_rank'):
-        # return {'i':0,'q':0,'w':0,'e':0,'r':0}
-    # elif (stat == 'status' or stat == 'on_hit'): #these are indivitually defined since they're dicts and shouldn't be set to 0
-        # return {}
     elif (isinstance(stat,dict) or isinstance(stat,list)):
         pass
     else: return False #honesly, this is bad because i end up with things being 0 that shoudln't. namely, dictionaries. 
@@ -77,7 +73,6 @@ def statMult(c, stat, level):
 
 def moveMult(base, rank, stat, ratio, stat2='',ratio2=0):
     damage = base[rank]
-    # print 'da',damage,'stat',stat,'ratio',ratio
     damage += (stat*ratio) #stat is relevant stat (ap, ad, level, health, etc)
     if (stat2):
         damage += (stat2*ratio2)
@@ -92,7 +87,7 @@ def damageMult(damage,defense):
     elif (defense<0):
         multi = 2.0-(100/(100+defense))
     return damage*multi
-
+#accouts for resistances
 def damageCalc(c1,c2,ability):
     # penlist = ['flat_armor_pen','perc_armor_pen','flat_magic_pen','perc_magic_pen']
     if ('scaling' not in ability):
@@ -105,16 +100,11 @@ def damageCalc(c1,c2,ability):
         de = c2.mr()
     if 'scaling' in ability:
         damage_total = ability['base_damage']+(ability['scaling_damage']*c2.cur_stats[ability['scaling']])
-        # print 'base',ability['base_damage'],'scaling ratio',ability['scaling_damage'],'scales on',c2.cur_stats[ability['scaling']]
-    # elif (dt == 'true'):
-        # d = damageMult(c1.q(),c2.mr())
     da = damageMult(damage_total,de)    
     return da
 
 def getChamp(inp):
     conn = pymongo.Connection('mongodb://%s:%s@ds031877.mongolab.com:31877/lolapi'%(username,password))
-#the line below is the read-only, non-authenticated version.
-    # conn = pymongo.Connection('mongodb://ds031877.mongolab.com:31877/lolapi')
     db = conn.lolapi
     champ = db.champs.find({'name':inp},limit=1)
     for i in champ:
