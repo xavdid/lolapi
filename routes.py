@@ -28,7 +28,7 @@ class FrontPage(tornado.web.RequestHandler):
             <a href = "/champions/show/items/json">Items</a><br><br>'
         s += 'I also made an app to test builds and champion matchups! To download it, just click <a href="/download"> here</a>!<br><br><br>'
         s += '<footer>\
-                <p>Made by David Brownman (who is not a web designer)</p>\
+                <p>Made by David <a href="http://www.umich.edu/~brownman">Brownman</a> (who is not a web designer)</p>\
                 <p>Contact him <a href=mailto:beamneocube@gmail.com>here</a>.\
                 </footer> '
         s += '</body>\
