@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Lolapi by Xavdidtheshadow</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Lolapi</h1>
+        <p>API for LoL stats. </p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/Xavdidtheshadow/lolapi" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/Xavdidtheshadow/lolapi/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/Xavdidtheshadow/lolapi/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>LoLdb</h1>
+
+<p>A restful API for returning champion and item stats for League of Legends. The database holds all the info you could ever want to know about LoL champions. It's updated from a bunch of jsons that I maintain. You can see the live version at <a href="http://lolapi.herokuapp.com">lolapi.herokuapp.com</a>.</p>
+
+<h2>About the code</h2>
+
+<p>This code is actually 2 products side by side: </p>
+
+<ol>
+<li>A duel between champions taking into account most of the LoL engine created entirely in Python. This was intended to fill the gap of a sandbox mdoe for LoL (or -wtf for the Dota vets). This is mostly a proof of concept for using my own API, but it was also an awesome coding exercise.<br>
+</li>
+<li>A restful API full of data on champions and their abilities. This is mean to be used by the public for the creation of awesome LoL apps. </li>
+</ol><h3>The story</h3>
+
+<p>I’ve always loved coding and working with databases, so the natural idea was a simulator to test champion builds. Unfortunately, routinely maintained champ data is hard to come by and/or hard to parse. So, I decided that I needed to make my own dataset if I was going to have any sort of stability. After typing the first couple of .json files manually, I recognized that an automated algorithm was the way to go. Processing what I scraped from both the lolwiki source and the league site itself yielded nicely formatted results. Those files in hand, I could easily edit them and patch to a cloud database so that anyone using my API would have current data.  </p>
+
+<p>With my database in hand, I turned my focus to the simulator. It grew rapidly in both size and complexity when I realized I not only wanted to test builds, but champion matchups as well. I fervently coded an entire LoL engine complete with abilities, buffs, items, stat caps, resistances, and champions (which became dramatically harder than I had initially expected). It was quite the journey- realizing every 10 lines that I needed another feature or function, which kept me on my toes throughout.</p>
+
+<h2>Where does this data come from?</h2>
+
+<p>All of the data about champion base stats is scraped from <a href="http://na.leagueoflegends.com/champions">Riot's Champion info section</a> using the python library Beautiful Soup. </p>
+
+<p>All of the ability descriptions, damage, and scaling is pulled from the <a href="http://leagueoflegends.wikia.com/api.php?action=query&amp;titles=ashe&amp;prop=revisions&amp;rvprop=content&amp;format=dumpfm">LoLWiki</a> source and parsed using Python's Regex library (re).</p>
+
+<p>All of the code from both can be found in <code>dictmaker.py</code>.</p>
+
+<h2>I want to play in the sandbox!</h2>
+
+<p>Cool! You can download current files from the webapp (<a href="http://lolapi.herokuapp.com">http://lolapi.herokuapp.com</a>). Make sure to install requirements (<code>pip install requirements.txt</code>) and then just run <code>python battle.py</code>!</p>
+
+<h3>Notable changes in the sandbox vs the real LoL client</h3>
+
+<p>Firstly, the sandbox is commandline. One second passes per actual action taken. You can reduce cooldowns to non-whole numbers, but you still can't use the ability until the cooldown is &lt; 0.<br>
+The big change is in attack speed- since there wasn't a great way to adjust the time frame, each attack is your AD*your attack speed. So, if your attack speed is only .7, you would have only launched most of your attack, so you don't get the full value.<br>
+Also, slow's (while accounted for), don't really do much, as there's no motion.</p>
+
+<h3>Will there be an AI?</h3>
+
+<p>Maybe at some point. As it stands, there's an Akali that just auto attacks you until one of you is dead. I've got a plan for AI, but as of today (Feb 20, 2013), I'm too busy to do something that non-essential. </p>
+
+<h2>Frequently Answered Queries</h2>
+
+<ol>
+<li><p>Q: Why did you make this?<br>
+A: First and foremost, I love League and wanted to enable other developers to make great things with conveniently available datasets. Secondly, I really want to work at Riot and thought the best way to get my foot in the door was to make a totally badass project and get it shipped, so I did. </p></li>
+<li><p>Q: Can I count on you to keep the database stay updated?<br>
+A: It should! Now that all the data is in, it should be quite easy to maintain. If I'm going to be indisposed for an inordinate amount of time, I'll make sure it gets seen to.</p></li>
+<li><p>Q: What's in it for you?<br>
+A: Personally, not much. It was a fun puzzle and I learned a lot. Hopefully other devs in the LoL community will utilize it and make some awesome apps! Also, see 'job at Riot'.</p></li>
+<li><p>Q: Where do you go from here?
+A: Well, I'd like to flesh out the sandbox. I've got a buglist of things that don't yet work that I'll work though, plus adding a bunch more champs. From there, who knows? It's a time intensive activity, but it's fun. Hopefully Riot'll add their own sandbox and I wont even need to use this, haha. Only time will tell, I suppose. </p></li>
+</ol><h2>I want to fiddle with your code!</h2>
+
+<p>Awesome! I encourage it. Hopefully I've made it easy enough to understand and it can be used to answer some mid level python/tornado questions.</p>
+
+<h5>To run a local instance using the cloud database, follow a few easy steps:</h5>
+
+<ol>
+<li>run <code>python main.py</code> in the appropriate directory (default port is 8888, you can change it on the command line if you're so inclined).</li>
+<li>Visit <a href="http://localhost:8888/champions/show/ahri">localhost/champions/show/ahri</a> (or any champion who's name starts with A) to see them duel to the death against Akali. As it stands, they're coded to auto attack each other the while time, but you can change that behavior in <code>routes.py</code> under the comment header "#Where they fight!".</li>
+<li>To see a champion's whole json, append/json to any /champions/show/NAME; that is, <a href="http://localhost:8888/champions/show/ahri/json">/champions/show/ahri/json</a>.</li>
+</ol><h5>To create and use a local database:</h5>
+
+<ol>
+<li>Right now my code references the cloud, so you'll need to change each instance of <code>pymongo.connection()</code> to the default. You may be able to just leave those parens blank and it'll use 27017. For reference, you can check their site <a href="http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/">here</a>.</li>
+<li>You'll need your own instance of mongo running. Download it and run it with <code>sudo mongod</code>.</li>
+<li>Then, start following at #1 in the above section.</li>
+</ol>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/Xavdidtheshadow">Xavdidtheshadow</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
