@@ -3,7 +3,7 @@ import pymongo
 # from base import route, Champion, Ahri, ItemBase, ChampBase, Akali
 from base import *
 import simplejson as json
-import asyncmongo
+# import asyncmongo
 import tornado.web
 from tornado.web import asynchronous
 from tornado.gen import engine, Task

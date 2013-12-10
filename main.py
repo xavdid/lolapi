@@ -1,10 +1,10 @@
-import tornado.options 
+# import tornado.options 
 import tornado.web
 import tornado.httpserver 
 import tornado.ioloop
 import pymongo
 import tornado.httpclient
-import asyncmongo
+# import asyncmongo
 import base
 import routes
 import sys
