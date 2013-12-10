@@ -28,7 +28,7 @@ class FrontPage(tornado.web.RequestHandler):
             <a href = "/champions/show/items/json">Items</a><br><br>'
         s += 'I also made an app to test builds and champion matchups! To download it, just click <a href="/download"> here</a>!<br><br><br>'
         s += '<footer>\
-                <p>Made by David <a href="http://www.umich.edu/~brownman">Brownman</a> (who is not a web designer)</p>\
+                <p>Made by David <a href="http://www.davidbrownman.com">Brownman</a> (who is not a web designer)</p>\
                 <p>Contact him <a href=mailto:beamneocube@gmail.com>here</a>.\
                 <p> LoL API isn\'t endorsed by Riot Games and doesn\'t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends (c) Riot Games, Inc.\
                 </footer>'
