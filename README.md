@@ -1,4 +1,4 @@
-#LoLdb
+#LoLAPI
 
 
 A restful API for returning champion and item stats for League of Legends. The database holds all the info you could ever want to know about LoL champions. It's updated from a bunch of jsons that I maintain. You can see the live version at [lolapi.herokuapp.com](http://lolapi.herokuapp.com).
